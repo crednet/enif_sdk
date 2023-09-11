@@ -11,8 +11,11 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Automate business operations, boost business growth and increase customer satisfaction with streamlined automation.
+
+[Get Started](https://www.enif.ai/)
+
+[Try a demo](https://www.enif.ai/demoRequest)
 
 ## Features
 
@@ -28,8 +31,25 @@ start using the package.
 TODO: Include short and useful examples for package users. Add longer examples
 to `/example` folder.
 
+Initialize your business ID
+
 ```dart
-const like = 'sample';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+ EnifController.setBusinessId("YOUR_BUSINESS_ID");
+
+  runApp(const MyApp());
+}
+
+```
+# you can set user params to automatically login user
+
+```dart
+EnifController.setUser(EnifUserParams(
+      firstName: "Sade",
+      lastName: "Oluchi",
+      phoneNo: "0803000000",
+      email: "sade@enif.com"));
 ```
 
 ## Additional information

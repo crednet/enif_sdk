@@ -3,13 +3,11 @@ import 'package:enif/common/extensions.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../common/colors.dart';
 import '../common/image_helper.dart';
-import '../common/sizes.dart';
 import '../common/stringHelper.dart';
-import 'package:intl/intl.dart';
-
 import '../enif.dart';
 import 'live_chat_first_screen.dart';
 import 'live_chat_screen.dart';
@@ -115,15 +113,16 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
                       child: Container(
                           // height: 35
                           // width: 45.w,
-                          padding:
-                              const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 10),
                           decoration: BoxDecoration(
                             // borderRadius: BorderRadius.circular(30.r),
                             color: Colors.blue.shade300,
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
-                            ImageHelper.editImg,package: 'enif',
+                            ImageHelper.editImg,
+                            package: 'enif',
                             scale: 3,
                           )).addPadding(const EdgeInsets.only(left: 10)),
                     ),
@@ -131,7 +130,8 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 decoration: BoxDecoration(
                   color: Colors.blue.shade300,
                   shape: BoxShape.circle,
@@ -143,7 +143,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
                 ),
               ).addPadding(const EdgeInsets.only(left: 10)),
             ),
-          10.h
+            10.h
           ],
         ),
         backgroundColor: Colors.white,
@@ -194,8 +194,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen> {
                                   subtitle: Text(
                                       "${state.data?[index].type ?? ""} - ${getTime(DateTime.parse(state.data?[index].updateDate ?? ""))}"),
                                   trailing: Image.asset(ImageHelper.arrowImg,
-                                  package: 'enif',
-                                      scale: 3));
+                                      package: 'enif', scale: 3));
                             },
                             separatorBuilder: (context, index) {
                               return Divider();

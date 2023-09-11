@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:enif/common/text_style_common.dart';
+import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/stringHelper.dart';
@@ -21,7 +21,7 @@ class _FaqListState extends State<FaqList> {
   void initState() {
     _faqViewModel = FaqViewModel();
     super.initState();
-    _faqViewModel.getFaqs(StringHelper.businessId);
+    _faqViewModel.getFaqs( );
   }
 
   @override
@@ -38,33 +38,48 @@ class _FaqListState extends State<FaqList> {
           if (value.isLoading && (value.faqs ?? []).isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
-          return ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider();
+          return RefreshIndicator(
+            onRefresh: () {
+              return _faqViewModel.getFaqs( );
             },
-            itemCount: widget.mini
-                ? min(value.faqs?.length ?? 0, 4)
-                : value.faqs?.length ?? 0,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              var item = value.faqs?[index];
-              return ExpansionTile(
-                title: Text(
-                  item?.question ?? "",
-                  style: AppTextStyle.appBarStyle12(),
-                ),
-                children: <Widget>[
-                  ListTile(
-                    title: Text(
-                      item?.response ?? "",
-                      style: AppTextStyle.heading12Style(),
-                    ),
-                  )
-                ],
-              );
-            },
+            child: ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              separatorBuilder: (BuildContext context, int index) {
+                return Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: context.textColor.withOpacity(.2));
+              },
+              itemCount: widget.mini
+                  ? min(value.faqs?.length ?? 0, 4)
+                  : value.faqs?.length ?? 0,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                var item = value.faqs?[index];
+                return ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(item?.question ?? "",
+                      style: TextStyle(
+                        color: context.textColor,
+                        fontSize: 14,
+                      )),
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 20.0, left: 8.0, right: 8.0),
+                      child: Text(item?.response ?? "",
+                          style: TextStyle(
+                            height: 1.4,
+                            fontWeight: FontWeight.w400,
+                            color: context.textColor.withOpacity(.8),
+                            fontSize: 12,
+                          )),
+                    )
+                  ],
+                );
+              },
+            ),
           );
         });
   }

@@ -55,7 +55,10 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Enif Chat Bot',
-          home: const EnifHome(),
+          themeMode: ThemeMode.system,
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          home: const EnifHome(showBackButton: false),
           builder: EasyLoading.init(), /*  builder: EasyLoading.init()*/
         ));
     // }),

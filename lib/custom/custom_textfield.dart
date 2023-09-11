@@ -1,28 +1,32 @@
 import 'package:enif/common/text_style_common.dart';
+import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../common/colors.dart';
-
 class CustomTextField extends StatelessWidget {
-  TextInputType? keyboardType;
-  String labelText;
-  String? headingText;
-  Color? fillColor;
-  Widget? prefix;
-  Widget? suffix;
-  int? maxLines;
-  int? maxLength;
-  bool? obscureText;
-  void Function()? onTap;
-  TextCapitalization? textCapitalization;
-  List<TextInputFormatter>? inputFormatters;
-  String? Function(String?)? validator;
-  TextEditingController controller = TextEditingController();
-  void Function(String?)? onSaved;
-  void Function(String?)? onChange;
-  CustomTextField(
-      {this.obscureText,
+  final TextInputType? keyboardType;
+  final String labelText;
+  final String? headingText;
+  final Color? fillColor;
+  final Widget? prefix;
+  final Widget? suffix;
+  final BorderSide? borderSide;
+  final int? maxLines;
+  final double borderWidth;
+  final bool? enabled;
+  final int? maxLength;
+  final bool? obscureText;
+  final Function()? onTap;
+  final TextCapitalization? textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
+  final String? Function(String?)? validator;
+  final TextEditingController? controller;
+  final void Function(String?)? onSaved;
+  final void Function(String?)? onChange;
+  const CustomTextField(
+      {super.key,
+      this.enabled,
+      this.obscureText,
       this.textCapitalization,
       this.validator,
       this.prefix,
@@ -30,14 +34,16 @@ class CustomTextField extends StatelessWidget {
       this.onTap,
       this.inputFormatters,
       this.fillColor,
-      required this.controller,
+      this.controller,
       required this.labelText,
       this.onSaved,
       this.onChange,
       this.headingText,
       this.keyboardType = TextInputType.multiline,
       this.maxLines,
-      this.maxLength});
+      this.maxLength,
+      this.borderWidth = .5,
+      this.borderSide});
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +51,15 @@ class CustomTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: TextFormField(
             textInputAction: TextInputAction.newline,
             inputFormatters: inputFormatters,
             maxLength: maxLength,
-            cursorColor: ColorConstant.blackColor,
+            cursorColor: context.textColor,
             cursorWidth: 1,
             validator: validator,
+            enabled: enabled,
             onChanged: onChange,
             obscureText: obscureText ?? false,
             maxLines: maxLines,
@@ -60,7 +67,10 @@ class CustomTextField extends StatelessWidget {
             controller: controller,
             textCapitalization: textCapitalization ?? TextCapitalization.none,
             onSaved: onSaved,
-            style: AppTextStyle.appBarStyle12(),
+            style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: context.textColor),
             decoration: InputDecoration(
               counterText: "",
               alignLabelWithHint: true,
@@ -75,24 +85,33 @@ class CustomTextField extends StatelessWidget {
                 color: Colors.red,
               ),
               contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
               enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: ColorConstant.blackColor),
+                borderSide: borderSide ??
+                    BorderSide(width: borderWidth, color: context.textColor),
+                borderRadius: BorderRadius.circular(35),
+              ),
+              border: OutlineInputBorder(
+                borderSide:
+                    BorderSide(width: borderWidth, color: context.textColor),
                 borderRadius: BorderRadius.circular(35),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: ColorConstant.blackColor),
+                borderSide:
+                    BorderSide(width: borderWidth, color: context.textColor),
                 borderRadius: BorderRadius.circular(35),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: ColorConstant.blackColor),
+                borderSide:
+                    BorderSide(width: borderWidth, color: context.textColor),
                 borderRadius: BorderRadius.circular(35),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(35),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: ColorConstant.blackColor),
+                borderSide:
+                    BorderSide(width: borderWidth, color: context.textColor),
                 borderRadius: BorderRadius.circular(35),
               ),
             ),

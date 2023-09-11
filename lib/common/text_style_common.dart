@@ -1,7 +1,7 @@
 import 'package:enif/common/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
-
+import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'font_faamily.dart';
 
@@ -85,11 +85,11 @@ class AppTextStyle {
     );
   }
 
-  static TextStyle TextSize32() {
+  static TextStyle largeText(BuildContext context) {
     return TextStyle(
       fontSize: 32,
-      fontWeight: FontWeight.w500,
-      color: ColorConstant.blackColor,
+      fontWeight: FontWeight.w700,
+      color: context.textColor,
       fontFamily: FontFamilyConstants.axiformaBold,
     );
   }

@@ -14,17 +14,16 @@ import '../common/colors.dart';
 import '../common/custom_appbar.dart';
 import '../common/custom_button.dart';
 import '../common/image_helper.dart';
-import '../common/sizes.dart';
 import '../common/stringHelper.dart';
 import '../custom/custom_textfiled1.dart';
 import '../models/new_chat_model.dart';
-import 'chatbot_screen.dart';
 
 class LiveChatFirstScreen extends StatefulWidget {
   final String? customer;
   final String? chatId;
   final String? channel;
-  const LiveChatFirstScreen({Key? key, this.channel, this.customer, this.chatId})
+  const LiveChatFirstScreen(
+      {Key? key, this.channel, this.customer, this.chatId})
       : super(key: key);
 
   @override
@@ -82,7 +81,6 @@ class _LiveChatFirstScreenState extends State<LiveChatFirstScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(milliseconds: 500), () {
       _scrollDown();
@@ -117,11 +115,11 @@ class _LiveChatFirstScreenState extends State<LiveChatFirstScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          36.h,
+            36.h,
             Center(
                 child: Image.asset("assets/images/user.png",
                     package: 'enif', height: 50)),
-           18.h,
+            18.h,
             Text("How may we be of help today ?",
                 style: AppTextStyle.appBar13Style()),
             30.h,
@@ -167,21 +165,21 @@ class _LiveChatFirstScreenState extends State<LiveChatFirstScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Aa"),
-                 10.h,
+                    10.h,
                     InkWell(
                         onTap: () {
                           getImage();
                         },
                         child: Image.asset(ImageHelper.gifImg,
                             package: 'enif', height: 14)),
-                   10.h,
+                    10.h,
                     InkWell(
                         onTap: () {
                           getImage();
                         },
                         child: Image.asset(ImageHelper.images,
                             package: 'enif', height: 14)),
-                  175.h,
+                    175.h,
                     BlocListener<SendChatBloc, SendChatState>(
                       listener: (context, state) {
                         if (state is SendChatLoadingState) {

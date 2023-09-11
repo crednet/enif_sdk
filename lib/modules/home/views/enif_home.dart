@@ -5,10 +5,8 @@ import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/enif.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/common/enif_appbar.dart';
-import 'package:enif/modules/faq/views/faq_list.dart';
-import 'package:enif/prefrences/app_prefreces.dart';
-import 'package:enif/screens/chat_history_screen.dart';
 import 'package:enif/modules/faq/views/enif_help_screen.dart';
+import 'package:enif/modules/faq/views/faq_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -16,35 +14,22 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../common/live_chat_button.dart';
 
-class EnifHome extends StatefulWidget {
+class EnifHome extends StatelessWidget {
   final bool showBackButton;
   const EnifHome({Key? key, this.showBackButton = true}) : super(key: key);
 
-  @override
-  State<EnifHome> createState() => HomeScreenState();
-}
-
-class HomeScreenState extends State<EnifHome> {
-  @override
-  void initState() {
-    AppPreferences.getInstance().then((value) => appPreferences = value);
-    super.initState();
-    // BlocProvider.of<GetFaqBloc>(context).add(GetFaqRefreshEvent());
-  }
-
-  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: context.backgroundColor,
         appBar: EnifAppbar(
             context: context,
-            showBackButton: widget.showBackButton,
+            showBackButton: showBackButton,
             navigateToChatHistoryScreen: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ChatHistoryScreen()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => const ChatHistoryScreen()));
             }),
         body: SingleChildScrollView(
             child: Padding(

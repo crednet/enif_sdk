@@ -6,7 +6,6 @@ import '../bloc/get_user_chats_bloc.dart';
 import '../bloc/new_chat_bloc.dart';
 import '../bloc/send_chat_bloc.dart';
 import '../models/get_user_chat_model.dart';
-import '../models/new_chat_model.dart';
 import '../models/send_chat_model.dart';
 import 'api_client.dart';
 
@@ -39,35 +38,7 @@ class ApiProvider {
     }
     return null;
   }
-
-  Future<NewChatModel?> newChatAPI(
-      NewChatRefreshEvent event, Emitter<NewChatState> emit) async {
-    emit(NewChatLoadingState());
-    try {
-      final client = await ApiClient.dioClient();
-      Response response = await client.post("api/chat/new-chat", data: {
-        "businessId": StringHelper.businessId,
-        "channel": event.channel,
-        "customer": event.customer,
-        "phoneNo": event.phoneNo,
-        "email": event.email
-      });
-      NewChatModel data = NewChatModel.fromJson(response.data);
-      if (response.statusCode == 200) {
-        emit(NewChatSuccessState(data));
-      } else {
-        emit(NewChatErrorState(response.statusMessage ?? ""));
-      }
-      return data;
-    } on DioError catch (error) {
-      if (error.response != null) {
-        emit(NewChatErrorState(error.message ?? ""));
-        return null;
-      }
-    }
-    return null;
-  }
-
+ 
   Future<SendChatModel?> sendChatAPI(
       SendChatRefreshEvent event, Emitter<SendChatState> emit) async {
     emit(SendChatLoadingState());

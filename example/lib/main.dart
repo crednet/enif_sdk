@@ -1,5 +1,4 @@
 import 'package:enif/bloc/get_user_chats_bloc.dart';
-import 'package:enif/bloc/new_chat_bloc.dart';
 import 'package:enif/bloc/send_chat_bloc.dart';
 import 'package:enif/enif.dart';
 import 'package:enif/models/enif_user_params.dart';
@@ -8,7 +7,6 @@ import 'package:enif/service/api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 // AppPreferences? appPreferences;
 void main() async {
@@ -40,9 +38,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<SendChatBloc>(
             create: (context) => SendChatBloc(ApiProvider()),
           ),
-          BlocProvider<NewChatBloc>(
-            create: (context) => NewChatBloc(ApiProvider()),
-          ),
+          // BlocProvider<NewChatBloc>(
+          //   create: (context) => NewChatBloc(ApiProvider()),
+          // ),
           // BlocProvider<GetFaqBloc>(
           //   create: (context) => GetFaqBloc(ApiProvider()),
           // ),
@@ -59,7 +57,6 @@ class MyApp extends StatelessWidget {
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
           home: const EnifHome(showBackButton: false),
-          builder: EasyLoading.init(), /*  builder: EasyLoading.init()*/
         ));
     // }),
     // );

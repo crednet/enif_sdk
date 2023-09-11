@@ -1,3 +1,5 @@
+import 'package:enif/enif.dart';
+import 'package:enif/screens/live_chat_second_screen.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'chat_connection_screen.dart';
@@ -7,7 +9,13 @@ class LivechatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ChatConnectionScreen();
-    return const Placeholder();
+    return ValueListenableBuilder(
+        valueListenable: EnifController().chatSession,
+        builder: (context, value, child) {
+          if (value != null) {
+            return LiveChatSecondScreen(session: value);
+          }
+          return const ChatConnectionScreen();
+        });
   }
 }

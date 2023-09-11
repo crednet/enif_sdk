@@ -1,9 +1,9 @@
 import 'package:data_repository/data_repository.dart';
 import 'package:enif/constants/api_urls.dart';
 import 'package:enif/data/remote/interceptor/json_interceptor.dart';
+import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/faq.dart';
 import 'package:enif/models/models.dart';
-import 'package:enif/models/new_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
 
 import '../../models/enif_error.dart';
@@ -27,8 +27,8 @@ class EnifApi {
         ]);
   }
 
-  ApiRequest<NewChatModel, NewChatModel> initChat(InitChatDto body) {
-    return ApiRequest<NewChatModel, NewChatModel>(
+  ApiRequest<ChatSession, ChatSession> initChat(InitChatDto body) {
+    return ApiRequest<ChatSession, ChatSession>(
         baseUrl: baseUrl,
         path: ApiUrls.initChat,
         method: ApiMethods.post,

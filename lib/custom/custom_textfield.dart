@@ -22,7 +22,8 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final void Function(String?)? onSaved;
-  final void Function(String?)? onChange;
+  final void Function(String?)? onChanged;
+  final AutovalidateMode? autovalidateMode;
   const CustomTextField(
       {super.key,
       this.enabled,
@@ -37,13 +38,13 @@ class CustomTextField extends StatelessWidget {
       this.controller,
       required this.labelText,
       this.onSaved,
-      this.onChange,
+      this.onChanged,
       this.headingText,
       this.keyboardType = TextInputType.multiline,
       this.maxLines,
       this.maxLength,
       this.borderWidth = .5,
-      this.borderSide});
+      this.borderSide, this.autovalidateMode});
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +61,12 @@ class CustomTextField extends StatelessWidget {
             cursorWidth: 1,
             validator: validator,
             enabled: enabled,
-            onChanged: onChange,
+            onChanged: onChanged,
             obscureText: obscureText ?? false,
             maxLines: maxLines,
             keyboardType: keyboardType,
             controller: controller,
+            autovalidateMode: autovalidateMode,
             textCapitalization: textCapitalization ?? TextCapitalization.none,
             onSaved: onSaved,
             style: TextStyle(

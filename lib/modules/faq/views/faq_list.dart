@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common/stringHelper.dart';
 import '../view_model/faq_view_model.dart';
 
 class FaqList extends StatefulWidget {
@@ -21,7 +21,7 @@ class _FaqListState extends State<FaqList> {
   void initState() {
     _faqViewModel = FaqViewModel();
     super.initState();
-    _faqViewModel.getFaqs( );
+    _faqViewModel.getFaqs();
   }
 
   @override
@@ -36,11 +36,15 @@ class _FaqListState extends State<FaqList> {
         valueListenable: _faqViewModel,
         builder: (c, value, i) {
           if (value.isLoading && (value.faqs ?? []).isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: SizedBox.square(
+                    dimension: 25,
+                    child: CircularProgressIndicator(
+                        color: EnifColors.primary, strokeWidth: 3)));
           }
           return RefreshIndicator(
             onRefresh: () {
-              return _faqViewModel.getFaqs( );
+              return _faqViewModel.getFaqs();
             },
             child: ListView.separated(
               physics: const NeverScrollableScrollPhysics(),

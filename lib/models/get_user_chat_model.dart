@@ -53,7 +53,7 @@ class GetUserChatModel {
     if (json['messages'] != null) {
       messages = <GetMessages>[];
       json['messages'].forEach((v) {
-        messages!.add(new GetMessages.fromJson(v));
+        messages!.add(GetMessages.fromJson(v));
       });
     }
     escalated = json['escalated'];
@@ -68,28 +68,28 @@ class GetUserChatModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     // data['escalation_department'] = this.escalationDepartment;
     // if (this.titles != null) {
     //   data['titles'] = this.titles!.map((v) => v.toJson()).toList();
     // }
-    data['isCompleted'] = this.isCompleted;
-    data['chatId'] = this.chatId;
-    data['email'] = this.email;
-    data['businessId'] = this.businessId;
-    data['customer'] = this.customer;
-    if (this.messages != null) {
-      data['messages'] = this.messages!.map((v) => v.toJson()).toList();
+    data['isCompleted'] = isCompleted;
+    data['chatId'] = chatId;
+    data['email'] = email;
+    data['businessId'] = businessId;
+    data['customer'] = customer;
+    if (messages != null) {
+      data['messages'] = messages!.map((v) => v.toJson()).toList();
     }
-    data['escalated'] = this.escalated;
-    data['sentiment'] = this.sentiment;
-    data['channel'] = this.channel;
-    data['created_date'] = this.createdDate;
-    data['update_date'] = this.updateDate;
-    data['category'] = this.category;
-    data['department'] = this.department;
-    data['type'] = this.type;
-    data['id'] = this.id;
+    data['escalated'] = escalated;
+    data['sentiment'] = sentiment;
+    data['channel'] = channel;
+    data['created_date'] = createdDate;
+    data['update_date'] = updateDate;
+    data['category'] = category;
+    data['department'] = department;
+    data['type'] = type;
+    data['id'] = id;
     return data;
   }
 }
@@ -112,12 +112,12 @@ class GetMessages {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['role'] = this.role;
-    data['content'] = this.content;
-    data['created_date'] = this.createdDate;
-    data['_id'] = this.sId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['role'] = role;
+    data['content'] = content;
+    data['created_date'] = createdDate;
+    data['_id'] = sId;
     return data;
   }
 }

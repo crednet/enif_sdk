@@ -9,20 +9,20 @@ class SendChatModel {
   SendChatModel.fromJson(Map<String, dynamic> json) {
     replyMode = json['replyMode'];
     message =
-    json['message'] != null ? new Message.fromJson(json['message']) : null;
+    json['message'] != null ? Message.fromJson(json['message']) : null;
     chatId = json['chatId'];
-    reply = json['reply'] != null ? new Message.fromJson(json['reply']) : null;
+    reply = json['reply'] != null ? Message.fromJson(json['reply']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['replyMode'] = this.replyMode;
-    if (this.message != null) {
-      data['message'] = this.message!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['replyMode'] = replyMode;
+    if (message != null) {
+      data['message'] = message!.toJson();
     }
-    data['chatId'] = this.chatId;
-    if (this.reply != null) {
-      data['reply'] = this.reply!.toJson();
+    data['chatId'] = chatId;
+    if (reply != null) {
+      data['reply'] = reply!.toJson();
     }
     return data;
   }
@@ -46,12 +46,12 @@ class Message {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['role'] = this.role;
-    data['content'] = this.content;
-    data['status'] = this.status;
-    data['created_date'] = this.createdDate;
-    data['_id'] = this.sId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['role'] = role;
+    data['content'] = content;
+    data['status'] = status;
+    data['created_date'] = createdDate;
+    data['_id'] = sId;
     return data;
   }
 }

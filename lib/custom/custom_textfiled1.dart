@@ -23,7 +23,7 @@ class CustomTextFields extends StatelessWidget {
   void Function(String?)? onSaved;
   void Function(String?)? onChange;
   CustomTextFields(
-      {this.obscureText,
+      {super.key, this.obscureText,
         this.textCapitalization,
         this.validator,
         this.prefix,
@@ -47,7 +47,7 @@ class CustomTextFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: TextFormField(
             textInputAction: TextInputAction.newline,
             inputFormatters: inputFormatters,

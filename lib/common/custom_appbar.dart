@@ -1,5 +1,4 @@
 import 'package:enif/common/extensions.dart';
-import 'package:enif/common/sizes.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

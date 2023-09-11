@@ -1,6 +1,6 @@
 import 'package:data_repository/data_repository.dart';
 import 'package:enif/enif.dart';
-import 'package:enif/models/new_chat_model.dart';
+import 'package:enif/models/chat_session.dart';
 import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
 import 'package:enif/modules/chat/repository/chat_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -40,7 +40,7 @@ class ChatConnectionState extends Object {
 }
 
 class SuccessChatConnectionState extends ChatConnectionState {
-  final NewChatModel chatSession;
+  final ChatSession chatSession;
   SuccessChatConnectionState(ChatConnectionState state, this.chatSession)
       : super(
             isLoading: false,
@@ -64,6 +64,18 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
 
   ChatConnectionViewModel() : super(ChatConnectionState());
 
+  emailChanged(String? email) {
+    value = value.copyWith(email: email);
+  }
+
+  phoneNoChanged(String? phoneNo) {
+    value = value.copyWith(phoneNo: phoneNo);
+  }
+
+  nameChanged(String? name) {
+    value = value.copyWith(name: name);
+  }
+
   Future<void> initChat() async {
     if (EnifController.businessId == null) {
       throw Exception(
@@ -72,14 +84,14 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
     value = value.copyWith(isLoading: true);
     var response = await _repository.initChat(InitChatDto(
         customer: value.name ?? '',
-        phoneNo: value.phoneNo ?? '',
+        phoneNo: value.phoneNo?.replaceAll(' ', '') ?? '',
         email: value.email ?? '')); // fetch from cache
 
     if (response.isSuccessful && response.body != null) {
       value = SuccessChatConnectionState(value, response.body!);
+      EnifController.setChatSession(response.body!);
     } else {
-      value = value.copyWith(isLoading: false);
+      value = ErrorChatConnectionState(value, response.error as ApiError);
     }
-    value = ErrorChatConnectionState(value, response.error as ApiError);
   }
 }

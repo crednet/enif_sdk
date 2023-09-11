@@ -1,4 +1,4 @@
-class NewChatModel {
+class ChatSession {
   String? chatId;
   String? email;
   String? businessId;
@@ -18,7 +18,7 @@ class NewChatModel {
   String? updateDate;
   String? id;
 
-  NewChatModel(
+  ChatSession(
       {this.chatId,
         this.email,
         this.businessId,
@@ -38,7 +38,7 @@ class NewChatModel {
         this.updateDate,
         this.id});
 
-  NewChatModel.fromJson(Map<String, dynamic> json) {
+  ChatSession.fromJson(Map<String, dynamic> json) {
     chatId = json['chatId'];
     email = json['email'];
     businessId = json['businessId'];
@@ -47,7 +47,7 @@ class NewChatModel {
     if (json['messages'] != null) {
       messages = <MessagesData>[];
       json['messages'].forEach((v) {
-        messages!.add(new MessagesData.fromJson(v));
+        messages!.add(  MessagesData.fromJson(v));
       });
     }
     escalated = json['escalated'];
@@ -60,7 +60,7 @@ class NewChatModel {
     if (json['titles'] != null) {
       titles = <MessagesData>[];
       json['titles'].forEach((v) {
-        titles!.add(new MessagesData.fromJson(v));
+        titles!.add(MessagesData.fromJson(v));
       });
     }
     isCompleted = json['isCompleted'];
@@ -70,29 +70,29 @@ class NewChatModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['chatId'] = this.chatId;
-    data['email'] = this.email;
-    data['businessId'] = this.businessId;
-    data['customer'] = this.customer;
-    data['phoneNo'] = this.phoneNo;
-    if (this.messages != null) {
-      data['messages'] = this.messages!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['chatId'] = chatId;
+    data['email'] = email;
+    data['businessId'] = businessId;
+    data['customer'] = customer;
+    data['phoneNo'] = phoneNo;
+    if (messages != null) {
+      data['messages'] = messages!.map((v) => v.toJson()).toList();
     }
-    data['escalated'] = this.escalated;
-    data['sentiment'] = this.sentiment;
-    data['channel'] = this.channel;
-    data['category'] = this.category;
-    data['type'] = this.type;
-    data['department'] = this.department;
-    data['escalation_department'] = this.escalationDepartment;
-    if (this.titles != null) {
-      data['titles'] = this.titles!.map((v) => v.toJson()).toList();
+    data['escalated'] = escalated;
+    data['sentiment'] = sentiment;
+    data['channel'] = channel;
+    data['category'] = category;
+    data['type'] = type;
+    data['department'] = department;
+    data['escalation_department'] = escalationDepartment;
+    if (titles != null) {
+      data['titles'] = titles!.map((v) => v.toJson()).toList();
     }
-    data['isCompleted'] = this.isCompleted;
-    data['created_date'] = this.createdDate;
-    data['update_date'] = this.updateDate;
-    data['id'] = this.id;
+    data['isCompleted'] = isCompleted;
+    data['created_date'] = createdDate;
+    data['update_date'] = updateDate;
+    data['id'] = id;
     return data;
   }
 }
@@ -115,12 +115,12 @@ class MessagesData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['role'] = this.role;
-    data['content'] = this.content;
-    data['created_date'] = this.createdDate;
-    data['_id'] = this.sId;
+    final Map<String, dynamic> data =   <String, dynamic>{};
+    data['status'] = status;
+    data['role'] = role;
+    data['content'] = content;
+    data['created_date'] = createdDate;
+    data['_id'] = sId;
     return data;
   }
 }

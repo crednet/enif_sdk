@@ -2,6 +2,7 @@ import 'package:enif/bloc/send_chat_bloc.dart';
 import 'package:enif/common/extensions.dart';
 import 'package:enif/common/text_style_common.dart';
 import 'package:enif/extensions/extensions.dart';
+import 'package:enif/models/chat_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -13,18 +14,17 @@ import '../common/colors.dart';
 import '../common/custom_appbar.dart';
 import '../common/custom_button.dart';
 import '../common/image_helper.dart';
-import '../common/sizes.dart';
 import '../common/stringHelper.dart';
 import '../custom/custom_textfiled1.dart';
 import '../models/get_user_chat_model.dart';
 
 class LiveChatSecondScreen extends StatefulWidget {
-  String? customer;
-  String? chatId;
-  String? channel;
-  List<GetMessages>? messages;
-  LiveChatSecondScreen(
-      {Key? key, this.channel, this.customer, this.chatId, this.messages})
+  // String? customer;
+  // String? chatId;
+  // String? channel;
+  // List<GetMessages>? messages;
+  final ChatSession session;
+  const LiveChatSecondScreen({Key? key, required this.session})
       : super(key: key);
 
   @override
@@ -81,7 +81,6 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(milliseconds: 500), () {
       _scrollDown();
@@ -99,8 +98,7 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
               Navigator.pop(context);
             },
             child: Image.asset(ImageHelper.arrowRightImg,
-                  package: 'enif',
-             scale: 4)
+                    package: 'enif', scale: 4)
                 .addPadding(const EdgeInsets.only(left: 10))),
         text: StringHelper.enif,
         textColor: ColorConstant.whiteColor,
@@ -110,42 +108,44 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           36.h,
+            36.h,
             Center(
                 child: Image.asset("assets/images/user.png",
                     package: 'enif', height: 50)),
-           18.h,
+            18.h,
             Text("How may we be of help today ?",
                 style: AppTextStyle.appBar13Style()),
-           70.h,
-            widget.messages?.length == 0
-                ? const SizedBox()
-                : Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        itemCount: widget.messages?.length,
-                        itemBuilder: (context, index) {
-                          return widget.messages?[index].role == "assistance"
-                              ? flexibleReceiver(
-                                  index: index, list: widget.messages)
-                              : flexibleSender(
-                                  index: index, list: widget.messages);
-                        }),
-                  ),
-           140.h
+            70.h,
+            // widget.session.messages?.length == 0
+            //     ? const SizedBox()
+            //     : Padding(
+            //         padding: const EdgeInsets.all(10),
+            //         child: ListView.builder(
+            //             physics: const NeverScrollableScrollPhysics(),
+            //             shrinkWrap: true,
+            //             padding: EdgeInsets.zero,
+            //             itemCount: widget.session.messages?.length,
+            //             itemBuilder: (context, index) {
+            //               return widget.session.messages?[index].role ==
+            //                       "assistance"
+            //                   ? flexibleReceiver(
+            //                       index: index, list: widget.session.messages)
+            //                   : flexibleSender(
+            //                       index: index,
+            //                       list: [...?widget.session.messages]);
+            //             }),
+            //       ),
+            140.h
           ],
         ),
       ),
       bottomSheet: Container(
-          height: 140,
+          height: 250,
           color: Colors.white,
           width: double.infinity,
           alignment: Alignment.center,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +164,7 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text("Aa"),
-                 10.h,
+                    10.h,
                     InkWell(
                         onTap: () {
                           getImage();
@@ -178,7 +178,7 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
                         },
                         child: Image.asset(ImageHelper.images,
                             package: 'enif', height: 14)),
-                  175.h,
+                    175.h,
                     BlocListener<SendChatBloc, SendChatState>(
                       listener: (context, state) {
                         if (state is SendChatLoadingState) {
@@ -231,9 +231,9 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
                           } else {
                             BlocProvider.of<SendChatBloc>(context)
                                 .add(SendChatRefreshEvent(
-                              channel: widget.channel,
-                              chatId: widget.chatId,
-                              customer: widget.customer,
+                              channel: widget.session.channel,
+                              chatId: widget.session.chatId,
+                              customer: widget.session.customer,
                               promptMsg: textController.text,
                             ));
                           }
@@ -316,7 +316,7 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
       line = line.replaceAll(RegExp(r'[!@#\$%^&*()]'), '');
       line = line.replaceAll("Image: ", "");
 
-      final urlPattern =
+      const urlPattern =
           r'https?://(?:www\d?\.)?([a-zA-Z0-9.-]+)(?:\.[a-zA-Z]{2,6})(?:/[\w\d.-]*)*/?';
 
       final regex = RegExp(urlPattern);
@@ -327,7 +327,7 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
         line = line.replaceAll(url, '<img src="$url" alt="$url" /><br>');
       }
 
-      final urlPatternHttp =
+      const urlPatternHttp =
           r'http?://(?:www\d?\.)?([a-zA-Z0-9.-]+)(?:\.[a-zA-Z]{2,6})(?:/[\w\d.-]*)*/?';
 
       final regexHttp = RegExp(urlPatternHttp);
@@ -344,10 +344,11 @@ class _LiveChatSecondScreenState extends State<LiveChatSecondScreen> {
   }
 
   Future? functionCall(Map<String, String> map) {
-    widget.messages?.add(GetMessages.fromJson(map));
+    // widget.messages?.add(GetMessages.fromJson(map));
     Future.delayed(const Duration(milliseconds: 500), () {
       _scrollDown();
     });
     setState(() {});
+    return null;
   }
 }

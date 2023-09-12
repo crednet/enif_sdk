@@ -20,23 +20,23 @@ class ChatSession {
 
   ChatSession(
       {this.chatId,
-        this.email,
-        this.businessId,
-        this.customer,
-        this.phoneNo,
-        this.messages,
-        this.escalated,
-        this.sentiment,
-        this.channel,
-        this.category,
-        this.type,
-        this.department,
-        this.escalationDepartment,
-        this.titles,
-        this.isCompleted,
-        this.createdDate,
-        this.updateDate,
-        this.id});
+      this.email,
+      this.businessId,
+      this.customer,
+      this.phoneNo,
+      this.messages,
+      this.escalated,
+      this.sentiment,
+      this.channel,
+      this.category,
+      this.type,
+      this.department,
+      this.escalationDepartment,
+      this.titles,
+      this.isCompleted,
+      this.createdDate,
+      this.updateDate,
+      this.id});
 
   ChatSession.fromJson(Map<String, dynamic> json) {
     chatId = json['chatId'];
@@ -47,7 +47,7 @@ class ChatSession {
     if (json['messages'] != null) {
       messages = <MessagesData>[];
       json['messages'].forEach((v) {
-        messages!.add(  MessagesData.fromJson(v));
+        messages!.add(MessagesData.fromJson(v));
       });
     }
     escalated = json['escalated'];
@@ -104,7 +104,8 @@ class MessagesData {
   String? createdDate;
   String? sId;
 
-  MessagesData({this.status, this.role, this.content, this.createdDate, this.sId});
+  MessagesData(
+      {this.status, this.role, this.content, this.createdDate, this.sId});
 
   MessagesData.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -115,7 +116,7 @@ class MessagesData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =   <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
     data['role'] = role;
     data['content'] = content;

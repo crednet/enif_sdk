@@ -7,7 +7,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'back.dart';
- 
 
 class EnifAppbar extends PreferredSize {
   EnifAppbar(
@@ -34,7 +33,7 @@ class EnifAppbar extends PreferredSize {
                       .fadeIn(delay: 100.ms)
                       .shimmer(delay: 400.ms),
                   5.5.w,
-                 
+
                   SizedBox(
                       child: SvgPicture.asset(
                     SvgAssets.logoFull,

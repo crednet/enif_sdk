@@ -9,7 +9,7 @@ class SendChatModel {
   SendChatModel.fromJson(Map<String, dynamic> json) {
     replyMode = json['replyMode'];
     message =
-    json['message'] != null ? Message.fromJson(json['message']) : null;
+        json['message'] != null ? Message.fromJson(json['message']) : null;
     chatId = json['chatId'];
     reply = json['reply'] != null ? Message.fromJson(json['reply']) : null;
   }

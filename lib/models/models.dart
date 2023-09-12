@@ -12,6 +12,6 @@ class Models {
     Faq: (json) => Faq.fromJson(json),
     ChatSession: (json) => ChatSession.fromJson(json),
     GetUserChatModel: (json) => GetUserChatModel.fromJson(json),
-    SendChatModel:(json) => SendChatModel.fromJson(json),
+    SendChatModel: (json) => SendChatModel.fromJson(json),
   };
 }

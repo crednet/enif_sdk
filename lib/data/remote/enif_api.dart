@@ -46,8 +46,8 @@ class EnifApi {
         ]);
   }
 
-
-  ApiRequest<List<GetUserChatModel>, GetUserChatModel> getChatHistory(String email) {
+  ApiRequest<List<GetUserChatModel>, GetUserChatModel> getChatHistory(
+      String email) {
     return ApiRequest<List<GetUserChatModel>, GetUserChatModel>(
         baseUrl: baseUrl,
         path: ApiUrls.chatHistory(email),
@@ -63,7 +63,8 @@ class EnifApi {
         ]);
   }
 
-  ApiRequest<SendChatModel, SendChatModel> sendChat(String chatId, String businessId, String channel, String customer, String promptMsg) {
+  ApiRequest<SendChatModel, SendChatModel> sendChat(String chatId,
+      String businessId, String channel, String customer, String promptMsg) {
     return ApiRequest<SendChatModel, SendChatModel>(
         baseUrl: baseUrl,
         path: ApiUrls.sendChat,
@@ -85,5 +86,4 @@ class EnifApi {
           JsonInterceptor<EnifError>(Models.factories),
         ]);
   }
- 
 }

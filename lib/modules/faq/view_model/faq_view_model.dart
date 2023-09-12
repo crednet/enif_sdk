@@ -42,14 +42,13 @@ class FaqViewModel extends ValueNotifier<FaqState> {
           'BusinessId is must be set, please call "EnifController.setBusinessId("")" before calling this method');
     }
     value = value.copyWith(isLoading: true);
-    var response =
-        await _repository.getFaqs( true); // fetch from cache
+    var response = await _repository.getFaqs(true); // fetch from cache
 
     if (response.isSuccessful) {
       value = value.copyWith(isLoading: true, faqs: response.body);
     }
 
-    response = await _repository.getFaqs( false);
+    response = await _repository.getFaqs(false);
 
     if (response.isSuccessful) {
       value = value.copyWith(faqs: response.body);

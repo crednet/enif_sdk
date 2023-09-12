@@ -19,23 +19,23 @@ class GetUserChatModel {
 
   GetUserChatModel(
       {
-        // this.escalationDepartment,
-        // this.titles,
-        this.isCompleted,
-        this.chatId,
-        this.email,
-        this.businessId,
-        this.customer,
-        this.messages,
-        this.escalated,
-        this.sentiment,
-        this.channel,
-        this.createdDate,
-        this.updateDate,
-        this.category,
-        this.department,
-        this.type,
-        this.id});
+      // this.escalationDepartment,
+      // this.titles,
+      this.isCompleted,
+      this.chatId,
+      this.email,
+      this.businessId,
+      this.customer,
+      this.messages,
+      this.escalated,
+      this.sentiment,
+      this.channel,
+      this.createdDate,
+      this.updateDate,
+      this.category,
+      this.department,
+      this.type,
+      this.id});
 
   GetUserChatModel.fromJson(Map<String, dynamic> json) {
     // escalationDepartment = json['escalation_department'];
@@ -101,7 +101,8 @@ class GetMessages {
   String? createdDate;
   String? sId;
 
-  GetMessages({this.status, this.role, this.content, this.createdDate, this.sId});
+  GetMessages(
+      {this.status, this.role, this.content, this.createdDate, this.sId});
 
   GetMessages.fromJson(Map<String, dynamic> json) {
     status = json['status'];

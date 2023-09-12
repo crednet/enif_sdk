@@ -8,7 +8,9 @@ import 'package:flutter/foundation.dart';
 class ChatController extends ValueNotifier<ChatState> {
   final ChatSession session;
 
-  ChatController(this.session) : super(ChatState());
+  ChatController(this.session) : super(ChatState()) {
+    load();
+  }
   final _repository = ChatRepository();
 
   final TextEditingController textEditingController = TextEditingController();
@@ -45,6 +47,24 @@ class ChatController extends ValueNotifier<ChatState> {
 
       value = value
           .copyWith(isLoading: false, messages: [...?messages, body.reply!]);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.decelerate);
+      });
+    } else {
+      value = value.copyWith(isLoading: false);
+    }
+  }
+
+  Future load() async {
+    var response = await _repository.getChatMessages(
+        session.email ?? '', session.businessId ?? '', session.chatId ?? '');
+
+    if (response.isSuccessful && response.body != null) {
+      var body = response.body!;
+
+      value = value.copyWith(isLoading: false, messages: body);
       Future.delayed(const Duration(milliseconds: 500), () {
         scrollController.animateTo(scrollController.position.maxScrollExtent,
             duration: const Duration(milliseconds: 300),

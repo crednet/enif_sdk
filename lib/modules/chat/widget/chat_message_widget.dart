@@ -3,7 +3,6 @@ import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:intl/intl.dart';
 
 class ChatMessageWidget extends StatelessWidget {
   final Message message;
@@ -12,6 +11,13 @@ class ChatMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print('(message.role ${message.role}');
+    var time = Text(
+      DateTime.tryParse(message.createdDate ?? "")?.time ?? '',
+      style: TextStyle(
+          color: context.textColor.withOpacity(.8),
+          fontSize: 11,
+          fontWeight: FontWeight.w500),
+    );
     if (message.role == 'assistance') {
       return Padding(
         padding: const EdgeInsets.only(bottom: 30),
@@ -34,9 +40,7 @@ class ChatMessageWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            Text(DateFormat("h:mma")
-                .format(DateTime.parse(message.createdDate ?? ""))
-                .toLowerCase()),
+            time,
             const Expanded(child: SizedBox())
           ],
         ),
@@ -45,41 +49,36 @@ class ChatMessageWidget extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 30),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const Expanded(child: SizedBox()),
-          Text(DateFormat("h:mma")
-              .format(DateTime.parse(message.createdDate ?? ""))
-              .toLowerCase()),
-          const SizedBox(width: 10),
-          Expanded(
-            flex: 3,
-            child: Builder(builder: (context) {
-              var view = Container(
-                padding: const EdgeInsets.all(14),
-                // alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: EnifColors.primary,
-                ),
-                child: Text(
-                  message.content ?? "",
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600),
-                ),
-              );
-              if ((message.content?.length ?? 0) > 25) {
-                return view;
-              }
-              return Align(alignment: Alignment.centerRight, child: view);
-            }),
+      child: Builder(builder: (context) {
+        var view = Container(
+          padding: const EdgeInsets.all(14),
+          // alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: EnifColors.primary,
           ),
-        ],
-      ),
+          child: Text(
+            message.content ?? "",
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+                fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600),
+          ),
+        );
+        if ((message.content?.length ?? 0) > 25) {
+          return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            const Expanded(child: SizedBox()),
+            time,
+            const SizedBox(width: 10),
+            Expanded(flex: 3, child: view)
+          ]);
+        }
+        return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          const Expanded(child: SizedBox()),
+          time,
+          const SizedBox(width: 10),
+          view
+        ]);
+      }),
     );
   }
 

@@ -39,14 +39,11 @@ class LiveChatButton extends StatelessWidget {
                       color: Colors.white)),
             ],
           ),
-          // .addPadding(const EdgeInsets.symmetric(vertical: 5, horizontal: 8)),
-          // Icon(Icons.add),
           SvgPicture.asset(
             SvgAssets.share,
             package: 'enif',
             height: 20,
           )
-          // .addPadding(const EdgeInsets.symmetric(vertical: 5, horizontal: 8))
         ],
       ),
     );

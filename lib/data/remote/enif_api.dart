@@ -65,6 +65,24 @@ class EnifApi {
         ]);
   }
 
+  ApiRequest<List<Message>, Message> getChatMessages(
+      String email, String businessId, String chatId) {
+    return ApiRequest<List<Message>, Message>(
+        baseUrl: baseUrl,
+        path: ApiUrls.chatMessages(email),
+        method: ApiMethods.get,
+        dataKey: 'data',
+        query: {'businessId': businessId, "chatId": chatId},
+        error: ErrorDescription(),
+        interceptors: [
+          HeaderInterceptor({
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          }),
+          JsonInterceptor<EnifError>(Models.factories),
+        ]);
+  }
+
   ApiRequest<SendChatModel, SendChatModel> sendChat(SendChatDto body) {
     return ApiRequest<SendChatModel, SendChatModel>(
         baseUrl: baseUrl,

@@ -20,4 +20,9 @@ class ChatRepository extends DataRepository {
   Future<ApiResponse<SendChatModel, SendChatModel>> sendChat(SendChatDto body) {
     return handleRequest(_api.sendChat(body));
   }
+
+  Future<ApiResponse<List<Message>, Message>> getChatMessages(
+      String email, String businessId, String chatId) {
+    return handleRequest(_api.getChatMessages(email, businessId, chatId));
+  }
 }

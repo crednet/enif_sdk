@@ -1,3 +1,3 @@
 library enif;
 
-export 'utils/enif_controller.dart';
+export 'modules/chat/view_model/enif_controller.dart';

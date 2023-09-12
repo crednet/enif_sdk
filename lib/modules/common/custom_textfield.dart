@@ -1,4 +1,3 @@
-import 'package:enif/common/text_style_common.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -83,7 +82,10 @@ class CustomTextField extends StatelessWidget {
               filled: true,
               hintText: labelText,
               //labelStyle: AppTextStyle.size14gw500,
-              hintStyle: AppTextStyle.heading12Style(),
+              hintStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: context.textColor),
               errorStyle: const TextStyle(
                 color: Colors.red,
               ),

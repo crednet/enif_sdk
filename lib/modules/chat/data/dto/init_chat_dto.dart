@@ -1,4 +1,4 @@
-import 'package:enif/utils/enif_controller.dart';
+import 'package:enif/modules/chat/view_model/enif_controller.dart';
 
 class InitChatDto {
   final String customer, phoneNo, email;

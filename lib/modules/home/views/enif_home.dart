@@ -1,5 +1,3 @@
-import 'package:enif/common/stringHelper.dart';
-import 'package:enif/common/text_style_common.dart';
 import 'package:enif/constants/image_assets.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/enif.dart';
@@ -54,8 +52,11 @@ class EnifHome extends StatelessWidget {
                     .shake(delay: 600.ms)
               ]),
               5.0.h,
-              Text(StringHelper.howCan, style: AppTextStyle.largeText(context)),
-              Text(StringHelper.weHelp, style: AppTextStyle.largeText(context)),
+              Text('How can\nwe help ?',
+                  style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      color: context.textColor)),
               48.h, const LiveChatButton(),
               60.h,
               Material(

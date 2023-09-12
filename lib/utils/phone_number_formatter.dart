@@ -29,7 +29,7 @@ class PhoneNumberFormatter extends TextInputFormatter {
   }
 
   String? formatText(String text) {
-    if (text == null) return null;
+    // if (text == null) return null;
     text = sanitizeNumber(text);
     int startOffset = 2;
     position = 0;

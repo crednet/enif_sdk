@@ -1,5 +1,3 @@
-import 'package:enif/common/extensions.dart';
-import 'package:enif/common/text_style_common.dart';
 import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,27 +22,31 @@ class LiveChatButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
+          const Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Live Chat",
-                style: AppTextStyle.homeStyle(),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                "We typically reply in few minutes...",
-                style: AppTextStyle.homeStyle1(),
-              ),
+              Text("Live Chat",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white)),
+              SizedBox(height: 4),
+              Text("We typically reply in few minutes...",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white)),
             ],
-          ).addPadding(const EdgeInsets.symmetric(vertical: 5, horizontal: 8)),
+          ),
+          // .addPadding(const EdgeInsets.symmetric(vertical: 5, horizontal: 8)),
           // Icon(Icons.add),
           SvgPicture.asset(
             SvgAssets.share,
             package: 'enif',
             height: 20,
-          ).addPadding(const EdgeInsets.symmetric(vertical: 5, horizontal: 8))
+          )
+          // .addPadding(const EdgeInsets.symmetric(vertical: 5, horizontal: 8))
         ],
       ),
     );

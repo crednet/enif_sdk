@@ -1,13 +1,11 @@
 import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
-import 'package:enif/custom/custom_textfield.dart';
+import 'package:enif/modules/common/custom_textfield.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/common/back.dart';
 import 'package:enif/modules/faq/views/faq_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../common/stringHelper.dart';
 
 class EnifHelpScreen extends StatefulWidget {
   const EnifHelpScreen({Key? key}) : super(key: key);
@@ -26,9 +24,9 @@ class _HelpScreenState extends State<EnifHelpScreen> {
         appBar: AppBar(
             elevation: 0,
             backgroundColor: EnifColors.primary,
-            leading: const Back(),
-            title: Text(StringHelper.help,
-                style: const TextStyle(
+            leading: const Back(color: Colors.white),
+            title: const Text('Help',
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w600))
@@ -61,7 +59,7 @@ class _HelpScreenState extends State<EnifHelpScreen> {
                             )),
                       ),
                       controller: controller,
-                      labelText: StringHelper.searchHelp),
+                      labelText: 'Search for help'),
                   15.h,
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.start,

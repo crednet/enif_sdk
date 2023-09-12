@@ -5,3 +5,5 @@
 * Updated chat screen
 ## 0.0.3
 * Removed unused packages
+## 0.0.4
+* Added auto initialize widget

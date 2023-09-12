@@ -1,8 +1,8 @@
 import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
-import 'package:enif/modules/common/custom_textfield.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/common/back.dart';
+import 'package:enif/modules/common/custom_textfield.dart';
 import 'package:enif/modules/faq/views/faq_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -41,6 +41,7 @@ class _HelpScreenState extends State<EnifHelpScreen> {
                 children: [
                   30.h,
                   CustomTextField(
+                      maxLines: 1,
                       fillColor: Colors.transparent,
                       suffix: SizedBox(
                         width: 40,

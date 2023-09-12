@@ -9,3 +9,6 @@
 * Added auto initialize widget
 ## 0.0.5
 * Fixed text input border
+## 0.0.6
+* Fixed text input not responding to keyboard
+

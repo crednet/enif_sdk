@@ -69,7 +69,7 @@ class EnifApi {
       String email, String businessId, String chatId) {
     return ApiRequest<List<Message>, Message>(
         baseUrl: baseUrl,
-        path: ApiUrls.chatMessages(email),
+        path: ApiUrls.chatMessages(chatId),
         method: ApiMethods.get,
         dataKey: 'data',
         query: {'businessId': businessId, "chatId": chatId},

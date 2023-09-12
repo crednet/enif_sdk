@@ -1,5 +1,4 @@
 import 'package:enif/enif.dart';
-import 'package:enif/models/enif_user_params.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -25,13 +24,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Enif Chat Bot',
-      themeMode: ThemeMode.system,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: const EnifHome(showBackButton: false),
-    );
+    return GestureDetector(
+        onTap: () {
+          WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+        },
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Enif Chat Bot',
+          themeMode: ThemeMode.system,
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          home: const EnifHome(showBackButton: false),
+        ));
   }
 }

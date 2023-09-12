@@ -22,7 +22,7 @@ class ChatInputWidget extends StatelessWidget {
             color: context.isDark
                 ? const Color.fromARGB(255, 138, 138, 139)
                 : const Color(0xffA4A4A6)),
-        TextFormField(
+        TextField(
             onChanged: controller.textChanged,
             controller: controller.textEditingController,
             decoration: InputDecoration(

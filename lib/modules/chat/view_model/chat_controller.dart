@@ -11,7 +11,8 @@ class ChatController extends ValueNotifier<ChatState> {
   ChatController(this.session) : super(ChatState());
   final _repository = ChatRepository();
 
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController textEditingController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   textChanged(String text) {
     value = value.copyWith(text: text);
@@ -19,7 +20,7 @@ class ChatController extends ValueNotifier<ChatState> {
 
   Future send() async {
     final sid = UniqueKey().toString();
-    controller.clear();
+    textEditingController.clear();
 
     value = value.copyWith(isLoading: true, messages: [
       ...?value.messages,
@@ -30,6 +31,9 @@ class ChatController extends ValueNotifier<ChatState> {
           createdDate: DateTime.now().toIso8601String(),
           sId: sid)
     ]);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
     var response =
         await _repository.sendChat(SendChatDto(session, value.text ?? ''));
 
@@ -41,6 +45,11 @@ class ChatController extends ValueNotifier<ChatState> {
 
       value = value
           .copyWith(isLoading: false, messages: [...?messages, body.reply!]);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        scrollController.animateTo(scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.decelerate);
+      });
     } else {
       value = value.copyWith(isLoading: false);
     }

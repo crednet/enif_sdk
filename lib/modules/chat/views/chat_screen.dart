@@ -43,32 +43,39 @@ class _ChatScreenState extends State<ChatScreen> {
             child: SafeArea(child: ChatInputWidget(controller: controller))),
         body: Column(
           children: [
-            55.0.h,
-            const Center(child: ChatUsers()),
-            11.h,
-            Text(
-              'How can we be of help today...',
-              style: TextStyle(
-                  fontSize: 12,
-                  color: context.textColor,
-                  fontWeight: FontWeight.w600),
-            ),
+            ValueListenableBuilder(
+                valueListenable: controller,
+                builder: (context, value, child) =>
+                    (value.messages?.isEmpty ?? true)
+                        ? Column(children: [
+                            55.0.h,
+                            const Center(child: ChatUsers()),
+                            11.h,
+                            Text(
+                              'How can we be of help today...',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: context.textColor,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            20.0.h
+                          ])
+                        : const SizedBox()),
             Expanded(
               child: ValueListenableBuilder(
                   valueListenable: controller,
                   builder: (context, value, child) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: value.messages?.length,
-                          itemBuilder: (context, index) {
-                            var message = value.messages![index];
-                            return ChatMessageWidget(message: message);
-                          }),
-                    );
+                    return ListView.builder(
+                        controller: controller.scrollController,
+                        physics: const BouncingScrollPhysics(),
+                        // shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        itemCount: value.messages?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          var message = value.messages![index];
+                          return ChatMessageWidget(message: message);
+                        });
                   }),
             ),
           ],

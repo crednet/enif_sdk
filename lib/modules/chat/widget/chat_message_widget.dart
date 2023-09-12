@@ -1,4 +1,5 @@
 import 'package:enif/constants/enif_colors.dart';
+import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -10,20 +11,23 @@ class ChatMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (message.role == 'assistant') {
+    // print('(message.role ${message.role}');
+    if (message.role == 'assistance') {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 25),
+        padding: const EdgeInsets.only(bottom: 30),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Expanded(
               flex: 3,
               child: Container(
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.all(14),
                 alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: EnifColors.primary),
+                    color: context.isDark
+                        ? const Color(0xff2A2A2A)
+                        : const Color(0xffF6F6FA)),
                 child: Html(
                   data: generateHtmlContent(message.content ?? ""),
                 ),
@@ -40,7 +44,7 @@ class ChatMessageWidget extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 25),
+      padding: const EdgeInsets.only(bottom: 30),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -50,22 +54,29 @@ class ChatMessageWidget extends StatelessWidget {
               .toLowerCase()),
           const SizedBox(width: 10),
           Expanded(
-            flex: 1,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.blueAccent,
-              ),
-              child: Text(
-                message.content ?? "",
-                style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
+            flex: 3,
+            child: Builder(builder: (context) {
+              var view = Container(
+                padding: const EdgeInsets.all(14),
+                // alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: EnifColors.primary,
+                ),
+                child: Text(
+                  message.content ?? "",
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600),
+                ),
+              );
+              if ((message.content?.length ?? 0) > 25) {
+                return view;
+              }
+              return Align(alignment: Alignment.centerRight, child: view);
+            }),
           ),
         ],
       ),

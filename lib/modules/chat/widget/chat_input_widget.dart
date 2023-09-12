@@ -22,7 +22,7 @@ class ChatInputWidget extends StatelessWidget {
                 : const Color(0xffA4A4A6)),
         TextFormField(
             onChanged: controller.textChanged,
-            controller: controller.controller,
+            controller: controller.textEditingController,
             decoration: InputDecoration(
                 hintText: 'Type a message',
                 border: OutlineInputBorder(

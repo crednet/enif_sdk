@@ -1,6 +1,7 @@
 library enif;
 
 import 'package:enif/models/enif_user_params.dart';
+import 'package:enif/modules/chat/view_model/chat_connection_view_model.dart';
 import 'package:enif/modules/faq/repository/faq_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,13 @@ class EnifController {
 
   static setUser(EnifUserParams userParams) {
     _instance.userParams.value = userParams;
+    // if (businessId != null) {
+    //   ChatConnectionViewModel()
+    //     ..emailChanged(userParams.email)
+    //     ..nameChanged(userParams.name)
+    //     ..phoneNoChanged(userParams.phoneNo)
+    //     ..initChat();
+    // }
   }
 
   static logout() {

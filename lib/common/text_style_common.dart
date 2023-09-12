@@ -105,7 +105,7 @@ class AppTextStyle {
 
   static TextStyle heading12Style() {
     return TextStyle(
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: FontWeight.w400,
       color: ColorConstant.black1Color,
       fontFamily: FontFamilyConstants.axiformaRegular,

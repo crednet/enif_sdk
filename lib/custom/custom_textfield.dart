@@ -44,7 +44,8 @@ class CustomTextField extends StatelessWidget {
       this.maxLines,
       this.maxLength,
       this.borderWidth = .5,
-      this.borderSide, this.autovalidateMode});
+      this.borderSide,
+      this.autovalidateMode});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class CustomTextField extends StatelessWidget {
             textCapitalization: textCapitalization ?? TextCapitalization.none,
             onSaved: onSaved,
             style: TextStyle(
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: context.textColor),
             decoration: InputDecoration(

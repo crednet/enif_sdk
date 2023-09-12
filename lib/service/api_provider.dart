@@ -3,7 +3,6 @@ import 'package:enif/common/stringHelper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/get_user_chats_bloc.dart';
-import '../bloc/new_chat_bloc.dart';
 import '../bloc/send_chat_bloc.dart';
 import '../models/get_user_chat_model.dart';
 import '../models/send_chat_model.dart';
@@ -38,7 +37,7 @@ class ApiProvider {
     }
     return null;
   }
- 
+
   Future<SendChatModel?> sendChatAPI(
       SendChatRefreshEvent event, Emitter<SendChatState> emit) async {
     emit(SendChatLoadingState());
@@ -51,7 +50,7 @@ class ApiProvider {
         "customer": event.customer,
         "promptMsg": event.promptMsg
       });
-      print("response.data ${response.data}");
+      // print("response.data ${response.data}");
       SendChatModel data = SendChatModel.fromJson(response.data);
       if (response.statusCode == 200) {
         emit(SendChatSuccessState(data));

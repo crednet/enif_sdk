@@ -7,4 +7,5 @@ class ImageAssets {
   static const String chatUser3 = '$_basePath/chat_user3.png';
 
   static const String hand = '$_basePath/hand.png';
+  static const String gif = '$_basePath/gif.png';
 }

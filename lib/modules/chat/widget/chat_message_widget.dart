@@ -1,4 +1,5 @@
 import 'package:enif/constants/enif_colors.dart';
+import 'package:enif/extensions/date.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +12,23 @@ class ChatMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print('(message.role ${message.role}');
-    var time = Text(
-      DateTime.tryParse(message.createdDate ?? "")?.time ?? '',
-      style: TextStyle(
-          color: context.textColor.withOpacity(.8),
-          fontSize: 11,
-          fontWeight: FontWeight.w500),
-    );
+    var date = DateTime.tryParse(message.createdDate ?? "");
+    String t = date?.time ?? "";
+
+    var difference = DateTime.now().difference(date ?? DateTime.now());
+
+    if (difference.inDays > 1) {
+      t = '${date?.readableFormat ?? ''} ${date?.time ?? ''}';
+    }
+
     if (message.role == 'assistance') {
+      var time = Text(
+        t,
+        style: TextStyle(
+            color: context.textColor.withOpacity(.8),
+            fontSize: 11,
+            fontWeight: FontWeight.w500),
+      );
       return Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: Row(
@@ -26,55 +36,95 @@ class ChatMessageWidget extends StatelessWidget {
           children: [
             Expanded(
               flex: 3,
-              child: Container(
-                padding: const EdgeInsets.all(14),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: context.isDark
-                        ? const Color(0xff2A2A2A)
-                        : const Color(0xffF6F6FA)),
-                child: Html(
-                  data: generateHtmlContent(message.content ?? ""),
-                ),
+              child: Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: context.isDark
+                            ? const Color(0xff2A2A2A)
+                            : const Color(0xffF6F6FA)),
+                    child: Html(
+                      data: generateHtmlContent(message.content ?? ""),
+                    ),
+                  ),
+                  Positioned(bottom: 5, right: 10, child: time)
+                ],
               ),
             ),
             const SizedBox(width: 10),
-            time,
+            // time,
             const Expanded(child: SizedBox())
           ],
         ),
       );
     }
+    // var time = Text(
+    //   t,
+    //   style: const TextStyle(
+    //       color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500),
+    // );
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 30),
       child: Builder(builder: (context) {
-        var view = Container(
-          padding: const EdgeInsets.all(14),
-          // alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: EnifColors.primary,
-          ),
-          child: Text(
-            message.content ?? "",
-            textAlign: TextAlign.start,
-            style: const TextStyle(
-                fontSize: 13, color: Colors.white, fontWeight: FontWeight.w600),
-          ),
+        var view = Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(14),
+              // alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: EnifColors.primary,
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 50),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: 8.0, right: 8.0, left: 8.0),
+                  child: Text(
+                    message.content ?? "",
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+                bottom: 5,
+                right: 10,
+                left: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text(
+                    t,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ))
+          ],
         );
         if ((message.content?.length ?? 0) > 25) {
           return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
             const Expanded(child: SizedBox()),
-            time,
+            // time,
             const SizedBox(width: 10),
-            Expanded(flex: 3, child: view)
+            Expanded(
+              flex: 3,
+              child: view,
+            )
           ]);
         }
         return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
           const Expanded(child: SizedBox()),
-          time,
           const SizedBox(width: 10),
           view
         ]);

@@ -52,25 +52,17 @@ extension BuildContextExt on BuildContext {
       isDark ? Colors.white.withOpacity(.85) : const Color(0xff2a2a2a);
 }
 
-extension DateExt on DateTime {
-  String get time {
-    var date = this;
-    int hour = date.hour;
-    int minute = this.minute;
-    return _formatTime(hour, minute);
-  }
-
-  String _formatTime(int hour, int min) {
-    String m = '$min';
-    if (min < 10) m = '0$min';
-    if (hour < 10) {
-      return '0$hour:$min AM';
-    } else if (hour < 13) {
-      if (hour == 12 && min == 0) return '$hour:00 NOON';
-      if (hour == 12) return '$hour:$min PM';
-      return '$hour:$min AM';
-    } else {
-      return '${hour - 12}:$m PM';
+extension Str on String {
+  // capitalize first letter of a every word in a string
+  String toTitleCase() {
+    List<String> s = toLowerCase().split(' ');
+    String result = '';
+    for (var e in s) {
+      if (e.isNotEmpty && e.isNotEmpty) {
+        result += e.replaceRange(0, 1, e[0].toUpperCase());
+        result += ' ';
+      }
     }
+    return result.trim();
   }
 }

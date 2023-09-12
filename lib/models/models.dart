@@ -13,5 +13,6 @@ class Models {
     ChatSession: (json) => ChatSession.fromJson(json),
     GetUserChatModel: (json) => GetUserChatModel.fromJson(json),
     SendChatModel: (json) => SendChatModel.fromJson(json),
+    Message: (json) => Message.fromJson(json),
   };
 }

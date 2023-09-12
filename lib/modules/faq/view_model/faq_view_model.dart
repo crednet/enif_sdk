@@ -2,8 +2,6 @@ import 'package:enif/enif.dart';
 import 'package:enif/models/faq.dart';
 import 'package:flutter/foundation.dart';
 
-import '../repository/faq_repository.dart';
-
 class FaqState extends Object {
   final bool isLoading;
   final List<Faq>? faqs;
@@ -17,10 +15,6 @@ class FaqState extends Object {
 
   @override
   bool operator ==(Object other) {
-    // if (identical(this, other)) {
-    //   return true;
-    // }
-
     return (other is FaqState &&
         other.runtimeType == runtimeType &&
         other.isLoading == isLoading &&

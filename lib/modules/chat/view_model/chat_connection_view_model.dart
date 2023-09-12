@@ -1,8 +1,6 @@
 import 'package:data_repository/data_repository.dart';
 import 'package:enif/enif.dart';
 import 'package:enif/models/chat_session.dart';
-import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
-import 'package:enif/modules/chat/repository/chat_repository.dart';
 import 'package:flutter/foundation.dart';
 
 class ChatConnectionState extends Object {

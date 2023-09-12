@@ -7,6 +7,7 @@ import 'package:enif/models/get_user_chat_model.dart';
 import 'package:enif/models/models.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
+import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 
 import '../../models/enif_error.dart';
 
@@ -47,12 +48,13 @@ class EnifApi {
   }
 
   ApiRequest<List<GetUserChatModel>, GetUserChatModel> getChatHistory(
-      String email) {
+      String email, String businessId) {
     return ApiRequest<List<GetUserChatModel>, GetUserChatModel>(
         baseUrl: baseUrl,
         path: ApiUrls.chatHistory(email),
         method: ApiMethods.get,
         dataKey: '',
+        query: {'businessId': businessId},
         error: ErrorDescription(),
         interceptors: [
           HeaderInterceptor({
@@ -63,20 +65,13 @@ class EnifApi {
         ]);
   }
 
-  ApiRequest<SendChatModel, SendChatModel> sendChat(String chatId,
-      String businessId, String channel, String customer, String promptMsg) {
+  ApiRequest<SendChatModel, SendChatModel> sendChat(SendChatDto body) {
     return ApiRequest<SendChatModel, SendChatModel>(
         baseUrl: baseUrl,
         path: ApiUrls.sendChat,
         method: ApiMethods.post,
         dataKey: '',
-        body: {
-          "chatId": chatId,
-          "businessId": businessId,
-          "channel": channel,
-          "customer": customer,
-          "promptMsg": promptMsg
-        },
+        body: body.toJson(),
         error: ErrorDescription(),
         interceptors: [
           HeaderInterceptor({

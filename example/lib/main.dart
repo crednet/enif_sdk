@@ -1,6 +1,5 @@
 import 'package:enif/enif.dart';
 import 'package:enif/models/enif_user_params.dart';
-import 'package:enif/modules/home/views/enif_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

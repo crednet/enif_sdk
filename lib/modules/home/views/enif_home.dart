@@ -2,15 +2,10 @@ import 'package:enif/constants/image_assets.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/enif.dart';
 import 'package:enif/extensions/extensions.dart';
-import 'package:enif/modules/common/enif_appbar.dart';
-import 'package:enif/modules/faq/views/enif_help_screen.dart';
-import 'package:enif/modules/faq/views/faq_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../common/live_chat_button.dart';
 
 class EnifHome extends StatelessWidget {
   final bool showBackButton;

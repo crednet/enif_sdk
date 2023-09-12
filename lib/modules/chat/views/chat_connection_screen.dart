@@ -1,7 +1,7 @@
 import 'package:enif/constants/enif_colors.dart';
-import 'package:enif/modules/common/custom_textfield.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/chat/view_model/chat_connection_view_model.dart';
+import 'package:enif/modules/common/custom_textfield.dart';
 import 'package:enif/utils/phone_number_formatter.dart';
 import 'package:enif/utils/validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,6 +69,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
                               autovalidateMode: autovalidateMode,
                               onChanged: _chatConnectionViewModel.nameChanged,
                               borderSide: BorderSide.none,
+                              keyboardType: TextInputType.name,
                               fillColor: context.isDark
                                   ? const Color(0xff111111)
                                   : Colors.white,
@@ -85,6 +86,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
                               validator: emailValidator,
                               onChanged: _chatConnectionViewModel.emailChanged,
                               borderSide: BorderSide.none,
+                              keyboardType: TextInputType.emailAddress,
                               fillColor: context.isDark
                                   ? const Color(0xff111111)
                                   : Colors.white,

@@ -8,15 +8,12 @@ import '../../../models/chat_session.dart';
 
 /// EnifController is a singleton class that is used to store global variables
 class EnifController {
+  // final SharedPreferenceStore _sharedPreferenceStore = SharedPreferenceStore();
   static final EnifController _instance = EnifController._internal();
 
   ValueNotifier<EnifUserParams?> userParams = ValueNotifier(null);
 
   ValueNotifier<ChatSession?> chatSession = ValueNotifier(null);
-
-  static setChatSession(ChatSession? chatSession) {
-    _instance.chatSession.value = chatSession;
-  }
 
   factory EnifController() {
     return _instance;
@@ -26,8 +23,16 @@ class EnifController {
 
   String? _businessId;
 
-  static setUser(EnifUserParams userParams) {
+  static setChatSession(ChatSession chatSession) {
+    _instance.chatSession.value = chatSession;
+    // _instance._sharedPreferenceStore.setString(
+    //     'chat-session-${_instance._businessId}-${chatSession.email}',
+    //     jsonEncode(chatSession.toJson()));
+  }
+
+  static setUser(EnifUserParams userParams) async {
     _instance.userParams.value = userParams;
+    // var user = await _instance._sharedPreferenceStore.getString('');
     // if (businessId != null) {
     //   ChatConnectionViewModel()
     //     ..emailChanged(userParams.email)

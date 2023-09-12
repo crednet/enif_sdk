@@ -42,7 +42,7 @@ void main() async {
 }
 
 ```
-# you can set user params to automatically login user
+##### you can set user params to automatically login user
 
 ```dart
 EnifController.setUser(EnifUserParams(
@@ -50,6 +50,27 @@ EnifController.setUser(EnifUserParams(
       lastName: "Oluchi",
       phoneNo: "0803000000",
       email: "sade@enif.com"));
+```
+
+```dart
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Enif Chat Bot',
+      themeMode: ThemeMode.system,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: const EnifHome(showBackButton: false),
+    );
+  }
+}
+
 ```
 
 ## Additional information

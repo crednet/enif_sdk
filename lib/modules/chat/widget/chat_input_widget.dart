@@ -12,6 +12,8 @@ class ChatInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var border = OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none);
     return Column(
       children: [
         Divider(
@@ -25,9 +27,11 @@ class ChatInputWidget extends StatelessWidget {
             controller: controller.textEditingController,
             decoration: InputDecoration(
                 hintText: 'Type a message',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none))),
+                border: border,
+                enabledBorder: border,
+                errorBorder: border,
+                focusedBorder: border,
+                focusedErrorBorder: border)),
         Row(
           children: [
             10.0.w,

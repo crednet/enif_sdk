@@ -7,3 +7,5 @@
 * Removed unused packages
 ## 0.0.4
 * Added auto initialize widget
+## 0.0.5
+* Fixed text input border

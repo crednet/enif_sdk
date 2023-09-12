@@ -31,7 +31,8 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: context.backgroundColor,
         resizeToAvoidBottomInset: true,
         body: Scaffold(
-            backgroundColor: context.backgroundColor,
+            backgroundColor:
+                context.isDark ? const Color(0xff1a1a1a) : Colors.white,
             appBar: AppBar(
               elevation: 0,
               backgroundColor: EnifColors.primary,

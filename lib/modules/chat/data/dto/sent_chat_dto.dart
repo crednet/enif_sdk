@@ -8,7 +8,7 @@ class SendChatDto {
   SendChatDto(this.session, this.promptMsg);
 
   Map<String, dynamic> toJson() => {
-        "chatId": session.chatId,
+        "ticketId": session.id,
         "businessId": EnifController.businessId,
         "channel": "chat",
         "customer": session.customer,

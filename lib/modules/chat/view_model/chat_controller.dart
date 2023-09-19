@@ -30,8 +30,8 @@ class ChatController extends ValueNotifier<ChatState> {
           content: value.text ?? '',
           status: 'sent',
           role: "user",
-          createdDate: DateTime.now().toIso8601String(),
-          sId: sid)
+          createdAt: DateTime.now(),
+          id: sid)
     ]);
     Future.delayed(const Duration(milliseconds: 500), () {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
@@ -41,12 +41,11 @@ class ChatController extends ValueNotifier<ChatState> {
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
-      var messages = value.messages
-          ?.map((element) => (element.sId == sid ? body.message! : element))
-          .toList();
+      var messages =
+          value.messages?.where((element) => (element.id != sid)).toList();
 
-      value = value
-          .copyWith(isLoading: false, messages: [...?messages, body.reply!]);
+      value = value.copyWith(
+          isLoading: false, messages: [...?messages, ...?body.message]);
       Future.delayed(const Duration(milliseconds: 500), () {
         scrollController.animateTo(scrollController.position.maxScrollExtent,
             duration: const Duration(milliseconds: 300),
@@ -59,16 +58,18 @@ class ChatController extends ValueNotifier<ChatState> {
 
   Future load() async {
     var response = await _repository.getChatMessages(
-        session.email ?? '', session.businessId ?? '', session.chatId ?? '');
+        session.email ?? '', session.businessId ?? '', session.id ?? '');
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
 
       value = value.copyWith(isLoading: false, messages: body);
       Future.delayed(const Duration(milliseconds: 500), () {
-        scrollController.animateTo(scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.decelerate);
+        if (scrollController.hasClients) {
+          scrollController.animateTo(scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.decelerate);
+        }
       });
     } else {
       value = value.copyWith(isLoading: false);

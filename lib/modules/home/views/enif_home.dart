@@ -2,8 +2,10 @@ import 'package:enif/constants/image_assets.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/enif.dart';
 import 'package:enif/extensions/extensions.dart';
+import 'package:enif/modules/chat/views/chat_history_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,10 +21,15 @@ class EnifHome extends StatelessWidget {
             context: context,
             showBackButton: showBackButton,
             navigateToChatHistoryScreen: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => const ChatHistoryScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChatHistoryView(),
+                  )).then((value) {
+                SystemChrome.setSystemUIOverlayStyle(context.isDark
+                    ? SystemUiOverlayStyle.light
+                    : SystemUiOverlayStyle.dark);
+              });
             }),
         body: SingleChildScrollView(
             child: Padding(
@@ -31,6 +38,7 @@ class EnifHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const OverlaySettings(),
               10.h,
               Row(children: [
                 ValueListenableBuilder(
@@ -69,7 +77,11 @@ class EnifHome extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const EnifHelpScreen(),
-                        ));
+                        )).then((value) {
+                      SystemChrome.setSystemUIOverlayStyle(context.isDark
+                          ? SystemUiOverlayStyle.light
+                          : SystemUiOverlayStyle.dark);
+                    });
                   },
                   child: Row(
                     children: [
@@ -116,7 +128,11 @@ class EnifHome extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const EnifHelpScreen(),
-                      ));
+                      )).then((value) {
+                    SystemChrome.setSystemUIOverlayStyle(context.isDark
+                        ? SystemUiOverlayStyle.light
+                        : SystemUiOverlayStyle.dark);
+                  });
                 },
                 padding: const EdgeInsets.all(13),
                 borderRadius: BorderRadius.circular(20),
@@ -134,5 +150,27 @@ class EnifHome extends StatelessWidget {
             ],
           ),
         )));
+  }
+}
+
+class OverlaySettings extends StatefulWidget {
+  const OverlaySettings({super.key});
+
+  @override
+  State<OverlaySettings> createState() => _OverlaySettingsState();
+}
+
+class _OverlaySettingsState extends State<OverlaySettings> {
+  @override
+  void didChangeDependencies() {
+    SystemChrome.setSystemUIOverlayStyle(context.isDark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox();
   }
 }

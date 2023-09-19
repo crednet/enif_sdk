@@ -47,8 +47,10 @@ class _FaqListState extends State<FaqList> {
               return _faqViewModel.getFaqs();
             },
             child: ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.zero,
+              physics: widget.mini
+                  ? const NeverScrollableScrollPhysics()
+                  : const BouncingScrollPhysics(),
+              padding: EdgeInsets.only(bottom: widget.mini ? 0 : 80),
               separatorBuilder: (BuildContext context, int index) {
                 return Divider(
                     height: 1,

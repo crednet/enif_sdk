@@ -46,7 +46,7 @@ class EnifController {
         ChatSession? session;
         if (u != null) session = ChatSession.fromJson(jsonDecode(u));
 
-        if (session?.chatId != null) {
+        if (session?.id != null) {
           setChatSession(session!);
         } else {
           ChatConnectionViewModel()
@@ -65,6 +65,10 @@ class EnifController {
 
   static logout() {
     _instance.userParams.value = null;
+    _instance.chatSession.value = null;
+  }
+
+  static reset() {
     _instance.chatSession.value = null;
   }
 

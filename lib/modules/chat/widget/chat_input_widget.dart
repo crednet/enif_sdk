@@ -15,7 +15,19 @@ class ChatInputWidget extends StatelessWidget {
     var border = OutlineInputBorder(
         borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        ValueListenableBuilder(
+            valueListenable: controller,
+            builder: (context, value, child) => Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                    controller.value.isLoading ? 'Bot is typing...' : '',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: context.textColor.withOpacity(.8))))),
+        5.0.h,
         Divider(
             height: 1,
             thickness: .5,
@@ -43,7 +55,8 @@ class ChatInputWidget extends StatelessWidget {
                 child: SizedBox.square(
                     dimension: 20,
                     child: Image.asset(ImageAssets.gif,
-                        package: 'enif', color: context.textColor))),
+                        package: 'enif',
+                        color: context.textColor.withOpacity(.3)))),
             CupertinoButton(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
@@ -54,7 +67,7 @@ class ChatInputWidget extends StatelessWidget {
                   child: SvgPicture.asset(SvgAssets.imagePaceholder,
                       package: 'enif',
                       colorFilter: ColorFilter.mode(
-                          context.textColor.withOpacity(.5), BlendMode.srcIn)),
+                          context.textColor.withOpacity(.1), BlendMode.srcIn)),
                 )),
             .0.s,
             ValueListenableBuilder(
@@ -66,13 +79,14 @@ class ChatInputWidget extends StatelessWidget {
                       color: context.isDark ? Colors.white : Colors.black,
                       onPressed:
                           (value.text ?? '').isEmpty ? null : controller.send,
-                      child: value.isLoading
-                          ? const Center(
-                              child: SizedBox.square(
-                                  dimension: 18,
-                                  child: CircularProgressIndicator(
-                                      strokeWidth: 2)))
-                          : Text('Send',
+                      child:
+                          //  value.isLoading
+                          //     ? const Center(
+                          //         child: SizedBox.square(
+                          //             dimension: 18,
+                          //             child: CircularProgressIndicator(
+                          //                 strokeWidth: 2)))
+                          Text('Send',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,

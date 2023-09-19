@@ -1,6 +1,7 @@
 import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/chat/view_model/chat_connection_view_model.dart';
+import 'package:enif/modules/chat/view_model/enif_controller.dart';
 import 'package:enif/modules/common/custom_textfield.dart';
 import 'package:enif/utils/phone_number_formatter.dart';
 import 'package:enif/utils/validator.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import '../../common/chat_users.dart';
 
 class ChatConnectionScreen extends StatefulWidget {
+  // final bool forceNew;
   const ChatConnectionScreen({super.key});
 
   @override
@@ -19,11 +21,20 @@ class ChatConnectionScreen extends StatefulWidget {
 class _ChatConnectionScreenState extends State<ChatConnectionScreen>
     with Validator {
   late ChatConnectionViewModel _chatConnectionViewModel;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneNoController = TextEditingController();
 
   @override
   void initState() {
     _chatConnectionViewModel = ChatConnectionViewModel();
+    _nameController.text = EnifController().userParams.value?.name ?? '';
+    _emailController.text = EnifController().userParams.value?.email ?? '';
+    _phoneNoController.text = EnifController().userParams.value?.phoneNo ?? '';
     super.initState();
+    if (EnifController().userParams.value?.email != null) {
+      _chatConnectionViewModel.initChat();
+    }
   }
 
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
@@ -42,6 +53,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
             backgroundColor: context.backgroundColor,
             appBar: AppBar(
               elevation: 0,
+              centerTitle: true,
               backgroundColor: EnifColors.primary,
               title: const Text('Live Chat',
                   style: TextStyle(
@@ -65,50 +77,72 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.w400)),
                             22.0.h,
-                            CustomTextField(
-                              autovalidateMode: autovalidateMode,
-                              onChanged: _chatConnectionViewModel.nameChanged,
-                              borderSide: BorderSide.none,
-                              keyboardType: TextInputType.name,
-                              fillColor: context.isDark
-                                  ? const Color(0xff111111)
-                                  : Colors.white,
-                              labelText: 'Enter name',
-                              validator: (text) {
-                                if ((text ?? '').length < 3) {
-                                  return 'Please enter a valid name';
-                                }
-                                return null;
-                              },
-                            ),
-                            CustomTextField(
-                              autovalidateMode: autovalidateMode,
-                              validator: emailValidator,
-                              onChanged: _chatConnectionViewModel.emailChanged,
-                              borderSide: BorderSide.none,
-                              keyboardType: TextInputType.emailAddress,
-                              fillColor: context.isDark
-                                  ? const Color(0xff111111)
-                                  : Colors.white,
-                              labelText: 'Email addresss ',
-                            ),
-                            CustomTextField(
-                                autovalidateMode: autovalidateMode,
-                                validator: (text) {
-                                  if ((text ?? '').length < 8) {
-                                    return 'Please enter a valid phone number';
-                                  }
-                                  return null;
-                                },
-                                keyboardType: TextInputType.phone,
-                                inputFormatters: [PhoneNumberFormatter()],
-                                onChanged:
-                                    _chatConnectionViewModel.phoneNoChanged,
-                                borderSide: BorderSide.none,
-                                fillColor: context.isDark
-                                    ? const Color(0xff111111)
-                                    : Colors.white,
-                                labelText: 'Phone number'),
+                            ValueListenableBuilder(
+                                valueListenable: _chatConnectionViewModel,
+                                builder: (context, value, child) =>
+                                    CustomTextField(
+                                      controller: _nameController,
+                                      maxLines: 1,
+                                      enabled: !value.isLoading,
+                                      autovalidateMode: autovalidateMode,
+                                      onChanged:
+                                          _chatConnectionViewModel.nameChanged,
+                                      borderSide: BorderSide.none,
+                                      keyboardType: TextInputType.name,
+                                      fillColor: context.isDark
+                                          ? const Color(0xff111111)
+                                          : Colors.white,
+                                      labelText: 'Enter name',
+                                      validator: (text) {
+                                        if ((text ?? '').length < 3) {
+                                          return 'Please enter a valid name';
+                                        }
+                                        return null;
+                                      },
+                                    )),
+                            ValueListenableBuilder(
+                                valueListenable: _chatConnectionViewModel,
+                                builder: (context, value, child) =>
+                                    CustomTextField(
+                                      controller: _emailController,
+                                      maxLines: 1,
+                                      enabled: !value.isLoading,
+                                      autovalidateMode: autovalidateMode,
+                                      validator: emailValidator,
+                                      onChanged:
+                                          _chatConnectionViewModel.emailChanged,
+                                      borderSide: BorderSide.none,
+                                      keyboardType: TextInputType.emailAddress,
+                                      fillColor: context.isDark
+                                          ? const Color(0xff111111)
+                                          : Colors.white,
+                                      labelText: 'Email addresss ',
+                                    )),
+                            ValueListenableBuilder(
+                                valueListenable: _chatConnectionViewModel,
+                                builder: (context, value, child) =>
+                                    CustomTextField(
+                                        controller: _phoneNoController,
+                                        autovalidateMode: autovalidateMode,
+                                        validator: (text) {
+                                          if ((text ?? '').length < 8) {
+                                            return 'Please enter a valid phone number';
+                                          }
+                                          return null;
+                                        },
+                                        maxLines: 1,
+                                        enabled: !value.isLoading,
+                                        keyboardType: TextInputType.phone,
+                                        inputFormatters: [
+                                          PhoneNumberFormatter()
+                                        ],
+                                        onChanged: _chatConnectionViewModel
+                                            .phoneNoChanged,
+                                        borderSide: BorderSide.none,
+                                        fillColor: context.isDark
+                                            ? const Color(0xff111111)
+                                            : Colors.white,
+                                        labelText: 'Phone number')),
                             20.0.h,
                           ])),
                       Divider(

@@ -35,6 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 context.isDark ? const Color(0xff1a1a1a) : Colors.white,
             appBar: AppBar(
               elevation: 0,
+              centerTitle: true,
               backgroundColor: EnifColors.primary,
               title: const Text('Live Chat',
                   style: TextStyle(
@@ -43,7 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       fontWeight: FontWeight.w600)),
             ),
             bottomNavigationBar: SizedBox(
-                height: 150,
+                height: 160,
                 child:
                     SafeArea(child: ChatInputWidget(controller: controller))),
             body: Column(

@@ -3,7 +3,6 @@ import 'package:enif/constants/api_urls.dart';
 import 'package:enif/data/remote/interceptor/json_interceptor.dart';
 import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/faq.dart';
-import 'package:enif/models/get_user_chat_model.dart';
 import 'package:enif/models/models.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
@@ -12,7 +11,8 @@ import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 import '../../models/enif_error.dart';
 
 class EnifApi {
-  String get baseUrl => "https://enif-business-production.up.railway.app";
+  String get baseUrl =>
+      "https://api.enif.ai"; // "https://enif-business-production.up.railway.app";
 
   ApiRequest<List<Faq>, Faq> getFaqs(String businessId) {
     return ApiRequest<List<Faq>, Faq>(
@@ -47,19 +47,19 @@ class EnifApi {
         ]);
   }
 
-  ApiRequest<List<GetUserChatModel>, GetUserChatModel> getChatHistory(
+  ApiRequest<List<ChatSession>, ChatSession> getChatHistory(
       String email, String businessId) {
-    return ApiRequest<List<GetUserChatModel>, GetUserChatModel>(
+    return ApiRequest<List<ChatSession>, ChatSession>(
         baseUrl: baseUrl,
         path: ApiUrls.chatHistory(email),
         method: ApiMethods.get,
-        dataKey: '',
+        dataKey: 'ticket',
         query: {'businessId': businessId},
         error: ErrorDescription(),
         interceptors: [
           HeaderInterceptor({
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            "Accept": "application/json"
           }),
           JsonInterceptor<EnifError>(Models.factories),
         ]);

@@ -15,7 +15,7 @@ class FaqRepository extends DataRepository {
   Future<ApiResponse<List<Faq>, Faq>> getFaqs(bool forceCache) {
     return handleRequest(_api.getFaqs(EnifController.businessId ?? ''),
         cache: CacheDescription(
-            'FaqRepository-getFaqs-${EnifController.businessId ?? ''}'
+            'FaqRepository-getFaqs1-${EnifController.businessId ?? ''}'
                 .toLowerCase(),
             overrideTime: forceCache,
             lifeSpan: CacheDescription.oneHour));

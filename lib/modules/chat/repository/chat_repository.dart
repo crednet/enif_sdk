@@ -25,4 +25,9 @@ class ChatRepository extends DataRepository {
       String email, String businessId, String chatId) {
     return handleRequest(_api.getChatMessages(email, businessId, chatId));
   }
+
+  Future<ApiResponse<List<ChatSession>, ChatSession>> getChatHistory(
+      String email, String businessId) {
+    return handleRequest(_api.getChatHistory(email, businessId));
+  }
 }

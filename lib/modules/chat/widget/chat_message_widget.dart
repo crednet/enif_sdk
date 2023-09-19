@@ -12,7 +12,7 @@ class ChatMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print('(message.role ${message.role}');
-    var date = DateTime.tryParse(message.createdDate ?? "");
+    var date = message.createdAt;
     String t = date?.time ?? "";
 
     var difference = DateTime.now().difference(date ?? DateTime.now());
@@ -69,66 +69,69 @@ class ChatMessageWidget extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 30),
-      child: Builder(builder: (context) {
-        var view = Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(14),
-              // alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: EnifColors.primary,
-              ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 50),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 8.0, right: 8.0, left: 8.0),
-                  child: Text(
-                    message.content ?? "",
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Builder(builder: (context) {
+          var view = Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(14),
+                // alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: EnifColors.primary,
+                ),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 50),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 8.0, right: 8.0, left: 8.0),
+                    child: Text(
+                      message.content ?? "",
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-                bottom: 5,
-                right: 10,
-                left: 0,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    t,
-                    textAlign: TextAlign.end,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ))
-          ],
-        );
-        if ((message.content?.length ?? 0) > 25) {
+              Positioned(
+                  bottom: 5,
+                  right: 10,
+                  left: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      t,
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ))
+            ],
+          );
+          if ((message.content?.length ?? 0) > 35) {
+            return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+              const Expanded(child: SizedBox()),
+              // time,
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 3,
+                child: view,
+              )
+            ]);
+          }
           return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
             const Expanded(child: SizedBox()),
-            // time,
             const SizedBox(width: 10),
-            Expanded(
-              flex: 3,
-              child: view,
-            )
+            view
           ]);
-        }
-        return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-          const Expanded(child: SizedBox()),
-          const SizedBox(width: 10),
-          view
-        ]);
-      }),
+        }),
+      ),
     );
   }
 

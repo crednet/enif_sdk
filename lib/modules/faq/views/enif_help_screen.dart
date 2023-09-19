@@ -7,6 +7,8 @@ import 'package:enif/modules/faq/views/faq_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../home/views/enif_home.dart';
+
 class EnifHelpScreen extends StatefulWidget {
   const EnifHelpScreen({Key? key}) : super(key: key);
 
@@ -23,6 +25,7 @@ class _HelpScreenState extends State<EnifHelpScreen> {
         backgroundColor: context.backgroundColor,
         appBar: AppBar(
             elevation: 0,
+            centerTitle: true,
             backgroundColor: EnifColors.primary,
             leading: const Back(color: Colors.white),
             title: const Text('Help',
@@ -40,6 +43,7 @@ class _HelpScreenState extends State<EnifHelpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   30.h,
+                  const OverlaySettings(),
                   CustomTextField(
                       maxLines: 1,
                       fillColor: Colors.transparent,
@@ -77,7 +81,11 @@ class _HelpScreenState extends State<EnifHelpScreen> {
                   // ).addPadding(const EdgeInsets.symmetric(horizontal: 10)),
                   // 10.h,
 
-                  const Expanded(child: FaqList(mini: false))
+                  const Expanded(
+                      child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: FaqList(mini: false),
+                  ))
                 ])));
   }
 }

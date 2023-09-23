@@ -1,3 +1,5 @@
+## 0.1.1
+* Refactored folder structure
 ## 0.1.0
 * Fixed chat history screen
 ## 0.0.6

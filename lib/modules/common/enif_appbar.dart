@@ -87,8 +87,8 @@ class EnifAppbar extends PreferredSize {
                 ],
               ),
             )) {
-    SystemChrome.setSystemUIOverlayStyle(context.isDark
-        ? SystemUiOverlayStyle.light
-        : SystemUiOverlayStyle.dark);
+    // SystemChrome.setSystemUIOverlayStyle(context.isDark
+    //     ? SystemUiOverlayStyle.light
+    //     : SystemUiOverlayStyle.dark);
   }
 }

@@ -1,7 +1,7 @@
 import 'send_chat_model.dart';
 
 class ChatSession {
-  // String? chatId;
+  String? agentName;
   String? email;
   String? businessId;
   String? customer;
@@ -43,7 +43,7 @@ class ChatSession {
       this.id});
 
   ChatSession.fromJson(Map<String, dynamic> json) {
-    // chatId = json['chatId'];
+    agentName = json['agentName'];
     email = json['email'];
     businessId = json['businessId'];
     customer = json['customer'];
@@ -74,7 +74,7 @@ class ChatSession {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    // data['chatId'] = chatId;
+    data['agentName'] = agentName;
     data['email'] = email;
     data['businessId'] = businessId;
     data['customer'] = customer;

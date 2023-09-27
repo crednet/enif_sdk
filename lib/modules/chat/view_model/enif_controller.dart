@@ -30,7 +30,7 @@ class EnifController {
   static setChatSession(ChatSession chatSession) {
     _instance.chatSession.value = chatSession;
     _instance._sharedPreferenceStore.setString(
-        'chat-session-${_instance._businessId}-${chatSession.email}',
+        'chatsession-${_instance._businessId}-${chatSession.email}',
         jsonEncode(chatSession.toJson()));
   }
 
@@ -42,7 +42,7 @@ class EnifController {
     try {
       if (businessId != null) {
         var u = await _instance._sharedPreferenceStore.getString(
-            'chat-session-${_instance._businessId}-${userParams.email}');
+            'chatsession-${_instance._businessId}-${userParams.email}');
         ChatSession? session;
         if (u != null) session = ChatSession.fromJson(jsonDecode(u));
 

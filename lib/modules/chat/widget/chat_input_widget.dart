@@ -22,7 +22,9 @@ class ChatInputWidget extends StatelessWidget {
             builder: (context, value, child) => Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
-                    controller.value.isLoading ? 'Bot is typing...' : '',
+                    controller.value.isLoading
+                        ? '${controller.session.agentName ?? 'Agent'} is typing...'
+                        : '',
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

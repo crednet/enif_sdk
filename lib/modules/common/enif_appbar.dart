@@ -2,7 +2,6 @@ import 'package:enif/constants/image_assets.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 

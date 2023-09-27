@@ -1,3 +1,5 @@
+## 0.1.2
+* Agent Name support
 ## 0.1.1
 * Refactored folder structure
 ## 0.1.0

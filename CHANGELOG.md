@@ -1,3 +1,5 @@
+## 0.1.3
+* Allow multi-line in input field
 ## 0.1.2
 * Agent Name support
 ## 0.1.1

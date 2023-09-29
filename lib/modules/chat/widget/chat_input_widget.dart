@@ -39,6 +39,9 @@ class ChatInputWidget extends StatelessWidget {
         TextField(
             onChanged: controller.textChanged,
             controller: controller.textEditingController,
+            textInputAction: TextInputAction.newline,
+            maxLines: 2,
+            minLines: 1,
             decoration: InputDecoration(
                 hintText: 'Type a message',
                 border: border,

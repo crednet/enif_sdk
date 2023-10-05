@@ -74,16 +74,16 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
     value = value.copyWith(name: name);
   }
 
-  Future<void> initChat() async {
+  Future<void> initChat(EnifUserParams? params) async {
     if (EnifController.businessId == null) {
       throw Exception(
           'BusinessId is must be set, please call "EnifController.setBusinessId("")" before calling this method');
     }
     value = value.copyWith(isLoading: true);
     var response = await _repository.initChat(InitChatDto(
-        customer: value.name ?? '',
-        phoneNo: value.phoneNo?.replaceAll(' ', '') ?? '',
-        email: value.email ?? '')); // fetch from cache
+        customer: params?.name ?? value.name ?? '',
+        phoneNo: params?.name ?? value.phoneNo?.replaceAll(' ', '') ?? '',
+        email: params?.name ?? value.email ?? '')); // fetch from cache
 
     if (response.isSuccessful && response.body != null) {
       // print(response.body?.toJson());

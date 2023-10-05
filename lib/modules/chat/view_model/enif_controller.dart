@@ -53,7 +53,7 @@ class EnifController {
             ..emailChanged(userParams.email)
             ..nameChanged(userParams.name)
             ..phoneNoChanged(userParams.phoneNo)
-            ..initChat();
+            ..initChat(userParams );
         }
       }
     } catch (e) {

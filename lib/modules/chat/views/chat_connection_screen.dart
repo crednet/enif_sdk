@@ -33,7 +33,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
     _phoneNoController.text = EnifController().userParams.value?.phoneNo ?? '';
     super.initState();
     if (EnifController().userParams.value?.email != null) {
-      _chatConnectionViewModel.initChat();
+      _chatConnectionViewModel.initChat(EnifController().userParams.value);
     }
   }
 
@@ -166,7 +166,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
                                   onPressed: () {
                                     autovalidateMode = AutovalidateMode.always;
                                     if (Form.of(context).validate()) {
-                                      _chatConnectionViewModel.initChat();
+                                      _chatConnectionViewModel.initChat(null);
                                     }
                                   },
                                   child: Center(

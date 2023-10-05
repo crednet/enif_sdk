@@ -1,3 +1,5 @@
+## 0.1.5
+* Fixed customer details not included in ticket 
 ## 0.1.3
 * Allow multi-line in input field
 ## 0.1.2

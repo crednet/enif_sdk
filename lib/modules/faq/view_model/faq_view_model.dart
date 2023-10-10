@@ -29,6 +29,12 @@ class FaqViewModel extends ValueNotifier<FaqState> {
   final _repository = FaqRepository();
 
   FaqViewModel() : super(FaqState());
+  String searchText = '';
+
+  search(String text) {
+    searchText = text.toLowerCase();
+    notifyListeners();
+  }
 
   Future<void> getFaqs() async {
     if (EnifController.businessId == null) {

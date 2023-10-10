@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../home/views/enif_home.dart';
+import '../view_model/faq_view_model.dart';
 
 class EnifHelpScreen extends StatefulWidget {
   const EnifHelpScreen({Key? key}) : super(key: key);
@@ -18,6 +19,20 @@ class EnifHelpScreen extends StatefulWidget {
 
 class _HelpScreenState extends State<EnifHelpScreen> {
   TextEditingController controller = TextEditingController();
+  late FaqViewModel _faqViewModel;
+
+  @override
+  void initState() {
+    _faqViewModel = FaqViewModel();
+    super.initState();
+    _faqViewModel.getFaqs();
+  }
+
+  @override
+  void dispose() {
+    _faqViewModel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +62,9 @@ class _HelpScreenState extends State<EnifHelpScreen> {
                   CustomTextField(
                       maxLines: 1,
                       fillColor: Colors.transparent,
+                      onChanged: (text) {
+                        _faqViewModel.search(text ?? '');
+                      },
                       suffix: SizedBox(
                         width: 40,
                         child: Padding(
@@ -81,10 +99,10 @@ class _HelpScreenState extends State<EnifHelpScreen> {
                   // ).addPadding(const EdgeInsets.symmetric(horizontal: 10)),
                   // 10.h,
 
-                  const Expanded(
+                  Expanded(
                       child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: FaqList(mini: false),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: FaqList(mini: false, faqViewModel: _faqViewModel),
                   ))
                 ])));
   }

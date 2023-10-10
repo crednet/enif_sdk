@@ -8,7 +8,8 @@ import '../view_model/faq_view_model.dart';
 
 class FaqList extends StatefulWidget {
   final bool mini;
-  const FaqList({super.key, required this.mini});
+  final FaqViewModel? faqViewModel;
+  const FaqList({super.key, required this.mini, this.faqViewModel});
 
   @override
   State<FaqList> createState() => _FaqListState();
@@ -19,14 +20,14 @@ class _FaqListState extends State<FaqList> {
 
   @override
   void initState() {
-    _faqViewModel = FaqViewModel();
+    _faqViewModel = widget.faqViewModel ?? FaqViewModel();
     super.initState();
     _faqViewModel.getFaqs();
   }
 
   @override
   void dispose() {
-    _faqViewModel.dispose();
+    if (widget.faqViewModel == null) _faqViewModel.dispose();
     super.dispose();
   }
 
@@ -41,6 +42,21 @@ class _FaqListState extends State<FaqList> {
                     dimension: 25,
                     child: CircularProgressIndicator(
                         color: EnifColors.primary, strokeWidth: 3)));
+          }
+          var items = value.faqs;
+          if (_faqViewModel.searchText.isNotEmpty) {
+            items = items
+                    ?.where((element) =>
+                        element.question
+                                ?.toLowerCase()
+                                .contains(_faqViewModel.searchText) ==
+                            true ||
+                        element.response
+                                ?.toLowerCase()
+                                .contains(_faqViewModel.searchText) ==
+                            true)
+                    .toList() ??
+                [];
           }
           return RefreshIndicator(
             onRefresh: () {
@@ -57,12 +73,11 @@ class _FaqListState extends State<FaqList> {
                     thickness: 1,
                     color: context.textColor.withOpacity(.2));
               },
-              itemCount: widget.mini
-                  ? min(value.faqs?.length ?? 0, 4)
-                  : value.faqs?.length ?? 0,
+              itemCount:
+                  widget.mini ? min(items?.length ?? 0, 4) : items?.length ?? 0,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                var item = value.faqs?[index];
+                var item = items?[index];
                 return ExpansionTile(
                   tilePadding: EdgeInsets.zero,
                   title: Text(item?.question ?? "",

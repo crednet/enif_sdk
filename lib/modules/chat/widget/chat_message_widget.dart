@@ -4,6 +4,7 @@ import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatMessageWidget extends StatelessWidget {
   final Message message;
@@ -47,8 +48,9 @@ class ChatMessageWidget extends StatelessWidget {
                             ? const Color(0xff2A2A2A)
                             : const Color(0xffF6F6FA)),
                     child: Html(
-                      data: generateHtmlContent(message.content ?? ""),
-                    ),
+                        data: generateHtmlContent(message.content ?? ""),
+                        onLinkTap: (url, attributes, element) =>
+                            launchUrl(Uri.parse(url ?? ''))),
                   ),
                   Positioned(bottom: 5, right: 10, child: time)
                 ],
@@ -70,50 +72,68 @@ class ChatMessageWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 400),
+        constraints: const BoxConstraints(
+          maxWidth: 400,
+        ),
         child: Builder(builder: (context) {
-          var view = Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(14),
-                // alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: EnifColors.primary,
-                ),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minWidth: 50),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 8.0, right: 8.0, left: 8.0),
-                    child: Text(
-                      message.content ?? "",
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
+          var view = ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: 50),
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    // alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: EnifColors.primary,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: .0, right: 8.0, left: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            message.content ?? "",
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            t,
+                            textAlign: TextAlign.end,
+                            maxLines: 1,
+                            style: const TextStyle(
+                                height: .7,
+                                color: Colors.transparent,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Positioned(
-                  bottom: 5,
-                  right: 10,
-                  left: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      t,
-                      textAlign: TextAlign.end,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ))
-            ],
-          );
+                  Positioned(
+                      bottom: 5,
+                      right: 10,
+                      // left: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Text(
+                          t,
+                          textAlign: TextAlign.end,
+                          maxLines: 1,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ))
+                ],
+              ));
           if ((message.content?.length ?? 0) > 35) {
             return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
               const Expanded(child: SizedBox()),

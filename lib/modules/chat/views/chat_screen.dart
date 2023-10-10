@@ -43,10 +43,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       fontSize: 14,
                       fontWeight: FontWeight.w600)),
             ),
-            bottomNavigationBar: SizedBox(
-                height: 160,
-                child:
-                    SafeArea(child: ChatInputWidget(controller: controller))),
+            bottomNavigationBar: SafeArea(
+                child: SizedBox(
+                    height: 144,
+                    child: ChatInputWidget(controller: controller))),
             body: Column(
               children: [
                 ValueListenableBuilder(

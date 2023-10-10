@@ -1,3 +1,6 @@
+## 0.1.6
+* Fixed ability to click link
+* Fixed overlapping content
 ## 0.1.5
 * Fixed customer details not included in ticket 
 ## 0.1.3

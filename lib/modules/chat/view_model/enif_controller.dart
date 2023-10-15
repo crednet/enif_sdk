@@ -41,20 +41,20 @@ class EnifController {
     if (!autoInitialize) return;
     try {
       if (businessId != null) {
-        var u = await _instance._sharedPreferenceStore.getString(
-            'chatsession-${_instance._businessId}-${userParams.email}');
-        ChatSession? session;
-        if (u != null) session = ChatSession.fromJson(jsonDecode(u));
+        // var u = await _instance._sharedPreferenceStore.getString(
+        //     'chatsession-${_instance._businessId}-${userParams.email}');
+        // ChatSession? session;
+        // if (u != null) session = ChatSession.fromJson(jsonDecode(u));
 
-        if (session?.id != null) {
-          setChatSession(session!);
-        } else {
+        // if (session?.id != null) {
+        //   setChatSession(session!);
+        // } else {
           ChatConnectionViewModel()
             ..emailChanged(userParams.email)
             ..nameChanged(userParams.name)
             ..phoneNoChanged(userParams.phoneNo)
             ..initChat(userParams );
-        }
+        // }
       }
     } catch (e) {
       if (kDebugMode) {

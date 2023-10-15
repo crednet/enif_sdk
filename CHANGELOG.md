@@ -1,4 +1,4 @@
-## 0.1.7
+## 0.1.8
 * Always reset chat
 ## 0.1.6
 * Fixed ability to click link

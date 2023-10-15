@@ -12,7 +12,7 @@ class LiveChatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () {
-        EnifController.reset();
+        // EnifController.reset();
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LivechatScreen()));
       },

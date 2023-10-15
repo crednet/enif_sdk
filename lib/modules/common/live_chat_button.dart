@@ -1,10 +1,9 @@
 import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
+import 'package:enif/enif.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../chat/views/live_chat_screen.dart';
 
 class LiveChatButton extends StatelessWidget {
   const LiveChatButton({super.key});
@@ -13,6 +12,7 @@ class LiveChatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () {
+        EnifController.reset();
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LivechatScreen()));
       },

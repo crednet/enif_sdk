@@ -1,3 +1,5 @@
+## 0.1.7
+* Always reset chat
 ## 0.1.6
 * Fixed ability to click link
 * Fixed overlapping content

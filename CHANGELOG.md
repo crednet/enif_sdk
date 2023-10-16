@@ -1,3 +1,5 @@
+## 0.1.9
+* Updated ticket initialization error 
 ## 0.1.8
 * Always reset chat
 ## 0.1.6

@@ -1,3 +1,5 @@
+## 0.2.0
+* Added env support
 ## 0.1.9
 * Updated ticket initialization error 
 ## 0.1.8

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:enif/data/local/preference_store/shared_preference_store.dart';
 import 'package:enif/models/enif_user_params.dart';
 import 'package:enif/modules/faq/repository/faq_repository.dart';
+import 'package:enif/utils/env.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../models/chat_session.dart';
@@ -14,6 +15,8 @@ import 'chat_connection_view_model.dart';
 class EnifController {
   final SharedPreferenceStore _sharedPreferenceStore = SharedPreferenceStore();
   static final EnifController _instance = EnifController._internal();
+
+  Env env = Env.dev;
 
   ValueNotifier<EnifUserParams?> userParams = ValueNotifier(null);
 
@@ -49,11 +52,11 @@ class EnifController {
         // if (session?.id != null) {
         //   setChatSession(session!);
         // } else {
-          ChatConnectionViewModel()
-            ..emailChanged(userParams.email)
-            ..nameChanged(userParams.name)
-            ..phoneNoChanged(userParams.phoneNo)
-            ..initChat(userParams );
+        ChatConnectionViewModel()
+          ..emailChanged(userParams.email)
+          ..nameChanged(userParams.name)
+          ..phoneNoChanged(userParams.phoneNo)
+          ..initChat(userParams);
         // }
       }
     } catch (e) {
@@ -72,10 +75,12 @@ class EnifController {
     _instance.chatSession.value = null;
   }
 
-  static setBusinessId(String businessId) {
+  static setBusinessId(String businessId, Env env) {
     _instance._businessId = businessId;
 
     FaqRepository().getFaqs(false); // ensure faqs are loaded
+
+    _instance.env = env;
   }
 
   static String? get businessId => _instance._businessId;

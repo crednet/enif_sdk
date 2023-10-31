@@ -1,4 +1,5 @@
 import 'package:enif/enif.dart';
+import 'package:enif/utils/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,9 +7,8 @@ import 'package:flutter/services.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   EnifController.setBusinessId(
-      "183dcb2f-73f6-47c7-91c0-720b38bca297fb69b188-f1b4-47bc-abd4-bc5e47ea83fe"
-      // "438b9f5c-cb40-4861-95d0-0fcdc24ccb624f518a56-964d-45f1-bc68-ba1191d62b78"
-      );
+      "8a64243b-e0b5-49eb-ac76-792fb28d82555b3f023b-11e0-489e-8a4a-b0c6d3fd28ef",
+      Env.dev);
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 

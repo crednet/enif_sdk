@@ -27,12 +27,12 @@ Head to [Enif Website](https://www.enif.ai/) to create an account.
 
 Check the example folder for demo.
 
-Initialize your business ID
+Initialize your business ID, and specify environment
 
 ```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- EnifController.setBusinessId("YOUR_BUSINESS_ID");
+ EnifController.setBusinessId("YOUR_BUSINESS_ID", Env.dev);
 
   runApp(const MyApp());
 }

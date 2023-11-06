@@ -16,12 +16,17 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   late ChatController controller;
+  // ChatSocketViewModel chatSocketViewModel = ChatSocketViewModel();
 
   @override
   void initState() {
     controller = ChatController(widget.session);
+    // WidgetsBinding.instance.addObserver(this);
+    // SocketRepository.connectSocket(() async {
+    //   await chatSocketViewModel.chatListeners();
+    // }, widget.session.id ?? '');
     super.initState();
   }
 

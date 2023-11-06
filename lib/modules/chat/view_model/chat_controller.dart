@@ -2,16 +2,31 @@ import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 import 'package:enif/modules/chat/repository/chat_repository.dart';
+import 'package:enif/socket/socket_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class ChatController extends ValueNotifier<ChatState> {
   final ChatSession session;
+  final SocketRepository socketRepository;
 
-  ChatController(this.session) : super(ChatState()) {
+  ChatController(this.session)
+      : socketRepository = SocketRepository(),
+        super(ChatState()) {
     load();
+    socketRepository.connectSocket(session.id ?? '', onMessage);
   }
   final _repository = ChatRepository();
+
+  onMessage(Message message) {
+    var messageExists = value.messages?.any((e) => e.id == message.id) ?? false;
+    var messages = messageExists?
+        value.messages?.map((e) => e.id == message.id ? message: e): [...?value.messages, message];
+        // messages.re
+
+    value = value
+        .copyWith(isLoading: false, messages: messages?.toList());
+  }
 
   final TextEditingController textEditingController = TextEditingController();
   final ScrollController scrollController = ScrollController();

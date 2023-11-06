@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
@@ -23,12 +21,16 @@ class ChatController extends ValueNotifier<ChatState> {
 
   onMessage(dynamic data) {
     try {
-      print('socket::  $data');
+      if(kDebugMode){
+        print('socket::  $data');
+      }
       var message = (data['message'] as List)
           .map((d) => Message.fromJson(d))
           .where((element) => element.role == 'assistance')
           .firstOrNull;
-      print('socket::  $message');
+      if(kDebugMode){
+        print('socket::  $message');
+      }
 
       if (message != null && data['replyMode'] == 'auto') {
         var messageExists =
@@ -37,7 +39,10 @@ class ChatController extends ValueNotifier<ChatState> {
             ? value.messages?.map((e) => e.id == message.id ? message : e)
             : [...?value.messages, message];
         // messages.re
-        print('socket:: $message');
+        if(kDebugMode)
+        {
+          print('socket:: $message');
+        }
         // messages.sort
         value = value.copyWith(isLoading: false, messages: messages?.toList());
       }

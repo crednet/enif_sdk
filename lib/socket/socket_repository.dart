@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:enif/constants/api_urls.dart';
-import 'package:enif/models/send_chat_model.dart';
+// import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/foundation.dart';
 
 typedef EventHandler = ({
@@ -60,12 +60,16 @@ class SocketRepository {
         var response = jsonDecode(e);
         var event = response['event'];
         var data = response['data'];
-        print('socket:: ${data.runtimeType}, $event');
+        if(kDebugMode){
+          print('socket:: ${data.runtimeType}, $event');
+        }
         // handlers
         //     .firstWhere((element) => element.eventName == event)
         //     .handler(data);
         for (var element in handlers) {
-        print('socket::  ${element.eventName == event}');
+        if(kDebugMode){
+            print('socket::  ${element.eventName == event}');
+          }
           if (element.eventName == event) {
             element.handler(data);
           }

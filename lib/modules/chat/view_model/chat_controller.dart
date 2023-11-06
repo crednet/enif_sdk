@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
@@ -14,18 +16,37 @@ class ChatController extends ValueNotifier<ChatState> {
       : socketRepository = SocketRepository(),
         super(ChatState()) {
     load();
-    socketRepository.connectSocket(session.id ?? '', onMessage);
+    socketRepository.connectSocket(
+        session.id ?? '', [(eventName: 'responseMessage', handler: onMessage)]);
   }
   final _repository = ChatRepository();
 
-  onMessage(Message message) {
-    var messageExists = value.messages?.any((e) => e.id == message.id) ?? false;
-    var messages = messageExists?
-        value.messages?.map((e) => e.id == message.id ? message: e): [...?value.messages, message];
-        // messages.re
+  onMessage(dynamic data) {
+    try {
+      print('socket::  $data');
+      var message = (data['message'] as List)
+          .map((d) => Message.fromJson(d))
+          .where((element) => element.role == 'assistance')
+          .firstOrNull;
+      print('socket::  $message');
 
-    value = value
-        .copyWith(isLoading: false, messages: messages?.toList());
+      if (message != null && data['replyMode'] == 'auto') {
+        var messageExists =
+            value.messages?.any((e) => e.id == message.id) ?? false;
+        var messages = messageExists
+            ? value.messages?.map((e) => e.id == message.id ? message : e)
+            : [...?value.messages, message];
+        // messages.re
+        print('socket:: $message');
+        // messages.sort
+        value = value.copyWith(isLoading: false, messages: messages?.toList());
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        print('socket:: error $error');
+        print(error);
+      }
+    }
   }
 
   final TextEditingController textEditingController = TextEditingController();
@@ -56,11 +77,12 @@ class ChatController extends ValueNotifier<ChatState> {
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
-      var messages =
-          value.messages?.where((element) => (element.id != sid)).toList();
-
-      value = value.copyWith(
-          isLoading: false, messages: [...?messages, ...?body.message]);
+      if (body.replyMode == 'auto') {
+        var messages =
+            value.messages?.where((element) => (element.id != sid)).toList();
+        value = value.copyWith(
+            isLoading: false, messages: [...?messages, ...?body.message]);
+      }
       Future.delayed(const Duration(milliseconds: 500), () {
         scrollController.animateTo(scrollController.position.maxScrollExtent,
             duration: const Duration(milliseconds: 300),

@@ -200,7 +200,7 @@ extension Format on DateTime {
   }
 
   String get time {
-    var date = this;
+    var date = toLocal();
     int hour = date.hour;
     int minute = this.minute;
     return _formatTime(hour, minute);

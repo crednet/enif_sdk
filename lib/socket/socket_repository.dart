@@ -1,8 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:enif/constants/api_urls.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/foundation.dart';
+
+typedef EventHandler = ({
+  String eventName,
+  dynamic Function(dynamic) handler
+});
 
 enum SocketReadyState {
   connecting(0),
@@ -33,28 +39,41 @@ class SocketRepository {
 
   bool get isConnected => state == SocketReadyState.open;
 
-  connectSocket(String ticketId, Function(Message) onMessage) {
+  connectSocket(String ticketId, List<EventHandler> handlers) {
     debugPrint('ChatSocketManager connected');
     // (dat) => debugPrint('ChatSocketManager onConnecting====$data');
     // onConnect();
     WebSocket.connect(
       ApiUrls.socketURL,
-      headers: {'Authorization': ticketId},
-      // protocols: protocols,
+      // headers: {'Authorization': ticketId},
+      protocols: [ticketId],
       // customClient: customClient,
     ).then((value) {
       _socket = value;
       if (kDebugMode) {
-        print('connected:: $value');
+        print('socket:: ${value.readyState}, ${value.pingInterval}');
       }
-      _socket?.listen((event) {
+      _socket?.listen((e) {
         if (kDebugMode) {
-          print(event);
+          print('socket:: ${e.runtimeType}');
+        }
+        var response = jsonDecode(e);
+        var event = response['event'];
+        var data = response['data'];
+        print('socket:: ${data.runtimeType}, $event');
+        // handlers
+        //     .firstWhere((element) => element.eventName == event)
+        //     .handler(data);
+        for (var element in handlers) {
+        print('socket::  ${element.eventName == event}');
+          if (element.eventName == event) {
+            element.handler(data);
+          }
         }
       });
     }).catchError((e, _) {
       Future.delayed(
-          const Duration(seconds: 1), () => connectSocket(ticketId, onMessage));
+          const Duration(seconds: 1), () => connectSocket(ticketId, handlers));
     });
   }
 

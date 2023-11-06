@@ -54,7 +54,7 @@ class Message {
       status: json['status'],
       createdAt: DateTime.tryParse(json['createdAt'] ?? ''),
       updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
-      id: json['_id']);
+      id: json['_id'] ?? json['id']);
 
   Map<String, dynamic> toJson() => {
         "role": role,
@@ -65,4 +65,7 @@ class Message {
         "id": id,
         "ticketId": ticketId
       };
+
+      @override
+  String toString() => toJson().toString();
 }

@@ -2,13 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:enif/constants/api_urls.dart';
-// import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/foundation.dart';
 
-typedef EventHandler = ({
-  String eventName,
-  dynamic Function(dynamic) handler
-});
+typedef EventHandler = ({String eventName, dynamic Function(dynamic) handler});
 
 enum SocketReadyState {
   connecting(0),
@@ -24,15 +20,6 @@ enum SocketReadyState {
 class SocketRepository {
   WebSocket? _socket;
 
-  // SocketRepository() {
-  //  _socket = IOWebSocketChannel.connect(
-  //   ApiUrls.socketURL,
-  //   headers: {'Authorization': ticketId},
-  //   pingInterval: const Duration(seconds: 10),
-  //   // connectTimeout: const Duration(minutes: 2),
-  // );
-  // }
-
   SocketReadyState get state => SocketReadyState.values.firstWhere(
       (element) => _socket?.readyState == element.state,
       orElse: () => SocketReadyState.connecting);
@@ -40,14 +27,12 @@ class SocketRepository {
   bool get isConnected => state == SocketReadyState.open;
 
   connectSocket(String ticketId, List<EventHandler> handlers) {
-    debugPrint('ChatSocketManager connected');
-    // (dat) => debugPrint('ChatSocketManager onConnecting====$data');
-    // onConnect();
+    if (kDebugMode) {
+      print('ChatSocketManager connected');
+    }
     WebSocket.connect(
       ApiUrls.socketURL,
-      // headers: {'Authorization': ticketId},
       protocols: [ticketId],
-      // customClient: customClient,
     ).then((value) {
       _socket = value;
       if (kDebugMode) {
@@ -60,14 +45,11 @@ class SocketRepository {
         var response = jsonDecode(e);
         var event = response['event'];
         var data = response['data'];
-        if(kDebugMode){
+        if (kDebugMode) {
           print('socket:: ${data.runtimeType}, $event');
         }
-        // handlers
-        //     .firstWhere((element) => element.eventName == event)
-        //     .handler(data);
         for (var element in handlers) {
-        if(kDebugMode){
+          if (kDebugMode) {
             print('socket::  ${element.eventName == event}');
           }
           if (element.eventName == event) {

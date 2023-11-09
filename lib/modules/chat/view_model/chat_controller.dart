@@ -2,7 +2,8 @@ import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 import 'package:enif/modules/chat/repository/chat_repository.dart';
-import 'package:enif/socket/socket_repository.dart';
+import 'package:enif/socket/socket_repository.dart' 
+  if (dart.library.html) 'package:enif/socket/socket_repository_web.dart'  ;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
@@ -68,7 +69,7 @@ class ChatController extends ValueNotifier<ChatState> {
     value = value.copyWith(isLoading: true, messages: [
       ...?value.messages,
       Message(
-          content: value.text ?? '',
+          content: value.text?.trim() ?? '',
           status: 'sent',
           role: "user",
           createdAt: DateTime.now(),
@@ -78,7 +79,7 @@ class ChatController extends ValueNotifier<ChatState> {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
     });
     var response =
-        await _repository.sendChat(SendChatDto(session, value.text ?? ''));
+        await _repository.sendChat(SendChatDto(session, value.text?.trim() ?? ''));
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
@@ -116,6 +117,12 @@ class ChatController extends ValueNotifier<ChatState> {
     } else {
       value = value.copyWith(isLoading: false);
     }
+  }
+
+  @override
+  void dispose() {
+   socketRepository.socketDisconnect();
+    super.dispose();
   }
 }
 

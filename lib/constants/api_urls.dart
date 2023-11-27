@@ -6,5 +6,6 @@ class ApiUrls {
   static String chatHistory(String email) => "api/chat/user/$email";
   static String chatMessages(String chatId) => "api/chat/messages/$chatId";
   static const String sendChat = "api/chat/send";
+  static String sendImage(String businessId) => "api/chat/image/$businessId";
   static const String socketURL = "wss://test.enif.ai/";
 }

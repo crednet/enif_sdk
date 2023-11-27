@@ -4,6 +4,7 @@ import 'package:enif/data/remote/enif_api.dart';
 import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
+import 'package:enif/modules/chat/data/dto/send_image_dto.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 
 class ChatRepository extends DataRepository {
@@ -29,5 +30,10 @@ class ChatRepository extends DataRepository {
   Future<ApiResponse<List<ChatSession>, ChatSession>> getChatHistory(
       String email, String businessId) {
     return handleRequest(_api.getChatHistory(email, businessId));
+  }
+ 
+  Future<ApiResponse<List<String>, String>> sendImage(
+      SendImageDto image, String businessId) {
+    return handleRequest(_api.sendImage(image, businessId));
   }
 }

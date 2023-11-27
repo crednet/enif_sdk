@@ -1,5 +1,6 @@
 import 'package:data_repository/data_repository.dart';
 import 'package:enif/models/enif_error.dart';
+import 'package:enif/models/send_device_token_model.dart';
 
 import 'chat_session.dart';
 import 'faq.dart';
@@ -12,6 +13,7 @@ class Models {
     ChatSession: (json) => ChatSession.fromJson(json),
     // GetUserChatModel: (json) => GetUserChatModel.fromJson(json),
     SendChatModel: (json) => SendChatModel.fromJson(json),
+    SendDeviceTokenModel:(json) => SendDeviceTokenModel.fromJson(json),
     Message: (json) => Message.fromJson(json),
   };
 }

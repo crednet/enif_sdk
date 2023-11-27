@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:enif/data/local/preference_store/shared_preference_store.dart';
 import 'package:enif/models/enif_user_params.dart';
+import 'package:enif/models/send_device_token_model.dart';
 import 'package:enif/modules/faq/repository/faq_repository.dart';
 import 'package:enif/utils/env.dart';
 import 'package:flutter/foundation.dart';
@@ -21,6 +22,10 @@ class EnifController {
   ValueNotifier<EnifUserParams?> userParams = ValueNotifier(null);
 
   ValueNotifier<ChatSession?> chatSession = ValueNotifier(null);
+
+  ValueNotifier<SendDeviceTokenModel?> deviceToken = ValueNotifier(null);
+
+  
 
   factory EnifController() {
     return _instance;
@@ -58,6 +63,35 @@ class EnifController {
           ..phoneNoChanged(userParams.phoneNo)
           ..initChat(userParams);
         // }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  static registerDeviceToken(SendDeviceTokenModel deviceToken,
+      {bool autoInitialize = true}) async {
+    _instance.deviceToken.value = deviceToken;
+
+    if (!autoInitialize) return;
+    try {
+      if (businessId != null) {
+        // // var u = await _instance._sharedPreferenceStore.getString(
+        // //     'chatsession-${_instance._businessId}-${userParams.email}');
+        // // ChatSession? session;
+        // // if (u != null) session = ChatSession.fromJson(jsonDecode(u));
+
+        // // if (session?.id != null) {
+        // //   setChatSession(session!);
+        // // } else {
+        // ChatConnectionViewModel()
+        //   ..emailChanged(userParams.email)
+        //   ..nameChanged(userParams.name)
+        //   ..phoneNoChanged(userParams.phoneNo)
+        //   ..initChat(userParams);
+        // // }
       }
     } catch (e) {
       if (kDebugMode) {

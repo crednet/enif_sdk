@@ -13,7 +13,7 @@ dependencies:
   data_repository: ^0.4.1
   flutter_animate: ^4.2.0+1
   flutter_svg: ^2.0.7
-  # image_picker: ^0.8.4+4
+  image_picker: ^1.0.4
   shared_preferences: ^2.2.1
   flutter_html: ^3.0.0-beta.2
   url_launcher: ^6.1.14

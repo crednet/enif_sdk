@@ -77,7 +77,7 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
   Future<void> initChat(EnifUserParams? params) async {
     if (EnifController.businessId == null) {
       throw Exception(
-          'BusinessId is must be set, please call "EnifController.setBusinessId("")" before calling this method');
+          'BusinessId must be set, please call "EnifController.setBusinessId("")" before calling this method');
     }
     value = value.copyWith(isLoading: true);
     var response = await _repository.initChat(InitChatDto(

@@ -6,6 +6,7 @@ import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/faq.dart';
 import 'package:enif/models/models.dart';
 import 'package:enif/models/send_chat_model.dart';
+import 'package:enif/modules/chat/data/dto/send_image_dto.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 
 import '../../models/enif_error.dart';
@@ -88,6 +89,23 @@ class EnifApi {
         path: ApiUrls.sendChat,
         method: ApiMethods.post,
         dataKey: '',
+        body: body.toJson(),
+        error: ErrorDescription(),
+        interceptors: [
+          HeaderInterceptor({
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          }),
+          JsonInterceptor<EnifError>(Models.factories),
+        ]);
+  }
+
+  ApiRequest<List<String>, String> sendImage(SendImageDto body, String businessId) {
+    return ApiRequest<List<String>, String>(
+        baseUrl: baseUrl,
+        path: ApiUrls.sendImage(businessId),
+        method: ApiMethods.post,
+        dataKey: 'data',
         body: body.toJson(),
         error: ErrorDescription(),
         interceptors: [

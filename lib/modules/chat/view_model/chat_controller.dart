@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/send_chat_model.dart';
+import 'package:enif/modules/chat/data/dto/send_image_dto.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 import 'package:enif/modules/chat/repository/chat_repository.dart';
-import 'package:enif/socket/socket_repository.dart' 
-  if (dart.library.html) 'package:enif/socket/socket_repository_web.dart'  ;
+import 'package:enif/modules/chat/view_model/enif_controller.dart';
+import 'package:enif/socket/socket_repository.dart'
+    if (dart.library.html) 'package:enif/socket/socket_repository_web.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatController extends ValueNotifier<ChatState> {
   final ChatSession session;
@@ -15,22 +20,38 @@ class ChatController extends ValueNotifier<ChatState> {
       : socketRepository = SocketRepository(),
         super(ChatState()) {
     load();
-    socketRepository.connectSocket(
-        session.id ?? '', [(eventName: 'responseMessage', handler: onMessage)]);
+    socketRepository.connectSocket(session.id ?? '', [
+      (eventName: 'responseMessage', handler: onMessage),
+      (eventName: 'newmessage', handler: onManualMessage)
+    ]);
   }
   final _repository = ChatRepository();
 
-  onMessage(dynamic data) {
+  onManualMessage(dynamic data) {
     try {
-      if(kDebugMode){
+      if (kDebugMode) {
         print('socket::  $data');
       }
       var message = (data['message'] as List)
           .map((d) => Message.fromJson(d))
           .where((element) => element.role == 'assistance')
           .firstOrNull;
-      if(kDebugMode){
+      if (kDebugMode) {
         print('socket::  $message');
+      }
+
+      if (message != null && data['replyMode'] == 'supervise') {
+        var messageExists =
+            value.messages?.any((e) => e.id == message.id) ?? false;
+        var messages = messageExists
+            ? value.messages?.map((e) => e.id == message.id ? message : e)
+            : [...?value.messages, message];
+        // messages.re
+        if (kDebugMode) {
+          print('socket:: $message');
+        }
+        // messages.sort
+        value = value.copyWith(isLoading: false, messages: messages?.toList());
       }
 
       if (message != null && data['replyMode'] == 'auto') {
@@ -40,8 +61,7 @@ class ChatController extends ValueNotifier<ChatState> {
             ? value.messages?.map((e) => e.id == message.id ? message : e)
             : [...?value.messages, message];
         // messages.re
-        if(kDebugMode)
-        {
+        if (kDebugMode) {
           print('socket:: $message');
         }
         // messages.sort
@@ -50,6 +70,83 @@ class ChatController extends ValueNotifier<ChatState> {
     } catch (error) {
       if (kDebugMode) {
         print('socket:: error $error');
+        print(error);
+      }
+    }
+  }
+
+  onMessage(dynamic data) {
+    try {
+      if (kDebugMode) {
+        print('socket::  $data');
+      }
+      var message = (data['message'] as List)
+          .map((d) => Message.fromJson(d))
+          .where((element) => element.role == 'assistance')
+          .firstOrNull;
+      if (kDebugMode) {
+        print('socket::  $message');
+      }
+
+      if (message != null && data['replyMode'] == 'supervise') {
+        var messageExists =
+            value.messages?.any((e) => e.id == message.id) ?? false;
+        var messages = messageExists
+            ? value.messages?.map((e) => e.id == message.id ? message : e)
+            : [...?value.messages, message];
+        // messages.re
+        if (kDebugMode) {
+          print('socket:: $message');
+        }
+        // messages.sort
+        value = value.copyWith(isLoading: false, messages: messages?.toList());
+      }
+
+      if (message != null && data['replyMode'] == 'auto') {
+        var messageExists =
+            value.messages?.any((e) => e.id == message.id) ?? false;
+        var messages = messageExists
+            ? value.messages?.map((e) => e.id == message.id ? message : e)
+            : [...?value.messages, message];
+        // messages.re
+        if (kDebugMode) {
+          print('socket:: $message');
+        }
+        // messages.sort
+        value = value.copyWith(isLoading: false, messages: messages?.toList());
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        print('socket:: error $error');
+        print(error);
+      }
+    }
+  }
+
+  List<File?> selectedImages = [];
+  XFile? returnImage;
+  dynamic _pickImageError;
+
+  Future sendImage() async {
+    var body = [];
+
+    try {
+      List<Uint8List> imageBytesList = [];
+      for (var selectedImage in selectedImages) {
+        var imageBytes = selectedImage?.readAsBytesSync();
+        imageBytesList.add(Uint8List.fromList(imageBytes ?? []));
+      }
+
+      var response = await _repository.sendImage(
+          SendImageDto(imageBytesList),
+          EnifController.businessId ?? '');
+
+      if (response.isSuccessful && response.body != null) {
+        body = response.body!;
+      }
+      return body;
+    } catch (error) {
+      if (kDebugMode) {
         print(error);
       }
     }
@@ -78,8 +175,8 @@ class ChatController extends ValueNotifier<ChatState> {
     Future.delayed(const Duration(milliseconds: 500), () {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
     });
-    var response =
-        await _repository.sendChat(SendChatDto(session, value.text?.trim() ?? ''));
+    var response = await _repository
+        .sendChat(SendChatDto(session, value.text?.trim() ?? ''));
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
@@ -121,7 +218,7 @@ class ChatController extends ValueNotifier<ChatState> {
 
   @override
   void dispose() {
-   socketRepository.socketDisconnect();
+    socketRepository.socketDisconnect();
     super.dispose();
   }
 }

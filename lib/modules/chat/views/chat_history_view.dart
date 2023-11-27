@@ -93,6 +93,7 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
               return const Center(child: CupertinoActivityIndicator());
             }
             return ListView.builder(
+              reverse: true,
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
               itemCount: value.length,
@@ -118,7 +119,7 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
                           children: [
                             Expanded(
                                 child: Text(
-                                    item.message?.content ?? 'No messages yet',
+                                    item.title ?? 'No messages yet',
                                     style: TextStyle(
                                         fontSize: 12,
                                         color: context.textColor,

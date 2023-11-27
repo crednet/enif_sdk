@@ -1,15 +1,28 @@
-import 'package:enif/constants/image_assets.dart';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/chat/view_model/chat_controller.dart';
+import 'package:enif/modules/chat/widget/image_preview_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ChatInputWidget extends StatelessWidget {
+class ChatInputWidget extends StatefulWidget {
   final ChatController controller;
   const ChatInputWidget({super.key, required this.controller});
 
+  @override
+  State<ChatInputWidget> createState() => _ChatInputWidgetState();
+}
+
+class _ChatInputWidgetState extends State<ChatInputWidget> {
+  // File? selectedImage;
+  // Uint8List? image;
+  // dynamic _pickImageError;
   @override
   Widget build(BuildContext context) {
     var border = OutlineInputBorder(
@@ -18,12 +31,12 @@ class ChatInputWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ValueListenableBuilder(
-            valueListenable: controller,
+            valueListenable: widget.controller,
             builder: (context, value, child) => Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
-                    controller.value.isLoading
-                        ? '${controller.session.agentName ?? 'Agent'} is typing...'
+                    widget.controller.value.isLoading
+                        ? '${widget.controller.session.agentName ?? 'Agent'} is typing...'
                         : '',
                     style: TextStyle(
                         fontSize: 12,
@@ -37,8 +50,8 @@ class ChatInputWidget extends StatelessWidget {
                 ? const Color.fromARGB(255, 138, 138, 139)
                 : const Color(0xffA4A4A6)),
         TextField(
-            onChanged: controller.textChanged,
-            controller: controller.textEditingController,
+            onChanged: widget.controller.textChanged,
+            controller: widget.controller.textEditingController,
             textInputAction: TextInputAction.newline,
             maxLines: 2,
             minLines: 1,
@@ -56,34 +69,63 @@ class ChatInputWidget extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
                 // color: context.isDark ? Colors.white : Colors.black,
-                onPressed: () {},
+                onPressed: () {
+                  onCameraSelected(ImageSource.camera);
+                },
                 child: SizedBox.square(
                     dimension: 20,
-                    child: Image.asset(ImageAssets.gif,
-                        package: 'enif',
-                        color: context.textColor.withOpacity(.3)))),
+                    child: Icon(Icons.camera_alt,
+                        // Image.asset(ImageAssets.gif,
+                        //     package: 'enif',
+                        color: context.textColor.withOpacity(.7)))),
             CupertinoButton(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
                 // color: context.isDark ? Colors.white : Colors.black,
-                onPressed: () {},
+                onPressed: () {
+                  pickImage(ImageSource.gallery);
+                },
                 child: SizedBox.square(
                   dimension: 20,
                   child: SvgPicture.asset(SvgAssets.imagePaceholder,
                       package: 'enif',
                       colorFilter: ColorFilter.mode(
-                          context.textColor.withOpacity(.1), BlendMode.srcIn)),
+                          context.textColor.withOpacity(.8), BlendMode.srcIn)),
                 )),
             .0.s,
+            if (widget.controller.value.isLoading &&
+                widget.controller.selectedImages.isNotEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                ),
+              ),
+            // if (widget.controller.selectedImages.isNotEmpty)
+            for(var image in widget.controller.selectedImages)
+              ImagePreviewWidget(
+                file: image!,
+                onCancelTap: () {
+                  setState(() {
+                    widget.controller.selectedImages.remove(image);
+                  });
+                },
+              ),
+            20.0.w,
             ValueListenableBuilder(
-                valueListenable: controller,
+                valueListenable: widget.controller,
                 builder: (context, value, child) {
                   return CupertinoButton(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
                       color: context.isDark ? Colors.white : Colors.black,
-                      onPressed:
-                          (value.text ?? '').isEmpty ? null : controller.send,
+                      onPressed: ((value.text ?? '').isEmpty
+                              ? null
+                              : widget.controller.send),
                       child:
                           //  value.isLoading
                           //     ? const Center(
@@ -104,5 +146,54 @@ class ChatInputWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future pickImage(ImageSource source) async {
+    if (widget.controller.selectedImages.length >= 2) {
+      return;
+    }
+    
+    final returnImages = await ImagePicker().pickMultiImage(
+      maxHeight: 50,
+      maxWidth: 70 // Set the maximum number of images you want to allow
+    );
+
+    if (returnImages.isEmpty) return;
+    final returnImage = await ImagePicker().pickImage(source: source);
+    if (returnImage == null) return;
+    setState(() {
+      for (var returnImage in returnImages) {
+        widget.controller.returnImage = returnImage;
+        widget.controller.selectedImages.add(File(returnImage.path));
+      }
+    });
+
+    if (widget.controller.selectedImages.isNotEmpty) {
+      Future.delayed(const Duration(seconds: 10), () {
+        widget.controller.sendImage();
+      });
+    }
+  }
+
+  Future onCameraSelected(ImageSource source) async {
+    if (widget.controller.selectedImages.length >= 2) {
+      return;
+    }
+
+    final returnImage = await ImagePicker().pickImage(
+        source: source
+        );
+
+    if (returnImage == null) return;
+    setState(() {
+        widget.controller.returnImage = returnImage;
+        widget.controller.selectedImages.add(File(returnImage.path));
+    });
+
+    if (widget.controller.selectedImages.isNotEmpty) {
+      Future.delayed(const Duration(seconds: 10), () {
+        widget.controller.sendImage();
+      });
+    }
   }
 }

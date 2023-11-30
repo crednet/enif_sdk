@@ -8,4 +8,5 @@ class ApiUrls {
   static const String sendChat = "api/chat/send";
   static String sendImage(String businessId) => "api/chat/image/$businessId";
   static const String socketURL = "wss://test.enif.ai/";
+  static String sendDeviceToken(ticketId) => "api/user/register-sdk-customer/ticket/$ticketId";
 }

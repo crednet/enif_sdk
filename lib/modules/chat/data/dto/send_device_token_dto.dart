@@ -4,6 +4,6 @@ class SendDeviceTokenDto {
   SendDeviceTokenDto({this.firebaseToken});
 
   Map<String, dynamic> toJson() => {
-        'token': firebaseToken,
+        'deviceToken': firebaseToken,
       };
 }

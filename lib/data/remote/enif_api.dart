@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:data_repository/data_repository.dart';
 import 'package:enif/constants/api_urls.dart';
 import 'package:enif/data/remote/interceptor/json_interceptor.dart';
@@ -6,8 +8,11 @@ import 'package:enif/models/chat_session.dart';
 import 'package:enif/models/faq.dart';
 import 'package:enif/models/models.dart';
 import 'package:enif/models/send_chat_model.dart';
+import 'package:enif/models/send_device_token_model.dart';
+import 'package:enif/modules/chat/data/dto/send_device_token_dto.dart';
 import 'package:enif/modules/chat/data/dto/send_image_dto.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
+import 'package:http/http.dart' as http;
 
 import '../../models/enif_error.dart';
 
@@ -100,13 +105,34 @@ class EnifApi {
         ]);
   }
 
-  ApiRequest<List<String>, String> sendImage(SendImageDto body, String businessId) {
+  ApiRequest<SendDeviceTokenModel, SendDeviceTokenModel> sendDeviceToken(
+      SendDeviceTokenDto body, ticketId) {
+    return ApiRequest<SendDeviceTokenModel, SendDeviceTokenModel>(
+      baseUrl: baseUrl,
+      path: ApiUrls.sendDeviceToken(ticketId),
+      method: ApiMethods.post,
+      dataKey: '',
+      body: body.toJson(),
+      error: ErrorDescription(),
+      interceptors: [
+        HeaderInterceptor({
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        }),
+        JsonInterceptor<EnifError>(Models.factories),
+      ],
+    );
+  }
+
+  ApiRequest<List<String>, String> sendImage(
+      SendImageDto body, String businessId) {
     return ApiRequest<List<String>, String>(
         baseUrl: baseUrl,
         path: ApiUrls.sendImage(businessId),
         method: ApiMethods.post,
         dataKey: 'data',
         body: body.toJson(),
+        // isMultipart: true,
         error: ErrorDescription(),
         interceptors: [
           HeaderInterceptor({
@@ -116,4 +142,35 @@ class EnifApi {
           JsonInterceptor<EnifError>(Models.factories),
         ]);
   }
+
+  Future<dynamic> uploadImages(
+      List<String> imagePaths, String businessId) async {
+    Uri url = Uri.parse('$baseUrl/${ApiUrls.sendImage(businessId)}');
+    http.MultipartRequest request = http.MultipartRequest(ApiMethods.post, url);
+
+    for (int i = 0; i < imagePaths.length; i++) {
+      http.MultipartFile multipartFile =
+          await http.MultipartFile.fromPath('images', imagePaths[i]);
+
+      request.files.add(multipartFile);
+    }
+
+    dynamic responseList = [];
+
+    try {
+      http.StreamedResponse streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        responseList = List<String>.from(responseData['data']);
+        return responseList;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  
 }

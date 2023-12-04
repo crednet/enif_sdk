@@ -60,7 +60,8 @@ class ChatHistoryView extends StatelessWidget {
 }
 
 class ChatHistoryList extends StatefulWidget {
-  const ChatHistoryList({super.key});
+  const ChatHistoryList({super.key, this.newMessage = false});
+  final bool newMessage;
 
   @override
   State<ChatHistoryList> createState() => _ChatHistoryListState();
@@ -92,64 +93,82 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
             if (value.isLoading && value.length == 0) {
               return const Center(child: CupertinoActivityIndicator());
             }
-            return ListView.builder(
-              reverse: true,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-              itemCount: value.length,
-              itemBuilder: (context, index) {
-                var item = value.messages![index];
-                return CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    EnifController.setChatSession(item);
-                    Future.delayed(Duration.zero, () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LivechatScreen()));
-                    });
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                                    item.title ?? 'No messages yet',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: context.textColor,
-                                        fontWeight: FontWeight.w500))),
-                            40.0.w,
-                            SvgPicture.asset(SvgAssets.arrowRight,
-                                package: 'enif')
-                          ],
+            return Align(
+              alignment: Alignment.topCenter,
+              child: ListView.builder(
+                reverse: true,
+                shrinkWrap: true,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  var item = value.messages![index];
+                  final hasUnreadMessages =
+                    _chatHistoryViewModel.sessionsWithUnreadMessages
+                      .contains(item.id);
+                  return Stack(
+                    children: [
+                      if (hasUnreadMessages)
+                         const Positioned(
+                          right: 50,
+                          top: 20,
+                          child: Icon(Icons.circle,
+                              size: 11, color: EnifColors.primary),
                         ),
-                        4.0.h,
-                        Text(
-                          item.createdAt?.readableFormat ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: context.textColor.withOpacity(.7)),
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          EnifController.setChatSession(item);
+                          Future.delayed(Duration.zero, () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const LivechatScreen()));
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: Text(item.title ?? 'No messages yet',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: context.textColor,
+                                              fontWeight: FontWeight.w500))),
+                                  40.0.w,
+                                  SvgPicture.asset(SvgAssets.arrowRight,
+                                      package: 'enif')
+                                ],
+                              ),
+                              4.0.h,
+                              Text(
+                                item.updatedAt?.readableFormat ?? '',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w400,
+                                    color: context.textColor.withOpacity(.7)),
+                              ),
+                              15.0.h,
+                              Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  color: context.isDark
+                                      ? Colors.grey.withOpacity(.4)
+                                      : const Color(0xffE6E5E8)),
+                            ],
+                          ),
                         ),
-                        15.0.h,
-                        Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: context.isDark
-                                ? Colors.grey.withOpacity(.4)
-                                : const Color(0xffE6E5E8)),
-                      ],
-                    ),
-                  ),
-                );
-              },
+                      ),
+                    ],
+                  );
+                },
+              ),
             );
           }),
     );

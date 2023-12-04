@@ -15,11 +15,22 @@ class ChatHistoryController extends ValueNotifier<ChatHistoryState> {
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
-
+      
       value = value.copyWith(isLoading: false, messages: body);
     } else {
       value = value.copyWith(isLoading: false);
     }
+  }
+
+  Set<String> sessionsWithUnreadMessages = {};
+
+  void updateUnreadMessages(String sessionId, bool hasUnreadMessages) {
+    if (hasUnreadMessages) {
+      sessionsWithUnreadMessages.add(sessionId);
+    } else {
+      sessionsWithUnreadMessages.remove(sessionId);
+    }
+    notifyListeners();
   }
 }
 

@@ -20,58 +20,10 @@ class ChatController extends ValueNotifier<ChatState> {
     load();
     socketRepository.connectSocket(session.id ?? '', [
       (eventName: 'responseMessage', handler: onMessage),
-      (eventName: 'newmessage', handler: onMessage)
+      // (eventName: 'newmessage', handler: onManualMessage)
     ]);
   }
   final _repository = ChatRepository();
-
-  // onManualMessage(dynamic data) {
-  //   try {
-  //     if (kDebugMode) {
-  //       print('socket::  $data');
-  //     }
-  //     var message = (data['message'] as List)
-  //         .map((d) => Message.fromJson(d))
-  //         .where((element) => element.role == 'assistance')
-  //         .firstOrNull;
-  //     if (kDebugMode) {
-  //       print('socket::  $message');
-  //     }
-
-  //     if (message != null && data['replyMode'] == 'supervise') {
-  //       var messageExists =
-  //           value.messages?.any((e) => e.id == message.id) ?? false;
-  //       var messages = messageExists
-  //           ? value.messages?.map((e) => e.id == message.id ? message : e)
-  //           : [...?value.messages, message];
-  //       // messages.re
-  //       if (kDebugMode) {
-  //         print('socket:: $message');
-  //       }
-  //       // messages.sort
-  //       value = value.copyWith(isLoading: false, messages: messages?.toList());
-  //     }
-
-  //     if (message != null && data['replyMode'] == 'auto') {
-  //       var messageExists =
-  //           value.messages?.any((e) => e.id == message.id) ?? false;
-  //       var messages = messageExists
-  //           ? value.messages?.map((e) => e.id == message.id ? message : e)
-  //           : [...?value.messages, message];
-  //       // messages.re
-  //       if (kDebugMode) {
-  //         print('socket:: $message');
-  //       }
-  //       // messages.sort
-  //       value = value.copyWith(isLoading: false, messages: messages?.toList());
-  //     }
-  //   } catch (error) {
-  //     if (kDebugMode) {
-  //       print('socket:: error $error');
-  //       print(error);
-  //     }
-  //   }
-  // }
 
   onMessage(dynamic data) {
     try {
@@ -86,19 +38,21 @@ class ChatController extends ValueNotifier<ChatState> {
         print('socket::  $message');
       }
 
-      if (message != null && data['replyMode'] == 'supervise') {
-        var messageExists =
-            value.messages?.any((e) => e.id == message.id) ?? false;
-        var messages = messageExists
-            ? value.messages?.map((e) => e.id == message.id ? message : e)
-            : [...?value.messages, message];
-        // messages.re
-        if (kDebugMode) {
-          print('socket:: $message');
-        }
-        // messages.sort
-        value = value.copyWith(isLoading: false, messages: messages?.toList());
-      }
+      // if (message != null && data['replyMode'] == 'supervise') {
+      //   var messageExists =
+      //       value.messages?.any((e) => e.id == message.id) ?? false;
+      //   var messages = messageExists
+      //       ? value.messages?.map((e) => e.id == message.id ? message : e)
+      //       : [...?value.messages, message];
+
+      //   ChatHistoryController().updateUnreadMessages(session.id ?? '', true);
+      //   // messages.re
+      //   if (kDebugMode) {
+      //     print('socket:: $message');
+      //   }
+      //   // messages.sort
+      //   value = value.copyWith(isLoading: false, messages: messages?.toList());
+      // }
 
       if (message != null && data['replyMode'] == 'auto') {
         var messageExists =

@@ -37,7 +37,6 @@ class EnifController {
     _instance._sharedPreferenceStore.setString(
         'chatsession-${_instance._businessId}-${chatSession.email}',
         jsonEncode(chatSession.toJson()));
-        _instance._sharedPreferenceStore.setString('ticketId', chatSession.id ?? '');
   }
 
   static setUser(EnifUserParams userParams,
@@ -86,9 +85,10 @@ class EnifController {
     _instance.env = env;
   }
 
-  static setDeviceToken(String deviceToken) async{
+  static setDeviceToken(String deviceToken) async {
     _instance._deviceToken = deviceToken;
-    String? ticketId = await _instance._sharedPreferenceStore.getString('ticketId');
+    String? ticketId =
+        await _instance._sharedPreferenceStore.getString('ticketId');
     await ChatRepository().sendDeviceToken(ticketId ?? '');
   }
 

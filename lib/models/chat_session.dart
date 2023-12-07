@@ -14,6 +14,7 @@ class ChatSession {
   String? type;
   String? department;
   String? escalationDepartment;
+  String? title;
   // List<MessagesData>? titles;
   bool? isCompleted;
   String? createdDate;
@@ -36,6 +37,7 @@ class ChatSession {
       this.type,
       this.department,
       this.escalationDepartment,
+      this.title,
       // this.titles,
       this.isCompleted,
       this.createdDate,
@@ -58,6 +60,7 @@ class ChatSession {
     type = json['type'];
     department = json['department'];
     escalationDepartment = json['escalation_department'];
+    title = json['title'];
     // if (json['titles'] != null) {
     //   titles = <MessagesData>[];
     //   json['titles'].forEach((v) {
@@ -98,6 +101,7 @@ class ChatSession {
     data['updatedAt'] = updatedAt?.toIso8601String();
     data['update_date'] = updateDate;
     data['id'] = id;
+    data['title']= title;
     return data;
   }
 }

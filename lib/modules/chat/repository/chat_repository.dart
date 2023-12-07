@@ -6,7 +6,6 @@ import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/models/send_device_token_model.dart';
 import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
 import 'package:enif/modules/chat/data/dto/send_device_token_dto.dart';
-import 'package:enif/modules/chat/data/dto/send_image_dto.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
 import 'package:enif/modules/chat/view_model/enif_controller.dart';
 import 'package:flutter/foundation.dart';
@@ -42,10 +41,10 @@ class ChatRepository extends DataRepository {
         SendDeviceTokenDto(firebaseToken: EnifController.deviceToken ?? ''), ticketId));
   }
 
-  Future<ApiResponse<List<String>, String>> sendImage(
-      SendImageDto image, String businessId) {
-    return handleRequest(_api.sendImage(image, businessId));
-  }
+  // Future<ApiResponse<List<String>, String>> sendImage(
+  //     SendImageDto image, String businessId) {
+  //   return handleRequest(_api.sendImage(image, businessId));
+  // }
 
   Future<dynamic> uploadImages(
       List<String> imagePaths, String businessId) async {
@@ -58,5 +57,14 @@ class ChatRepository extends DataRepository {
       }
       return [];
     }
+  }
+
+  Future<ApiResponse<bool, bool>> ticketStatus(String ticketId) {
+    return handleRequest(_api.ticketStatus(ticketId));
+  }
+
+  Future<ApiResponse<bool, bool>> updateTicketStatus(
+      String ticketId) {
+    return handleRequest(_api.updateTicketStatus(ticketId));
   }
 }

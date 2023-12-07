@@ -105,6 +105,42 @@ class EnifApi {
         ]);
   }
 
+  ApiRequest<bool, bool> ticketStatus(String ticketId) {
+    return ApiRequest<bool, bool>(
+        baseUrl: baseUrl,
+        path: ApiUrls.ticketStatus(ticketId),
+        method: ApiMethods.post,
+        dataKey: 'read',
+        nestedKey: 'data',
+        body: {},
+        error: ErrorDescription(),
+        interceptors: [
+          HeaderInterceptor({
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          }),
+          JsonInterceptor<EnifError>(Models.factories),
+        ]);
+  }
+
+  ApiRequest<bool, bool> updateTicketStatus(String ticketId) {
+    return ApiRequest<bool, bool>(
+        baseUrl: baseUrl,
+        path: ApiUrls.updateTicketStatus(ticketId),
+        method: ApiMethods.post,
+        dataKey: 'read',
+        nestedKey: 'data',
+        body: {},
+        error: ErrorDescription(),
+        interceptors: [
+          HeaderInterceptor({
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          }),
+          JsonInterceptor<EnifError>(Models.factories),
+        ]);
+  }
+
   ApiRequest<SendDeviceTokenModel, SendDeviceTokenModel> sendDeviceToken(
       SendDeviceTokenDto body, ticketId) {
     return ApiRequest<SendDeviceTokenModel, SendDeviceTokenModel>(

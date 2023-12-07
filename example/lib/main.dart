@@ -16,7 +16,7 @@ void main() async {
       phoneNo: "0803000000",
       email: "sade@enif.com"));
   
-  await EnifController.setDeviceToken(
+  EnifController.setDeviceToken(
       "cft5xLfER0i4PeRZEupqqp:APA91bFmWW0LuTYF7dbAm7bxEMUGkUWE8hKilLA6HTdFHu-vCTQeYCRunXkPJBnzLk3Bh27VRGCIkM3M2U7SmQHsbkK7W3Kns4kQSoG6ZhSQHU2ihjcpFSASBxeoZ3Ff6cJSGu4FIsRC"
       );
   await SystemChrome.setPreferredOrientations(

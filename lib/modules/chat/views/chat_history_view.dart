@@ -2,6 +2,7 @@ import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/extensions/date.dart';
 import 'package:enif/extensions/extensions.dart';
+import 'package:enif/models/ticket_status.dart';
 import 'package:enif/modules/chat/view_model/chat_history_controller.dart';
 import 'package:enif/modules/chat/view_model/enif_controller.dart';
 import 'package:enif/modules/chat/views/live_chat_screen.dart';
@@ -93,29 +94,29 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
             if (value.isLoading && value.length == 0) {
               return const Center(child: CupertinoActivityIndicator());
             }
-            return Align(
-              alignment: Alignment.topCenter,
-              child: ListView.builder(
-                reverse: true,
-                shrinkWrap: true,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-                itemCount: value.length,
-                itemBuilder: (context, index) {
-                  var item = value.messages![index];
-                  final hasUnreadMessages =
-                    _chatHistoryViewModel.sessionsWithUnreadMessages
-                      .contains(item.id);
-                  return Stack(
-                    children: [
-                      if (hasUnreadMessages)
-                         const Positioned(
-                          right: 50,
-                          top: 20,
-                          child: Icon(Icons.circle,
-                              size: 11, color: EnifColors.primary),
-                        ),
-                      CupertinoButton(
+            return ListView.builder(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+              itemCount: value.length,
+              itemBuilder: (context, index) {
+                var item = value.messages![index];
+                var ticketStatus = value.ticketStatus?.firstWhere(
+                  (status) => status.ticketid == item.id,
+                  orElse: () => TicketStatus(ticketid: item.id, isRead: true),
+                );
+                return Stack(
+                  children: [
+                    if (ticketStatus != null && !ticketStatus.isRead)
+                      const Positioned(
+                        left: 0,
+                        // right: 0,
+                        top: 20,
+                        child: Icon(Icons.circle,
+                            size: 11, color: EnifColors.primary),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
                           EnifController.setChatSession(item);
@@ -125,7 +126,13 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const LivechatScreen()));
+
+                            _chatHistoryViewModel
+                                .updateUnreadMessages(item.id ?? '');
                           });
+
+                          // _chatHistoryViewModel
+                          //     .updateUnreadMessages(item.id ?? '');
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -135,7 +142,8 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
                               Row(
                                 children: [
                                   Expanded(
-                                      child: Text(item.title ?? 'No messages yet',
+                                      child: Text(
+                                          item.title ?? 'No messages yet',
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: context.textColor,
@@ -165,10 +173,10 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
                           ),
                         ),
                       ),
-                    ],
-                  );
-                },
-              ),
+                    ),
+                  ],
+                );
+              },
             );
           }),
     );

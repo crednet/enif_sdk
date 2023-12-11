@@ -1,7 +1,6 @@
 import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/chat_session.dart';
-import 'package:enif/models/send_chat_model.dart';
 import 'package:enif/modules/chat/widget/chat_input_widget.dart';
 import 'package:enif/modules/common/chat_users.dart';
 import 'package:flutter/material.dart';
@@ -87,9 +86,6 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 horizontal: 20, vertical: 20),
                             itemCount: value.messages?.length ?? 0,
                             itemBuilder: (context, index) {
-                              for (Message item in value.messages!){
-                                print('My messagessss ${item.id}, ${item.content},');
-                              }
                               var message = value.messages![index];
                               return ChatMessageWidget(message: message);
                             });

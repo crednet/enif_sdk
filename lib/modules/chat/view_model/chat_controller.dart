@@ -125,18 +125,12 @@ class ChatController extends ValueNotifier<ChatState> {
     Future.delayed(const Duration(milliseconds: 500), () {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
     });
-    if (kDebugMode) {
-      for (Message item in value.messages!) {
-        print('before sending ${item.id}');
-      }
-    }
     var response = await _repository.sendChat(SendChatDto(
       session,
       (value.imageUrls ?? []).isNotEmpty
           ? '${value.text?.trim() ?? ''}\n${value.imageUrls?.map((url) => '($url)\n').join(' ')}'
           : value.text?.trim() ?? '',
     ));
-    // print('Sending messages');
     value = value.copyWith(imageUrls: [], text: '');
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
@@ -146,11 +140,7 @@ class ChatController extends ValueNotifier<ChatState> {
 
         value = value.copyWith(
             isLoading: false, messages: [...?messages, ...?body.message]);
-        if (kDebugMode) {
-          for (Message item in messages!) {
-            print('after sending ${item.id}');
-          }
-        }
+        
       }
       Future.delayed(const Duration(milliseconds: 500), () {
         scrollController.animateTo(scrollController.position.maxScrollExtent,
@@ -168,11 +158,6 @@ class ChatController extends ValueNotifier<ChatState> {
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
-      if (kDebugMode) {
-        for (Message item in body) {
-          print('loading messages ${item.id}');
-        }
-      }
       value = value.copyWith(isLoading: false, messages: body);
       Future.delayed(const Duration(milliseconds: 500), () {
         if (scrollController.hasClients) {

@@ -68,7 +68,7 @@ class ChatController extends ValueNotifier<ChatState> {
           }
         }
         // messages.sort
-        // value = value.copyWith(isLoading: false, messages: messages?.toList());
+        value = value.copyWith(isLoading: false, messages: messages?.toList());
       }
     } catch (error) {
       if (kDebugMode) {
@@ -136,11 +136,16 @@ class ChatController extends ValueNotifier<ChatState> {
       var body = response.body!;
       if (body.replyMode == 'auto') {
         var messages =
-            value.messages?.where((element) => (element.id != sid)).toList();
+            value.messages?.where((element) => (element.id != sid)).toList() ?? [];
+
+            for(var item in [...?body.message]){
+              if(!messages.any((element) => element.id == item.id)){
+                messages.add(item);
+              }
+            }
 
         value = value.copyWith(
-            isLoading: false, messages: [...?messages, ...?body.message]);
-        
+            isLoading: false, messages: messages);
       }
       Future.delayed(const Duration(milliseconds: 500), () {
         scrollController.animateTo(scrollController.position.maxScrollExtent,

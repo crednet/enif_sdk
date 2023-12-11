@@ -19,7 +19,7 @@ class ChatController extends ValueNotifier<ChatState> {
         super(ChatState()) {
     load();
     socketRepository.connectSocket(session.id ?? '', [
-      // (eventName: 'responseMessage', handler: onMessage),
+      (eventName: 'responseMessage', handler: onMessage),
       // (eventName: 'newmessage', handler: onManualMessage)
     ]);
   }
@@ -36,6 +36,7 @@ class ChatController extends ValueNotifier<ChatState> {
           .firstOrNull;
       if (kDebugMode) {
         print('socket::  $message');
+        print('socket::  ${message?.id}');
       }
 
       // if (message != null && data['replyMode'] == 'supervise') {
@@ -62,10 +63,12 @@ class ChatController extends ValueNotifier<ChatState> {
             : [...?value.messages, message];
         // messages.re
         if (kDebugMode) {
-          print('socket:: $message');
+          for (Message item in messages!) {
+            print('socket:: ${item.id}');
+          }
         }
         // messages.sort
-        value = value.copyWith(isLoading: false, messages: messages?.toList());
+        // value = value.copyWith(isLoading: false, messages: messages?.toList());
       }
     } catch (error) {
       if (kDebugMode) {
@@ -145,7 +148,7 @@ class ChatController extends ValueNotifier<ChatState> {
             isLoading: false, messages: [...?messages, ...?body.message]);
         if (kDebugMode) {
           for (Message item in messages!) {
-            print(item.id);
+            print('after sending ${item.id}');
           }
         }
       }

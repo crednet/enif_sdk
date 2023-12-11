@@ -96,7 +96,8 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
             }
             return ListView.builder(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20)
+                      .copyWith(left: 15),
               itemCount: value.length,
               itemBuilder: (context, index) {
                 var item = value.messages![index];

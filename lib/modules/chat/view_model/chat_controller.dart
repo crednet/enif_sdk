@@ -36,6 +36,7 @@ class ChatController extends ValueNotifier<ChatState> {
           .firstOrNull;
       if (kDebugMode) {
         print('socket::  $message');
+        print('socket::  ${message?.id}');
       }
 
       // if (message != null && data['replyMode'] == 'supervise') {
@@ -62,7 +63,9 @@ class ChatController extends ValueNotifier<ChatState> {
             : [...?value.messages, message];
         // messages.re
         if (kDebugMode) {
-          print('socket:: $message');
+          for (Message item in messages!) {
+            print('socket:: ${item.id}');
+          }
         }
         // messages.sort
         value = value.copyWith(isLoading: false, messages: messages?.toList());
@@ -130,13 +133,19 @@ class ChatController extends ValueNotifier<ChatState> {
     ));
     value = value.copyWith(imageUrls: [], text: '');
     if (response.isSuccessful && response.body != null) {
-      
       var body = response.body!;
       if (body.replyMode == 'auto') {
         var messages =
-            value.messages?.where((element) => (element.id != sid)).toList();
+            value.messages?.where((element) => (element.id != sid)).toList() ?? [];
+
+            for(var item in [...?body.message]){
+              if(!messages.any((element) => element.id == item.id)){
+                messages.add(item);
+              }
+            }
+
         value = value.copyWith(
-            isLoading: false, messages: [...?messages, ...?body.message]);
+            isLoading: false, messages: messages);
       }
       Future.delayed(const Duration(milliseconds: 500), () {
         scrollController.animateTo(scrollController.position.maxScrollExtent,
@@ -154,7 +163,6 @@ class ChatController extends ValueNotifier<ChatState> {
 
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
-
       value = value.copyWith(isLoading: false, messages: body);
       Future.delayed(const Duration(milliseconds: 500), () {
         if (scrollController.hasClients) {

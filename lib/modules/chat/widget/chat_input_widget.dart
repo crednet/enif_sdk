@@ -160,8 +160,6 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
     );
 
     if (returnImages.isEmpty) return;
-    final returnImage = await ImagePicker().pickImage(source: source);
-    if (returnImage == null) return;
     setState(() {
       for (var returnImage in returnImages) {
         widget.controller.returnImage = returnImage;

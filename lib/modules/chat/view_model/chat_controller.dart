@@ -135,17 +135,40 @@ class ChatController extends ValueNotifier<ChatState> {
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
       if (body.replyMode == 'auto') {
-        var messages =
-            value.messages?.where((element) => (element.id != sid)).toList() ?? [];
-
-            for(var item in [...?body.message]){
-              if(!messages.any((element) => element.id == item.id)){
-                messages.add(item);
-              }
-            }
+         var messages = 
+        //  value.messages?.where((element) => (element.id != sid)).toList() ??
+        //         [];
+         value.messages
+            ?.where((element) =>
+                (element.id != sid && element.id != body.reply?.id))
+            .toList();
+        // var messages =
+        //     value.messages?.where((element) => (element.id != sid)).toList() ??
+        //         [];
+        // var responseExists =
+        //     value.messages?.any((e) => e.id == body.message?[1].id) ?? false;
+        // var response = responseExists
+        //     ? value.messages?.map((e) => e.id == body.message?[1].id ? body.message : e)
+        //     : [...?value.messages, body.message];
 
         value = value.copyWith(
-            isLoading: false, messages: messages);
+            isLoading: false, messages: [...?messages, ...?body.message]);
+        // value = value.copyWith(isLoading: false, messages: messages);
+        // for (var item in [...?body.message]) {
+        //   // if(!messages.any((element) => element.id == item.id)){
+        //   //   messages.add(item);
+        //   // }
+        //   int existingMessageIndex =
+        //       value.messages?.indexWhere((element) => element.id == item.id) ??
+        //           -1;
+
+        //   if (existingMessageIndex != -1) {
+        //     value.messages?.removeAt(existingMessageIndex);
+        //     value.messages?.insert(existingMessageIndex, item);
+        //   } else {
+        //     value.messages?.add(item);
+        //   }
+        // }
       }
       Future.delayed(const Duration(milliseconds: 500), () {
         scrollController.animateTo(scrollController.position.maxScrollExtent,

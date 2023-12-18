@@ -10,6 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'chat_history_controller.dart';
+
 class ChatController extends ValueNotifier<ChatState> {
   final ChatSession session;
   final SocketRepository socketRepository;
@@ -20,40 +22,81 @@ class ChatController extends ValueNotifier<ChatState> {
     load();
     socketRepository.connectSocket(session.id ?? '', [
       (eventName: 'responseMessage', handler: onMessage),
-      // (eventName: 'newmessage', handler: onManualMessage)
+      (eventName: 'newmessage', handler: manualMessage),
+      (eventName: 'businessTyping', handler: onBusinessTyping),
     ]);
   }
   final _repository = ChatRepository();
 
+  onBusinessTyping(dynamic data){
+    try{
+      if (kDebugMode) {
+        print('socket:: isBusinessTyping  $data');
+      }
+
+      if (data['businessId'] == session.businessId && data['ticketId'] == session.id) {
+        // messages.sort
+        value = value.copyWith(isBusinessTyping: data['typing'],);
+     
+      }
+    }catch (error){
+      if (kDebugMode) {
+        print('socket:: error $error');
+        print(error);
+      }
+    }
+  }
+
+  manualMessage(dynamic data) {
+    try {
+      if (kDebugMode) {
+        print('socket:: data  $data');
+      }
+      var message = Message.fromJson(data['reply']);
+      if (kDebugMode) {
+        print('socket:: message  $message');
+        print('socket:: messageId  ${message.id}');
+      }
+
+      if (data['ticketId'] == session.id) {
+        var messageExists =
+            value.messages?.any((e) => e.id == message.id) ?? false;
+        var messages = messageExists
+            ? value.messages?.map((e) => e.id == message.id ? message : e)
+            : [...?value.messages, message];
+
+        ChatHistoryController().updateUnreadMessages(session.id ?? '');
+        // messages.re
+        if (kDebugMode) {
+          print('socket:: supervisedMessage $message');
+        }
+        // messages.sort
+        value = value.copyWith(isLoading: false, messages: messages?.toList());
+        Future.delayed(const Duration(milliseconds: 500), () {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        });
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        print('socket:: error $error');
+        print(error);
+      }
+    }
+  }
+
   onMessage(dynamic data) {
     try {
       if (kDebugMode) {
-        print('socket::  $data');
+        print('socket:: data  $data');
       }
       var message = (data['message'] as List)
           .map((d) => Message.fromJson(d))
           .where((element) => element.role == 'assistance')
           .firstOrNull;
       if (kDebugMode) {
-        print('socket::  $message');
-        print('socket::  ${message?.id}');
+        print('socket:: message  $message');
+        print('socket:: messageId  ${message?.id}');
       }
-
-      // if (message != null && data['replyMode'] == 'supervise') {
-      //   var messageExists =
-      //       value.messages?.any((e) => e.id == message.id) ?? false;
-      //   var messages = messageExists
-      //       ? value.messages?.map((e) => e.id == message.id ? message : e)
-      //       : [...?value.messages, message];
-
-      //   ChatHistoryController().updateUnreadMessages(session.id ?? '', true);
-      //   // messages.re
-      //   if (kDebugMode) {
-      //     print('socket:: $message');
-      //   }
-      //   // messages.sort
-      //   value = value.copyWith(isLoading: false, messages: messages?.toList());
-      // }
 
       if (message != null && data['replyMode'] == 'auto') {
         var messageExists =
@@ -69,6 +112,9 @@ class ChatController extends ValueNotifier<ChatState> {
         }
         // messages.sort
         value = value.copyWith(isLoading: false, messages: messages?.toList());
+        Future.delayed(const Duration(milliseconds: 500), () {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        });
       }
     } catch (error) {
       if (kDebugMode) {
@@ -135,13 +181,13 @@ class ChatController extends ValueNotifier<ChatState> {
     if (response.isSuccessful && response.body != null) {
       var body = response.body!;
       if (body.replyMode == 'auto') {
-         var messages = 
-        //  value.messages?.where((element) => (element.id != sid)).toList() ??
-        //         [];
-         value.messages
-            ?.where((element) =>
-                (element.id != sid && element.id != body.reply?.id))
-            .toList();
+        var messages =
+            //  value.messages?.where((element) => (element.id != sid)).toList() ??
+            //         [];
+            value.messages
+                ?.where((element) =>
+                    (element.id != sid && element.id != body.reply?.id))
+                .toList();
         // var messages =
         //     value.messages?.where((element) => (element.id != sid)).toList() ??
         //         [];
@@ -207,7 +253,7 @@ class ChatController extends ValueNotifier<ChatState> {
 }
 
 class ChatState extends Object {
-  final bool isLoading, isImageLoading;
+  final bool isLoading, isBusinessTyping, isImageLoading;
   final String? text;
   final List<Message>? messages;
   final List<String>? imageUrls;
@@ -216,18 +262,21 @@ class ChatState extends Object {
       {this.text,
       this.isLoading = false,
       this.isImageLoading = false,
+      this.isBusinessTyping = false,
       this.messages,
       this.imageUrls});
 
   ChatState copyWith(
           {bool? isLoading,
           bool? isImageLoading,
+          bool? isBusinessTyping,
           String? text,
           List<Message>? messages,
           List<String>? imageUrls}) =>
       ChatState(
           isLoading: isLoading ?? false,
           isImageLoading: isImageLoading ?? false,
+          isBusinessTyping: isBusinessTyping ?? false,
           text: text ?? this.text,
           messages: messages ?? this.messages,
           imageUrls: imageUrls ?? this.imageUrls);
@@ -238,13 +287,14 @@ class ChatState extends Object {
         other.runtimeType == runtimeType &&
         other.isLoading == isLoading &&
         other.isImageLoading == isImageLoading &&
+        other.isBusinessTyping == isBusinessTyping &&
         other.text == text &&
         listEquals<Message>(other.messages, messages) &&
         listEquals<String>(other.imageUrls, imageUrls));
   }
 
   @override
-  int get hashCode => Object.hash(isLoading, isImageLoading, imageUrls, text);
+  int get hashCode => Object.hash(isLoading, isImageLoading, isBusinessTyping, imageUrls, text);
 }
 
 // class SuccessChatState extends ChatState {

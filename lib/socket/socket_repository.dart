@@ -40,7 +40,7 @@ class SocketRepository {
       }
       _socket?.listen((e) {
         if (kDebugMode) {
-          print('socket:: ${e.runtimeType}');
+          print('socket:: runtimeType ${e.runtimeType}');
         }
         var response = jsonDecode(e);
         var event = response['event'];
@@ -50,7 +50,7 @@ class SocketRepository {
         }
         for (var element in handlers) {
           if (kDebugMode) {
-            print('socket::  ${element.eventName == event}');
+            print('socket:: isEvent  ${element.eventName == event}');
           }
           if (element.eventName == event) {
             element.handler(data);
@@ -66,7 +66,7 @@ class SocketRepository {
   socketDisconnect() {
     if (_socket != null && isConnected) {
       _socket?.close();
-      debugPrint("ChatSocketManager onDisconnected");
+      debugPrint("Socket:: ChatSocketManager Disconnected");
     }
   }
 }

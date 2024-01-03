@@ -69,123 +69,137 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
                         : const Color(0xffE7E6EB),
                     child: SafeArea(
                         child: Column(children: [
-                      .0.s,
-                      Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Column(children: [
-                            const Text('Tell us about you to start chatting',
-                                style: TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.w400)),
-                            22.0.h,
-                            ValueListenableBuilder(
-                                valueListenable: _chatConnectionViewModel,
-                                builder: (context, value, child) =>
-                                    CustomTextField(
-                                      controller: _nameController,
-                                      maxLines: 1,
-                                      enabled: !value.isLoading,
-                                      autovalidateMode: autovalidateMode,
-                                      onChanged:
-                                          _chatConnectionViewModel.nameChanged,
-                                      borderSide: BorderSide.none,
-                                      keyboardType: TextInputType.name,
-                                      fillColor: context.isDark
-                                          ? const Color(0xff111111)
-                                          : Colors.white,
-                                      labelText: 'Enter name',
-                                      validator: (text) {
-                                        if ((text ?? '').length < 3) {
-                                          return 'Please enter a valid name';
+                          .0.s,
+                          30.0.h,
+                          SingleChildScrollView(
+                             padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                            child: Column(
+                              children: [
+                                Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 24.0),
+                                    child: Column(children: [
+                                      const Text('Tell us about you to start chatting',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400)),
+                                      22.0.h,
+                                      ValueListenableBuilder(
+                                          valueListenable: _chatConnectionViewModel,
+                                          builder: (context, value, child) =>
+                                              CustomTextField(
+                                                controller: _nameController,
+                                                maxLines: 1,
+                                                enabled: !value.isLoading,
+                                                autovalidateMode: autovalidateMode,
+                                                onChanged: _chatConnectionViewModel
+                                                    .nameChanged,
+                                                borderSide: BorderSide.none,
+                                                keyboardType: TextInputType.name,
+                                                fillColor: context.isDark
+                                                    ? const Color(0xff111111)
+                                                    : Colors.white,
+                                                labelText: 'Enter name',
+                                                validator: (text) {
+                                                  if ((text ?? '').length < 3) {
+                                                    return 'Please enter a valid name';
+                                                  }
+                                                  return null;
+                                                },
+                                              )),
+                                      ValueListenableBuilder(
+                                          valueListenable: _chatConnectionViewModel,
+                                          builder: (context, value, child) =>
+                                              CustomTextField(
+                                                controller: _emailController,
+                                                maxLines: 1,
+                                                enabled: !value.isLoading,
+                                                autovalidateMode: autovalidateMode,
+                                                validator: emailValidator,
+                                                onChanged: _chatConnectionViewModel
+                                                    .emailChanged,
+                                                borderSide: BorderSide.none,
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                fillColor: context.isDark
+                                                    ? const Color(0xff111111)
+                                                    : Colors.white,
+                                                labelText: 'Email addresss ',
+                                              )),
+                                      ValueListenableBuilder(
+                                          valueListenable: _chatConnectionViewModel,
+                                          builder: (context, value, child) =>
+                                              CustomTextField(
+                                                  controller: _phoneNoController,
+                                                  autovalidateMode: autovalidateMode,
+                                                  validator: (text) {
+                                                    if ((text ?? '').length < 8) {
+                                                      return 'Please enter a valid phone number';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  maxLines: 1,
+                                                  enabled: !value.isLoading,
+                                                  keyboardType: TextInputType.phone,
+                                                  inputFormatters: [
+                                                    PhoneNumberFormatter()
+                                                  ],
+                                                  onChanged: _chatConnectionViewModel
+                                                      .phoneNoChanged,
+                                                  borderSide: BorderSide.none,
+                                                  fillColor: context.isDark
+                                                      ? const Color(0xff111111)
+                                                      : Colors.white,
+                                                  labelText: 'Phone number')),
+                                      20.0.h,
+                                    ])),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: context.isDark
+                                ? Colors.white54
+                                : const Color(0xffDADADA),
+                          ),
+                          20.0.h,
+                          ValueListenableBuilder(
+                              valueListenable: _chatConnectionViewModel,
+                              builder: (context, value, child) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 24),
+                                  child: CupertinoButton(
+                                      // padding: EdgeInsets.symmetric(),
+                                      borderRadius: BorderRadius.circular(35.0),
+                                      color: Colors.black,
+                                      onPressed: () {
+                                        autovalidateMode =
+                                            AutovalidateMode.always;
+                                        if (Form.of(context).validate()) {
+                                          _chatConnectionViewModel.initChat(null);
                                         }
-                                        return null;
                                       },
-                                    )),
-                            ValueListenableBuilder(
-                                valueListenable: _chatConnectionViewModel,
-                                builder: (context, value, child) =>
-                                    CustomTextField(
-                                      controller: _emailController,
-                                      maxLines: 1,
-                                      enabled: !value.isLoading,
-                                      autovalidateMode: autovalidateMode,
-                                      validator: emailValidator,
-                                      onChanged:
-                                          _chatConnectionViewModel.emailChanged,
-                                      borderSide: BorderSide.none,
-                                      keyboardType: TextInputType.emailAddress,
-                                      fillColor: context.isDark
-                                          ? const Color(0xff111111)
-                                          : Colors.white,
-                                      labelText: 'Email addresss ',
-                                    )),
-                            ValueListenableBuilder(
-                                valueListenable: _chatConnectionViewModel,
-                                builder: (context, value, child) =>
-                                    CustomTextField(
-                                        controller: _phoneNoController,
-                                        autovalidateMode: autovalidateMode,
-                                        validator: (text) {
-                                          if ((text ?? '').length < 8) {
-                                            return 'Please enter a valid phone number';
-                                          }
-                                          return null;
-                                        },
-                                        maxLines: 1,
-                                        enabled: !value.isLoading,
-                                        keyboardType: TextInputType.phone,
-                                        inputFormatters: [
-                                          PhoneNumberFormatter()
-                                        ],
-                                        onChanged: _chatConnectionViewModel
-                                            .phoneNoChanged,
-                                        borderSide: BorderSide.none,
-                                        fillColor: context.isDark
-                                            ? const Color(0xff111111)
-                                            : Colors.white,
-                                        labelText: 'Phone number')),
-                            20.0.h,
-                          ])),
-                      Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: context.isDark
-                            ? Colors.white54
-                            : const Color(0xffDADADA),
-                      ),
-                      20.0.h,
-                      ValueListenableBuilder(
-                          valueListenable: _chatConnectionViewModel,
-                          builder: (context, value, child) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24),
-                              child: CupertinoButton(
-                                  // padding: EdgeInsets.symmetric(),
-                                  borderRadius: BorderRadius.circular(35.0),
-                                  color: Colors.black,
-                                  onPressed: () {
-                                    autovalidateMode = AutovalidateMode.always;
-                                    if (Form.of(context).validate()) {
-                                      _chatConnectionViewModel.initChat(null);
-                                    }
-                                  },
-                                  child: Center(
-                                      child: value.isLoading
-                                          ? const SizedBox.square(
-                                              dimension: 20,
-                                              child: CircularProgressIndicator(
-                                                  color: Colors.white,
-                                                  strokeWidth: 2))
-                                          : const Text('Continue Chatting',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                      FontWeight.w600)))),
-                            );
-                          }),
-                      20.0.h,
-                    ])))),
+                                      child: Center(
+                                          child: value.isLoading
+                                              ? const SizedBox.square(
+                                                  dimension: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                          strokeWidth: 2))
+                                              : const Text('Continue Chatting',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600)))),
+                                );
+                              }),
+                          20.0.h,
+                        ])))),
             body: Column(
               children: [
                 55.0.h,

@@ -10,9 +10,9 @@ class LivechatScreen extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: EnifController().chatSession,
         builder: (context, value, child) {
-          if (value != null) {
-            return ChatScreen(session: value);
-          }
+          // if (value != null) {
+          //   return ChatScreen(session: value);
+          // }
           return const ChatConnectionScreen();
         });
   }

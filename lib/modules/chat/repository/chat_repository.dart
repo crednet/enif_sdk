@@ -7,7 +7,6 @@ import 'package:enif/models/send_device_token_model.dart';
 import 'package:enif/modules/chat/data/dto/init_chat_dto.dart';
 import 'package:enif/modules/chat/data/dto/send_device_token_dto.dart';
 import 'package:enif/modules/chat/data/dto/sent_chat_dto.dart';
-import 'package:enif/modules/chat/view_model/enif_controller.dart';
 import 'package:flutter/foundation.dart';
 
 class ChatRepository extends DataRepository {
@@ -36,9 +35,9 @@ class ChatRepository extends DataRepository {
   }
 
   Future<ApiResponse<SendDeviceTokenModel, SendDeviceTokenModel>>
-      sendDeviceToken(String ticketId) {
+      sendDeviceToken(String deviceToken, String ticketId) {
     return handleRequest(_api.sendDeviceToken(
-        SendDeviceTokenDto(firebaseToken: EnifController.deviceToken ?? ''), ticketId));
+        SendDeviceTokenDto(firebaseToken: deviceToken), ticketId));
   }
 
   // Future<ApiResponse<List<String>, String>> sendImage(
@@ -63,8 +62,7 @@ class ChatRepository extends DataRepository {
     return handleRequest(_api.ticketStatus(ticketId));
   }
 
-  Future<ApiResponse<bool, bool>> updateTicketStatus(
-      String ticketId) {
+  Future<ApiResponse<bool, bool>> updateTicketStatus(String ticketId) {
     return handleRequest(_api.updateTicketStatus(ticketId));
   }
 }

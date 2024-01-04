@@ -86,10 +86,10 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
         email: params?.email ?? value.email ?? '')); // fetch from cache
 
     if (response.isSuccessful && response.body != null) {
-      // print(response.body?.toJson());
+      print(response.body?.toJson());
       value = SuccessChatConnectionState(value, response.body!);
       EnifController.setChatSession(response.body!);
-      EnifController.setDeviceToken(response.body!.id ?? '');
+     
     } else {
       value = ErrorChatConnectionState(value, response.error as ApiError);
     }

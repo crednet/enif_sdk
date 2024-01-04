@@ -30,7 +30,8 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
             builder: (context, value, child) => Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
-                    widget.controller.value.isLoading
+                    widget.controller.value.isLoading ||
+                            widget.controller.value.isBusinessTyping
                         ? '${widget.controller.session.agentName ?? 'Agent'} is typing...'
                         : '',
                     style: TextStyle(
@@ -60,7 +61,6 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
         Row(
           children: [
             10.0.w,
-            
             CupertinoButton(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
@@ -89,25 +89,24 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                           context.textColor.withOpacity(.8), BlendMode.srcIn)),
                 )),
             .0.s,
-            
             ValueListenableBuilder(
                 valueListenable: widget.controller,
                 builder: (context, value, child) {
                   return Row(
                     children: [
-                      value.isImageLoading?
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: EnifColors.primary,
-                              strokeWidth: 2,
-                            ),
-                          ),
-                        )
-                        : const SizedBox.shrink(),
+                      value.isImageLoading
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: EnifColors.primary,
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       for (var image in widget.controller.selectedImages)
                         ImagePreviewWidget(
                           file: image!,
@@ -122,10 +121,9 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           color: context.isDark ? Colors.white : Colors.black,
-                          onPressed: (
-                            (value.text ?? '' ).isEmpty
-                                  ? null
-                                  : widget.controller.send),
+                          onPressed: ((value.text ?? '').isEmpty
+                              ? null
+                              : widget.controller.send),
                           child:
                               //  value.isLoading
                               //     ? const Center(
@@ -154,10 +152,10 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
     if (widget.controller.selectedImages.length >= 2) {
       return;
     }
-    
+
     final returnImages = await ImagePicker().pickMultiImage(
-      imageQuality: 50 // Set the maximum number of images you want to allow
-    );
+        imageQuality: 50 // Set the maximum number of images you want to allow
+        );
 
     if (returnImages.isEmpty) return;
     setState(() {
@@ -179,14 +177,13 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
       return;
     }
 
-    final returnImage = await ImagePicker().pickImage(
-        source: source, imageQuality: 50
-        );
+    final returnImage =
+        await ImagePicker().pickImage(source: source, imageQuality: 50);
 
     if (returnImage == null) return;
     setState(() {
-        widget.controller.returnImage = returnImage;
-        widget.controller.selectedImages.add(File(returnImage.path));
+      widget.controller.returnImage = returnImage;
+      widget.controller.selectedImages.add(File(returnImage.path));
     });
 
     if (widget.controller.selectedImages.isNotEmpty) {

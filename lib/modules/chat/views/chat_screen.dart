@@ -10,19 +10,26 @@ import '../widget/chat_message_widget.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatSession session;
-  const ChatScreen({super.key, required this.session});
+  // final bool newMessage;
+  const ChatScreen({super.key, required this.session,});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   late ChatController controller;
 
   @override
   void initState() {
     controller = ChatController(widget.session);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+  controller.dispose();
+    super.dispose();
   }
 
   @override

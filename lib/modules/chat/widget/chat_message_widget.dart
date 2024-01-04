@@ -1,9 +1,12 @@
+// import 'package:any_link_preview/any_link_preview.dart';
 import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/extensions/date.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/send_chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+// import 'package:flutter_link_previewer/flutter_link_previewer.dart';
+// import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ChatMessageWidget extends StatelessWidget {
@@ -76,6 +79,11 @@ class ChatMessageWidget extends StatelessWidget {
           maxWidth: 400,
         ),
         child: Builder(builder: (context) {
+          var contentHtml = generateHtmlContent(message.content ?? "");
+
+          // Check if contentHtml contains an image
+          bool containsImage =
+              contentHtml.contains('<img') && contentHtml.contains('src=');
           var view = ConstrainedBox(
               constraints: const BoxConstraints(minWidth: 50),
               child: Stack(
@@ -91,29 +99,84 @@ class ChatMessageWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           bottom: .0, right: 8.0, left: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            message.content ?? "",
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            t,
-                            textAlign: TextAlign.end,
-                            maxLines: 1,
-                            style: const TextStyle(
-                                height: .7,
-                                color: Colors.transparent,
-                                fontSize: 9,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
+                      child: containsImage
+                          ? Html(
+                              data: generateHtmlContent(message.content ?? ""),
+                              onLinkTap: (url, attributes, element) =>
+                                  launchUrl(Uri.parse(url ?? '')),
+                              style: {
+                                'body': Style(
+                                      // fontSize: FontSize.small,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600
+                                ),
+                              },
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // AnyLinkPreview(
+                                //   link: generateHtmlContent(message.content ?? ""),
+                                //   // displayDirection: UIDirection.uiDirectionHorizontal,
+                                //   cache: const Duration(hours: 1),
+                                //   // backgroundColor: Colors.grey[300],
+                                //   // errorWidget: Container(
+                                //   //   color: Colors.grey[300],
+                                //   //   child: Text('Oops!'),
+                                //   // ),
+                                //   // errorImage: _errorImage,
+                                // ),
+                                //  LinkPreview(
+                                //     enableAnimation: true,
+                                //     onPreviewDataFetched: (data) {
+                                //       // setState(() {
+                                //       //   datas = {
+                                //       //     ...datas,
+                                //       //     urls[index]: data,
+                                //       //   };
+                                //       // });
+                                //     },
+                                //     previewData: generateHtmlContent(message.content ?? ""),
+                                // datas[urls[index]],
+
+                                // text: message.content ?? '',
+                                // width: MediaQuery.of(context).size.width,),
+                                //  LinkPreviewData(
+                                //   link: message.content ?? "",
+                                //   titleStyle: const TextStyle(
+                                //     fontSize: 13,
+                                //     color: Colors.white,
+                                //     fontWeight: FontWeight.w600,
+                                //   ),
+                                //   escriptionStyle: const TextStyle(
+                                //       height: .7,
+                                //       color: Colors.transparent,
+                                //       fontSize: 9,
+                                //       fontWeight: FontWeight.w500,
+                                //     ),
+                                //   ),
+                                // ),
+                                Text(
+                                  message.content ?? "",
+                                  textAlign: TextAlign.start,
+                                  style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
+                                ),
+
+                                Text(
+                                  t,
+                                  textAlign: TextAlign.end,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                      height: .7,
+                                      color: Colors.transparent,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
                     ),
                   ),
                   Positioned(

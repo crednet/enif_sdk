@@ -50,6 +50,16 @@ EnifController.setUser(EnifUserParams(
 
 ```dart
 
+##### you can set deviceToken params to automatically add device token and receive push notifications
+
+```dart
+EnifController.setDeviceToken(
+      "cft5xLfER0i4PeRZEupqqp:APA91bFmWW0LuTYF7dbAm7bxEMUGkUWE8hKilLA6HTdFHu-vCTQeYCRunXkPJBnzLk3Bh27VRGCIkM3M2U7SmQHsbkK7W3Kns4kQSoG6ZhSQHU2ihjcpFSASBxeoZ3Ff6cJSGu4FIsRC"
+      );
+```
+
+```dart
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:enif/data/local/preference_store/shared_preference_store.dart';
 import 'package:enif/models/enif_user_params.dart';
+import 'package:enif/modules/chat/repository/chat_repository.dart';
 import 'package:enif/modules/faq/repository/faq_repository.dart';
 import 'package:enif/utils/env.dart';
 import 'package:flutter/foundation.dart';
@@ -29,6 +30,7 @@ class EnifController {
   EnifController._internal();
 
   String? _businessId;
+  String? _deviceToken;
 
   static setChatSession(ChatSession chatSession) {
     _instance.chatSession.value = chatSession;
@@ -83,5 +85,13 @@ class EnifController {
     _instance.env = env;
   }
 
+  static setDeviceToken(String deviceToken) async {
+    _instance._deviceToken = deviceToken;
+    String? ticketId =
+        await _instance._sharedPreferenceStore.getString('ticketId');
+    await ChatRepository().sendDeviceToken(ticketId ?? '');
+  }
+
   static String? get businessId => _instance._businessId;
+  static String? get deviceToken => _instance._deviceToken;
 }

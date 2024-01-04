@@ -121,17 +121,16 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           color: context.isDark ? Colors.white : Colors.black,
-                          onPressed: ((value.text ?? '').isEmpty
+                          onPressed: ((value.text ?? '').isEmpty || value.isLoading
                               ? null
                               : widget.controller.send),
-                          child:
-                              //  value.isLoading
-                              //     ? const Center(
-                              //         child: SizedBox.square(
-                              //             dimension: 18,
-                              //             child: CircularProgressIndicator(
-                              //                 strokeWidth: 2)))
-                              Text('Send',
+                          child: value.isLoading
+                              ? const Center(
+                                  child: SizedBox.square(
+                                      dimension: 18,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2)))
+                              : Text('Send',
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,

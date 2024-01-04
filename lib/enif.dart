@@ -1,8 +1,7 @@
 library enif;
 
 export 'modules/chat/view_model/enif_controller.dart';
-export 'utils/phone_number_formatter.dart';
-export 'utils/validator.dart';
+export 'utils/index.dart';
 export 'modules/home/views/enif_home.dart';
 export 'modules/faq/views/faq_list.dart';
 export 'modules/faq/views/enif_help_screen.dart';

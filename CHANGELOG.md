@@ -1,4 +1,6 @@
-## 0.2.0
+## 0.3.1
+* Export utils package
+## 0.3.0
 * New socket implementation to get realtime messages
 * manual message event listening implemented
 * Added support for image upload

@@ -86,7 +86,7 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
         email: params?.email ?? value.email ?? '')); // fetch from cache
 
     if (response.isSuccessful && response.body != null) {
-      print(response.body?.toJson());
+      // print(response.body?.toJson());
       value = SuccessChatConnectionState(value, response.body!);
       EnifController.setChatSession(response.body!);
      

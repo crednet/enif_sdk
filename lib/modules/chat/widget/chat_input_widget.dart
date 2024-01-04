@@ -165,7 +165,7 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
     });
 
     if (widget.controller.selectedImages.isNotEmpty) {
-      Future.delayed(const Duration(seconds: 5), () {
+      Future.delayed(const Duration(seconds: 2), () {
         widget.controller.handleImageUpload();
       });
     }

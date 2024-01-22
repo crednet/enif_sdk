@@ -59,8 +59,8 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                 focusedBorder: border,
                 focusedErrorBorder: border)),
         Padding(
-          padding: 
-          // EdgeInsets.all(0),
+          padding:
+              // EdgeInsets.all(0),
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Row(
             children: [
@@ -90,7 +90,8 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                     child: SvgPicture.asset(SvgAssets.imagePaceholder,
                         package: 'enif',
                         colorFilter: ColorFilter.mode(
-                            context.textColor.withOpacity(.8), BlendMode.srcIn)),
+                            context.textColor.withOpacity(.8),
+                            BlendMode.srcIn)),
                   )),
               .0.s,
               ValueListenableBuilder(
@@ -125,16 +126,22 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             color: context.isDark ? Colors.white : Colors.black,
-                            onPressed: ((value.text ?? '').isEmpty || value.isLoading
+                            onPressed: ((value.text ?? '').isEmpty &&
+                                        (value.imageUrls ?? []).isEmpty) ||
+                                    value.isLoading
                                 ? null
-                                : widget.controller.send),
-                            child: value.isLoading
-                                ? const Center(
-                                    child: SizedBox.square(
-                                        dimension: 18,
-                                        child: CircularProgressIndicator(
-                                            strokeWidth: 2)))
-                                : Text('Send',
+                                : widget.controller.send
+                            // )
+                            ,
+                            child:
+                                // value.isLoading
+                                //     ? const Center(
+                                //         child: SizedBox.square(
+                                //             dimension: 18,
+                                //             child: CircularProgressIndicator(
+                                //                 strokeWidth: 2)))
+                                //     :
+                                Text('Send',
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,

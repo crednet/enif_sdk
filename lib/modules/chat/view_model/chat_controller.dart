@@ -155,7 +155,7 @@ class ChatController extends ValueNotifier<ChatState> {
   }
 
   Future send() async {
-    print('my images :::: ${value.imageUrls}');
+    // print('my images :::: ${value.imageUrls}');
     final sid = UniqueKey().toString();
     textEditingController.clear();
     selectedImages.clear();

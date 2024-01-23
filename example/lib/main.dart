@@ -1,5 +1,4 @@
 import 'package:enif/enif.dart';
-import 'package:enif/utils/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -20,3 +20,4 @@ export 'modules/chat/views/chat_screen.dart';
 export 'modules/chat/views/live_chat_screen.dart';
 export 'modules/chat/widget/chat_input_widget.dart';
 export 'models/enif_user_params.dart';
+export 'package:enif/utils/env.dart';

@@ -30,8 +30,9 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
             builder: (context, value, child) => Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
-                    widget.controller.value.isLoading ||
-                            widget.controller.value.isBusinessTyping
+                    widget.controller.value.isLoading 
+                    // || widget.controller.value.newMessage == null
+                    //         widget.controller.value.isBusinessTyping
                         ? '${widget.controller.session.agentName ?? 'Agent'} is typing...'
                         : '',
                     style: TextStyle(

@@ -127,8 +127,6 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
                       ? const Color.fromARGB(255, 46, 45, 46)
                       : const Color(0xffE7E6EB),
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Column(
                       children: [
                         30.0.h,

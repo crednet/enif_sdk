@@ -25,7 +25,7 @@ Head to [Enif Website](https://www.enif.ai/) to create an account.
 
 ## Usage
 
-Check the example folder for demo.
+Check the example folder for demo, click [here](https://sdk.enif.ai/) for live demo
 
 Initialize your business ID, and specify environment
 

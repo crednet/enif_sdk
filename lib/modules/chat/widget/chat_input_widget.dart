@@ -31,6 +31,7 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
                     widget.controller.value.isLoading ||
+                            //|| widget.controller.value.newMessage == null
                             widget.controller.value.isBusinessTyping
                         ? '${widget.controller.session.agentName ?? 'Agent'} is typing...'
                         : '',
@@ -58,91 +59,102 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                 errorBorder: border,
                 focusedBorder: border,
                 focusedErrorBorder: border)),
-        Row(
-          children: [
-            10.0.w,
-            CupertinoButton(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                // color: context.isDark ? Colors.white : Colors.black,
-                onPressed: () {
-                  onCameraSelected(ImageSource.camera);
-                },
-                child: SizedBox.square(
+        Padding(
+          padding:
+              // EdgeInsets.all(0),
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Row(
+            children: [
+              10.0.w,
+              CupertinoButton(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                  // color: context.isDark ? Colors.white : Colors.black,
+                  onPressed: () {
+                    onCameraSelected(ImageSource.camera);
+                  },
+                  child: SizedBox.square(
+                      dimension: 20,
+                      child: Icon(Icons.camera_alt,
+                          // Image.asset(ImageAssets.gif,
+                          //     package: 'enif',
+                          color: context.textColor.withOpacity(.7)))),
+              CupertinoButton(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+                  // color: context.isDark ? Colors.white : Colors.black,
+                  onPressed: () {
+                    pickImage(ImageSource.gallery);
+                  },
+                  child: SizedBox.square(
                     dimension: 20,
-                    child: Icon(Icons.camera_alt,
-                        // Image.asset(ImageAssets.gif,
-                        //     package: 'enif',
-                        color: context.textColor.withOpacity(.7)))),
-            CupertinoButton(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
-                // color: context.isDark ? Colors.white : Colors.black,
-                onPressed: () {
-                  pickImage(ImageSource.gallery);
-                },
-                child: SizedBox.square(
-                  dimension: 20,
-                  child: SvgPicture.asset(SvgAssets.imagePaceholder,
-                      package: 'enif',
-                      colorFilter: ColorFilter.mode(
-                          context.textColor.withOpacity(.8), BlendMode.srcIn)),
-                )),
-            .0.s,
-            ValueListenableBuilder(
-                valueListenable: widget.controller,
-                builder: (context, value, child) {
-                  return Row(
-                    children: [
-                      value.isImageLoading
-                          ? const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  color: EnifColors.primary,
-                                  strokeWidth: 2,
+                    child: SvgPicture.asset(SvgAssets.imagePaceholder,
+                        package: 'enif',
+                        colorFilter: ColorFilter.mode(
+                            context.textColor.withOpacity(.8),
+                            BlendMode.srcIn)),
+                  )),
+              .0.s,
+              ValueListenableBuilder(
+                  valueListenable: widget.controller,
+                  builder: (context, value, child) {
+                    return Row(
+                      children: [
+                        value.isImageLoading
+                            ? const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    color: EnifColors.primary,
+                                    strokeWidth: 2,
+                                  ),
                                 ),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                      for (var image in widget.controller.selectedImages)
-                        ImagePreviewWidget(
-                          file: image!,
-                          onCancelTap: () {
-                            setState(() {
-                              widget.controller.selectedImages.remove(image);
-                            });
-                          },
-                        ),
-                      20.0.w,
-                      CupertinoButton(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          color: context.isDark ? Colors.white : Colors.black,
-                          onPressed: ((value.text ?? '').isEmpty
-                              ? null
-                              : widget.controller.send),
-                          child:
-                              //  value.isLoading
-                              //     ? const Center(
-                              //         child: SizedBox.square(
-                              //             dimension: 18,
-                              //             child: CircularProgressIndicator(
-                              //                 strokeWidth: 2)))
-                              Text('Send',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: context.isDark
-                                          ? Colors.black
-                                          : Colors.white))),
-                    ],
-                  );
-                }),
-            20.0.w,
-          ],
+                              )
+                            : const SizedBox.shrink(),
+                        for (var image in widget.controller.selectedImages)
+                          ImagePreviewWidget(
+                            file: image!,
+                            onCancelTap: () {
+                              setState(() {
+                                widget.controller.selectedImages.remove(image);
+                              });
+                            },
+                          ),
+                        20.0.w,
+                        CupertinoButton(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            color: context.isDark ? Colors.white : Colors.black,
+                            onPressed: ((value.text ?? '').isEmpty &&
+                                        (value.imageUrls ?? []).isEmpty) ||
+                                    value.isLoading
+                                ? null
+                                : widget.controller.send
+                            // )
+                            ,
+                            child:
+                                // value.isLoading
+                                //     ? const Center(
+                                //         child: SizedBox.square(
+                                //             dimension: 18,
+                                //             child: CircularProgressIndicator(
+                                //                 strokeWidth: 2)))
+                                //     :
+                                Text('Send',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: context.isDark
+                                            ? Colors.black
+                                            : Colors.white))),
+                      ],
+                    );
+                  }),
+              20.0.w,
+            ],
+          ),
         ),
       ],
     );
@@ -166,7 +178,7 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
     });
 
     if (widget.controller.selectedImages.isNotEmpty) {
-      Future.delayed(const Duration(seconds: 5), () {
+      Future.delayed(const Duration(seconds: 2), () {
         widget.controller.handleImageUpload();
       });
     }

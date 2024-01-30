@@ -28,18 +28,20 @@ class ChatController extends ValueNotifier<ChatState> {
   }
   final _repository = ChatRepository();
 
-  onBusinessTyping(dynamic data){
-    try{
+  onBusinessTyping(dynamic data) {
+    try {
       if (kDebugMode) {
         print('socket:: isBusinessTyping  $data');
       }
 
-      if (data['businessId'] == session.businessId && data['ticketId'] == session.id) {
+      if (data['businessId'] == session.businessId &&
+          data['ticketId'] == session.id) {
         // messages.sort
-        value = value.copyWith(isBusinessTyping: data['typing'],);
-     
+        value = value.copyWith(
+          isBusinessTyping: data['typing'],
+        );
       }
-    }catch (error){
+    } catch (error) {
       if (kDebugMode) {
         print('socket:: error $error');
         print(error);
@@ -153,6 +155,7 @@ class ChatController extends ValueNotifier<ChatState> {
   }
 
   Future send() async {
+    // print('my images :::: ${value.imageUrls}');
     final sid = UniqueKey().toString();
     textEditingController.clear();
     selectedImages.clear();
@@ -294,7 +297,8 @@ class ChatState extends Object {
   }
 
   @override
-  int get hashCode => Object.hash(isLoading, isImageLoading, isBusinessTyping, imageUrls, text);
+  int get hashCode =>
+      Object.hash(isLoading, isImageLoading, isBusinessTyping, imageUrls, text);
 }
 
 // class SuccessChatState extends ChatState {

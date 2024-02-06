@@ -1,6 +1,6 @@
 name: enif
 description: Automate business operations, boost business growth and increase customer satisfaction with streamlined automation.
-version: 0.3.1
+version: 0.4.0
 homepage: https://github.com/crednet/enif_sdk.git
 
 environment:
@@ -20,7 +20,7 @@ dependencies:
   url_launcher: ^6.1.14
   flutter_link_previewer: ^3.2.2
   # any_link_preview: ^3.0.1
-  
+
   # web_socket_channel: ^2.4.0
 
 dev_dependencies:

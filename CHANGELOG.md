@@ -1,3 +1,7 @@
+## 0.4.0
+* Enhanced socket implementation
+## 0.3.2
+* Fixed chat widget not opening
 ## 0.3.1
 * Export utils package
 ## 0.3.0

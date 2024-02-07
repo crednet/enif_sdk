@@ -10,7 +10,10 @@ import 'package:flutter_svg/svg.dart';
 
 class EnifHome extends StatelessWidget {
   final bool showBackButton;
-  const EnifHome({Key? key, this.showBackButton = true}) : super(key: key);
+  final InputDecorationTheme? inputDecorationTheme;
+  const EnifHome(
+      {Key? key, this.showBackButton = true, this.inputDecorationTheme})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +141,8 @@ class EnifHome extends StatelessWidget {
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
                         color: context.textColor)),
-                48.h, const LiveChatButton(),
+                48.h,
+                LiveChatButton(inputDecorationTheme: inputDecorationTheme),
                 60.h,
                 Material(
                   clipBehavior: Clip.antiAlias,

@@ -5,19 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LiveChatButton extends StatelessWidget {
-  const LiveChatButton({super.key});
+  final InputDecorationTheme? inputDecorationTheme;
+
+  const LiveChatButton({super.key, this.inputDecorationTheme});
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () {
         // EnifController.reset();
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LivechatScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Theme(
+                    data: Theme.of(context)
+                        .copyWith(inputDecorationTheme: inputDecorationTheme),
+                    child: const LivechatScreen())));
       },
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12.5),
       borderRadius: BorderRadius.circular(14),
-      color: Theme.of(context).primaryColor, // EnifColors.primary,
+      color: Theme.of(context).primaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

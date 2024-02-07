@@ -40,8 +40,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         backgroundColor: context.backgroundColor,
         resizeToAvoidBottomInset: true,
         body: Scaffold(
-            backgroundColor:
-                context.isDark ? const Color(0xff1a1a1a) : Colors.white,
+            backgroundColor: context.backgroundColor,
             appBar: AppBar(
               elevation: 0,
               centerTitle: true,

@@ -1,4 +1,3 @@
-import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/chat_session.dart';
 import 'package:enif/modules/chat/widget/chat_input_widget.dart';
@@ -46,7 +45,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             appBar: AppBar(
               elevation: 0,
               centerTitle: true,
-              backgroundColor: EnifColors.primary,
+              backgroundColor: Theme.of(context).primaryColor,
               title: const Text('Live Chat',
                   style: TextStyle(
                       color: Colors.white,

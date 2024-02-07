@@ -1,4 +1,3 @@
-import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/common/back.dart';
@@ -41,7 +40,7 @@ class _HelpScreenState extends State<EnifHelpScreen> {
         appBar: AppBar(
             elevation: 0,
             centerTitle: true,
-            backgroundColor: EnifColors.primary,
+            backgroundColor: Theme.of(context).primaryColor,
             leading: const Back(color: Colors.white),
             title: const Text('Help',
                 style: TextStyle(

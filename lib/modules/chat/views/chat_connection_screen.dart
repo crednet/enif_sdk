@@ -1,4 +1,3 @@
-import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/chat/view_model/chat_connection_view_model.dart';
 import 'package:enif/modules/chat/view_model/enif_controller.dart';
@@ -54,7 +53,7 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
             appBar: AppBar(
               elevation: 0,
               centerTitle: true,
-              backgroundColor: EnifColors.primary,
+              backgroundColor: Theme.of(context).primaryColor,
               title: const Text('Live Chat',
                   style: TextStyle(
                       color: Colors.white,

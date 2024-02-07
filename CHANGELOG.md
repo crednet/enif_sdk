@@ -1,3 +1,5 @@
+## 0.5.0
+* Allow color customization
 ## 0.4.0
 * Enhanced socket implementation
 ## 0.3.2

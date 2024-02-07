@@ -52,77 +52,75 @@ class CustomTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: TextFormField(
-            textInputAction: TextInputAction.newline,
-            inputFormatters: inputFormatters,
-            maxLength: maxLength,
-            cursorColor: context.textColor,
-            cursorWidth: 1,
-            validator: validator,
-            enabled: enabled,
-            onChanged: onChanged,
-            obscureText: obscureText ?? false,
-            maxLines: maxLines,
-            keyboardType: keyboardType,
-            controller: controller,
-            autovalidateMode: autovalidateMode,
-            textCapitalization: textCapitalization ?? TextCapitalization.none,
-            onSaved: onSaved,
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: context.textColor),
-            decoration: InputDecoration(
-              counterText: "",
-              alignLabelWithHint: true,
-              prefix: prefix,
-              suffixIcon: suffix,
-              fillColor: fillColor,
-              filled: true,
-              hintText: labelText,
-              //labelStyle: AppTextStyle.size14gw500,
-              hintStyle: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: context.textColor),
-              errorStyle: const TextStyle(
-                color: Colors.red,
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
-              enabledBorder: OutlineInputBorder(
-                borderSide: borderSide ??
-                    BorderSide(width: borderWidth, color: context.textColor),
-                borderRadius: BorderRadius.circular(35),
-              ),
-              border: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: borderWidth, color: context.textColor),
-                borderRadius: BorderRadius.circular(35),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: borderWidth, color: context.textColor),
-                borderRadius: BorderRadius.circular(35),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: borderWidth, color: context.textColor),
-                borderRadius: BorderRadius.circular(35),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(35),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: borderWidth, color: context.textColor),
-                borderRadius: BorderRadius.circular(35),
-              ),
-            ),
-            onTap: onTap,
-          ),
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: TextFormField(
+                textInputAction: TextInputAction.newline,
+                inputFormatters: inputFormatters,
+                maxLength: maxLength,
+                cursorColor: context.textColor,
+                cursorWidth: 1,
+                validator: validator,
+                enabled: enabled,
+                onChanged: onChanged,
+                obscureText: obscureText ?? false,
+                maxLines: maxLines,
+                keyboardType: keyboardType,
+                controller: controller,
+                autovalidateMode: autovalidateMode,
+                textCapitalization:
+                    textCapitalization ?? TextCapitalization.none,
+                onSaved: onSaved,
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: context.textColor),
+                decoration: InputDecoration(
+                    counterText: "",
+                    alignLabelWithHint: true,
+                    prefix: prefix,
+                    suffixIcon: suffix,
+                    fillColor: fillColor,
+                    filled: true,
+                    hintText: labelText,
+                    //labelStyle: AppTextStyle.size14gw500,
+                    hintStyle: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: context.textColor),
+                    errorStyle: const TextStyle(
+                      color: Colors.red,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 24),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: borderSide ??
+                          BorderSide(
+                              width: borderWidth, color: context.textColor),
+                      borderRadius: BorderRadius.circular(35),
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: borderWidth, color: context.textColor),
+                      borderRadius: BorderRadius.circular(35),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: borderWidth, color: context.textColor),
+                      borderRadius: BorderRadius.circular(35),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: borderWidth, color: context.textColor),
+                      borderRadius: BorderRadius.circular(35),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(35),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: borderWidth, color: context.textColor),
+                        borderRadius: BorderRadius.circular(35))),
+                onTap: onTap)),
       ],
     );
   }

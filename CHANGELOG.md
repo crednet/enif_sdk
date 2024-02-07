@@ -1,3 +1,5 @@
+## 0.5.1
+* Extend color cusomization to chat widget
 ## 0.5.0
 * Allow color customization
 ## 0.4.0

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:enif/constants/enif_colors.dart';
+
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/modules/chat/view_model/chat_controller.dart';
@@ -101,13 +101,13 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                     return Row(
                       children: [
                         value.isImageLoading
-                            ? const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            ?   Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: SizedBox(
                                   width: 20,
                                   height: 20,
                                   child: CircularProgressIndicator(
-                                    color: EnifColors.primary,
+                                    color: Theme.of(context).primaryColor,
                                     strokeWidth: 2,
                                   ),
                                 ),

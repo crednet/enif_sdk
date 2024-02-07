@@ -1,4 +1,3 @@
-import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/extensions/date.dart';
 import 'package:enif/extensions/extensions.dart';
@@ -24,7 +23,7 @@ class ChatHistoryView extends StatelessWidget {
           appBar: AppBar(
             elevation: 0,
             centerTitle: true,
-            backgroundColor: EnifColors.primary,
+            backgroundColor: Theme.of(context).primaryColor,
             actions: [
               Material(
                 color: const Color(0xff5124B2),
@@ -108,12 +107,15 @@ class _ChatHistoryListState extends State<ChatHistoryList> {
                 return Stack(
                   children: [
                     if (ticketStatus != null && !ticketStatus.isRead)
-                      const Positioned(
+                      Positioned(
                         left: 0,
                         // right: 0,
                         top: 20,
-                        child: Icon(Icons.circle,
-                            size: 11, color: EnifColors.primary),
+                        child: Icon(
+                          Icons.circle,
+                          size: 11,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),

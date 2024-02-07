@@ -1,5 +1,4 @@
 // import 'package:any_link_preview/any_link_preview.dart';
-import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/extensions/date.dart';
 import 'package:enif/extensions/extensions.dart';
 import 'package:enif/models/send_chat_model.dart';
@@ -93,9 +92,8 @@ class ChatMessageWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(14),
                     // alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: EnifColors.primary,
-                    ),
+                        borderRadius: BorderRadius.circular(12),
+                        color: Theme.of(context).primaryColor),
                     child: Padding(
                       padding: const EdgeInsets.only(
                           bottom: .0, right: 8.0, left: 8.0),

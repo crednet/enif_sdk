@@ -37,11 +37,11 @@ class _FaqListState extends State<FaqList> {
         valueListenable: _faqViewModel,
         builder: (c, value, i) {
           if (value.isLoading && (value.faqs ?? []).isEmpty) {
-            return const Center(
+            return   Center(
                 child: SizedBox.square(
                     dimension: 25,
                     child: CircularProgressIndicator(
-                        color: EnifColors.primary, strokeWidth: 3)));
+                        color: Theme.of(context).primaryColor, strokeWidth: 3)));
           }
           var items = value.faqs;
           if (_faqViewModel.searchText.isNotEmpty) {

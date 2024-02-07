@@ -1,3 +1,5 @@
+## 0.5.2
+* Extend color cusomization to chat widget
 ## 0.5.1
 * Extend color cusomization to chat widget
 ## 0.5.0

@@ -1,6 +1,6 @@
 name: enif
 description: Automate business operations, boost business growth and increase customer satisfaction with streamlined automation.
-version: 0.5.1
+version: 0.5.2
 homepage: https://github.com/crednet/enif_sdk.git
 
 environment:

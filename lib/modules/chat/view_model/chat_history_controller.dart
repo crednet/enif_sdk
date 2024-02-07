@@ -10,6 +10,7 @@ class ChatHistoryController extends ValueNotifier<ChatHistoryState> {
   final _repository = ChatRepository();
 
   Future load() async {
+      value = value.copyWith(isLoading: true);
     var response = await _repository.getChatHistory(
         EnifController().userParams.value?.email ?? '',
         EnifController.businessId ?? '');

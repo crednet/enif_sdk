@@ -106,10 +106,9 @@ class ChatMessageWidget extends StatelessWidget {
                                   launchUrl(Uri.parse(url ?? '')),
                               style: {
                                 'body': Style(
-                                      // fontSize: FontSize.small,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600
-                                ),
+                                    // fontSize: FontSize.small,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
                               },
                             )
                           : Column(

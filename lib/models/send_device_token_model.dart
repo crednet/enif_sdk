@@ -1,11 +1,27 @@
 class SendDeviceTokenModel {
-  final String? customerId, deviceToken, email, fullName, businessId, id, createdAt, updatedAt, v;
+  final String? customerId,
+      deviceToken,
+      email,
+      fullName,
+      businessId,
+      id,
+      createdAt,
+      updatedAt,
+      v;
 
   SendDeviceTokenModel(
-      {this.customerId, this.businessId, this.createdAt, this.deviceToken, this.email,
-      this.fullName, this.id, this.updatedAt, this.v});
+      {this.customerId,
+      this.businessId,
+      this.createdAt,
+      this.deviceToken,
+      this.email,
+      this.fullName,
+      this.id,
+      this.updatedAt,
+      this.v});
 
-  factory SendDeviceTokenModel.fromJson(Map<String, dynamic> json) => SendDeviceTokenModel(
+  factory SendDeviceTokenModel.fromJson(Map<String, dynamic> json) =>
+      SendDeviceTokenModel(
         customerId: json['customerId'],
         fullName: json['fullName'],
         email: json['email'],

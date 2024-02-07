@@ -1,3 +1,4 @@
+import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/enif.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,8 +37,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Enif Chat Bot',
           themeMode: ThemeMode.system,
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
+          theme: ThemeData.light(useMaterial3: true).copyWith(
+              primaryColor: EnifColors.primary,
+              scaffoldBackgroundColor: const Color(0xffF4F2F8)),
+          darkTheme: ThemeData.dark(useMaterial3: true)
+              .copyWith(primaryColor: EnifColors.primary),
           home: const EnifHome(showBackButton: false),
         ));
   }

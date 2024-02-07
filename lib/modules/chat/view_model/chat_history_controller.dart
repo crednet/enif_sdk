@@ -57,7 +57,7 @@ class ChatHistoryController extends ValueNotifier<ChatHistoryState> {
       var statusBody = updateTicketResponse.body;
       var updatedTicketStatus =
           TicketStatus(ticketid: ticketId, isRead: statusBody ?? true);
-      if(kDebugMode){
+      if (kDebugMode) {
         print('statuss::::: $statusBody');
       }
       var statusExists =

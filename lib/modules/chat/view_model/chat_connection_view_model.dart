@@ -89,7 +89,6 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
       // print(response.body?.toJson());
       value = SuccessChatConnectionState(value, response.body!);
       EnifController.setChatSession(response.body!);
-     
     } else {
       value = ErrorChatConnectionState(value, response.error as ApiError);
     }

@@ -46,8 +46,8 @@ extension BuildContextExt on BuildContext {
   TextStyle? get subtitle2 => Theme.of(this).textTheme.titleSmall;
   TextStyle? get overline => Theme.of(this).textTheme.titleSmall;
 
-  Color get backgroundColor =>
-      isDark ? const Color(0xff1a1a1a) : const Color(0xffF4F2F8);
+  Color get backgroundColor => Theme.of(this).scaffoldBackgroundColor;
+  // isDark ? const Color(0xff1a1a1a) : const Color(0xffF4F2F8);
   Color get textColor =>
       isDark ? Colors.white.withOpacity(.85) : const Color(0xff2a2a2a);
 }

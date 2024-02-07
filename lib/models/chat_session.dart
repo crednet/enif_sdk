@@ -101,7 +101,7 @@ class ChatSession {
     data['updatedAt'] = updatedAt?.toIso8601String();
     data['update_date'] = updateDate;
     data['id'] = id;
-    data['title']= title;
+    data['title'] = title;
     return data;
   }
 }

@@ -1,4 +1,3 @@
-import 'package:enif/constants/enif_colors.dart';
 import 'package:enif/constants/svg_assets.dart';
 import 'package:enif/enif.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +17,7 @@ class LiveChatButton extends StatelessWidget {
       },
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12.5),
       borderRadius: BorderRadius.circular(14),
-      color: EnifColors.primary,
+      color: Theme.of(context).primaryColor, // EnifColors.primary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

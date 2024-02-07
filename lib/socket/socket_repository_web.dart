@@ -35,8 +35,7 @@ class SocketRepository {
       ApiUrls.socketURL,
       [ticketId],
     )..onOpen.listen((e) {
-        if (kDebugMode) {
-        }
+        if (kDebugMode) {}
         _socket?.onMessage.listen((e) {
           if (kDebugMode) {
             print('socket:: ${e.runtimeType}');

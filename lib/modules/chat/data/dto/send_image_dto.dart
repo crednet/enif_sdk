@@ -6,9 +6,7 @@ class SendImageDto {
   SendImageDto(this.images);
 
   Map<String, dynamic> toJson() {
-    return {
-      "images": images
-    };
+    return {"images": images};
   }
 }
 

@@ -1,3 +1,5 @@
+## 0.5.3
+* allow input theme customization
 ## 0.5.2
 * Extend color cusomization to chat widget
 ## 0.5.1

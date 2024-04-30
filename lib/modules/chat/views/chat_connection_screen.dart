@@ -60,57 +60,59 @@ class _ChatConnectionScreenState extends State<ChatConnectionScreen>
                       fontSize: 14,
                       fontWeight: FontWeight.w600)),
             ),
-            bottomNavigationBar: SizedBox(
-                height: 115,
-                child: Material(
-                    color: context.isDark
-                        ? const Color.fromARGB(255, 46, 45, 46)
-                        : const Color(0xffE7E6EB),
-                    child: SafeArea(
-                        child: Column(children: [
-                      .0.s,
-                      30.0.h,
-                      Divider(
-                        height: 1,
-                        thickness: 1,
+            bottomNavigationBar: SafeArea(
+                child: SizedBox(
+                    height: 115,
+                    child: Material(
                         color: context.isDark
-                            ? Colors.white54
-                            : const Color(0xffDADADA),
-                      ),
-                      20.0.h,
-                      ValueListenableBuilder(
-                          valueListenable: _chatConnectionViewModel,
-                          builder: (context, value, child) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24),
-                              child: CupertinoButton(
-                                  // padding: EdgeInsets.symmetric(),
-                                  borderRadius: BorderRadius.circular(35.0),
-                                  color: Colors.black,
-                                  onPressed: () {
-                                    autovalidateMode = AutovalidateMode.always;
-                                    if (Form.of(context).validate()) {
-                                      _chatConnectionViewModel.initChat(null);
-                                    }
-                                  },
-                                  child: Center(
-                                      child: value.isLoading
-                                          ? const SizedBox.square(
-                                              dimension: 20,
-                                              child: CircularProgressIndicator(
-                                                  color: Colors.white,
-                                                  strokeWidth: 2))
-                                          : const Text('Continue Chatting',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                      FontWeight.w600)))),
-                            );
-                          }),
-                      20.0.h,
-                    ])))),
+                            ? const Color.fromARGB(255, 46, 45, 46)
+                            : const Color(0xffE7E6EB),
+                        child: Column(children: [
+                          .0.s,
+                          30.0.h,
+                          Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: context.isDark
+                                  ? Colors.white54
+                                  : const Color(0xffDADADA)),
+                          16.0.h,
+                          ValueListenableBuilder(
+                              valueListenable: _chatConnectionViewModel,
+                              builder: (context, value, child) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 24),
+                                  child: CupertinoButton(
+                                      // padding: EdgeInsets.symmetric(),
+                                      borderRadius: BorderRadius.circular(35.0),
+                                      color: Colors.black,
+                                      onPressed: () {
+                                        autovalidateMode =
+                                            AutovalidateMode.always;
+                                        if (Form.of(context).validate()) {
+                                          _chatConnectionViewModel
+                                              .initChat(null);
+                                        }
+                                      },
+                                      child: Center(
+                                          child: value.isLoading
+                                              ? const SizedBox.square(
+                                                  dimension: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          color: Colors.white,
+                                                          strokeWidth: 2))
+                                              : const Text('Continue Chatting',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600)))),
+                                );
+                              }),
+                          20.0.h,
+                        ])))),
             body: Column(
               children: [
                 55.0.h,

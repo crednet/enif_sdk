@@ -5,15 +5,17 @@ import 'package:flutter/services.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  EnifController.logout();
   EnifController.setBusinessId(
       "3421a016-ef8b-4c1d-9ced-34147e11e158bfc90848-721c-40d4-b535-b1ef7054f145",
       Env.dev);
-
-  EnifController.setUser(EnifUserParams(
-      firstName: "Sade",
-      lastName: "Oluchi",
-      phoneNo: "0803000000",
-      email: "sade@enif.com"));
+  // EnifController.setUser(EnifUserParams(
+  //   firstName: "Sade9",
+  //   lastName: "Oluchi0",
+  //   phoneNo: "080300000208",
+  //   // email:
+  //   // "sade@enif.com"
+  // ));
 
   EnifController.setDeviceToken(
       "3421a016-ef8b-4c1d-9ced-34147e11e158bfc90848-721c-40d4-b535-b1ef7054f145");

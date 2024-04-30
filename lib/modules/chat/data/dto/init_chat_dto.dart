@@ -1,10 +1,10 @@
 import 'package:enif/modules/chat/view_model/enif_controller.dart';
 
 class InitChatDto {
-  final String customer, phoneNo, email;
+  final String customer;
+  final String? phoneNo, email;
 
-  InitChatDto(
-      {required this.customer, required this.phoneNo, required this.email});
+  InitChatDto({required this.customer, this.phoneNo, this.email});
 
   Map<String, dynamic> toJson() => {
         "businessId": EnifController.businessId,

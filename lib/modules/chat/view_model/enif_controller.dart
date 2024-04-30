@@ -35,7 +35,7 @@ class EnifController {
   static setChatSession(ChatSession chatSession) {
     _instance.chatSession.value = chatSession;
     _instance._sharedPreferenceStore.setString(
-        'chatsession-${_instance._businessId}-${chatSession.email}',
+        'chatsession-${_instance._businessId}-${chatSession.email ?? chatSession.phoneNo}',
         jsonEncode(chatSession.toJson()));
 
     if (_instance._deviceToken != null) {

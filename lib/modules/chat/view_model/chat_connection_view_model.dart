@@ -82,8 +82,8 @@ class ChatConnectionViewModel extends ValueNotifier<ChatConnectionState> {
     value = value.copyWith(isLoading: true);
     var response = await _repository.initChat(InitChatDto(
         customer: params?.name ?? value.name ?? '',
-        phoneNo: params?.phoneNo ?? value.phoneNo?.replaceAll(' ', '') ?? '',
-        email: params?.email ?? value.email ?? '')); // fetch from cache
+        phoneNo: params?.phoneNo ?? value.phoneNo?.replaceAll(' ', '') ,
+        email: params?.email ?? value.email)); // fetch from cache
 
     if (response.isSuccessful && response.body != null) {
       // print(response.body?.toJson());
